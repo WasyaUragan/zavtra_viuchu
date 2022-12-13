@@ -1,0 +1,177 @@
+######################################################################################
+docker pull ubuntu:18.10  # скачать образ Ubuntu 18.10 с Dockerhub.com
+--------------------------------------------------------------------------------------
+docker images  # список всех загруженных образов
+--------------------------------------------------------------------------------------
+docker start image  # создание контейнера из образа image
+docker start <container_name> # запуск созданного контейнера. Вместо <container_name> можно указать <container_id>
+docker start $(docker ps -a -q) # запуск всех созданных контейнеров
+docker stop {CONTAINER_ID}  # остановить контейнер
+docker stop $(docker ps -a -q)   # Остановит все контейнеры
+docker rm $(docker ps -a -q)     # Удалит все остановленные контейнеры
+docker rmi <image_name>:<tag>  # удаление образа. Вместо <image_name>:<tag> можно указать <image_id>.
+docker rmi $(docker images -aq)  # удаление всех образов
+--------------------------------------------------------------------------------------
+# commit
+# запуск контейнера из образа ubuntu в интерактивном режиме, установка утилиты ping и коммит образа под именем ubuntu-ping:20.04
+docker run -it --name ubuntu-ping ubuntu:20.04 bash
+apt update && apt install -y iputils-ping
+exit
+docker commit ubuntu-ping ubuntu-ping:20.04
+docker images
+--------------------------------------------------------------------------------------
+docker ps  # для проверки списка запущенных контейнеров
+--------------------------------------------------------------------------------------
+docker run <image> <опциональная команды, которая выполнится внутри контейнера>  # запуск контейнера
+docker run -it ubuntu:18.10 /bin/bash  # где -it == выполнять любое количество команд без завершения работы контейнера
+docker run --name docker-getting-started --publish 8080:80 docker/getting-started # запуск контейнера gettind-started с отображением (маппингом) порта 8080 хоста на порт 80 внутрь контейнера
+docker run --detach --name mongodb docker.io/library/mongo:4.4.10 # запуск контейнера mongodb с именем mongodb в фоновом режиме. Данные будут удалены при удалении контейнера!
+docker run --detach --name jenkins --publish 80:8080 --volume=jenkins_home:/var/jenkins_home/ jenkins/jenkins:lts-jdk11 # запуск контейнера jenkins с подключением каталога /var/jenkins_home как тома jenkins_home
+docker volume ls # просмотр томов
+docker volume prune # удаление неиспользуемых томов и очистка диска. Для удаления тома все контейнеры, в которых он подключен, должны быть остановлены и удалены
+docker run -v <DIRECTORY>:<CONTAINER_DIRECTORY> ...  # смонтировать папку из основной системы в контейнер. путь к монтируемой папке должен быть прописан полностью: C:\projects\docker-example, или на *nix-системах можно воспользоваться конструкцией $(pwd)
+--------------------------------------------------------------------------------------
+Dockerfile - это обычный конфигурационный файл, описывающий пошаговое создание среды вашего приложения. В этом файле подробно описывается, какие команды будут выполнены, какие образы задействованы, и какие настройки будут применены. А движок Docker-а при запуске уже распарсит этот файл (именуемый как Dockerfile), и создаст из него соответствующий образ (Image), который был описан.
+--------------------------------------------------------------------------------------
+ Уменьшить размер слоёв Docker образов.
+В Dockerfile вы можете иметь несколько команд (RUN) на выполнение:
+
+RUN apt-get update
+RUN apt-get install -y wget
+RUN apt-get install -y curl
+
+В результате выполнения этой команды, будет создано 3 разных слоя в образе. Вместо этого, все команды стараются объединить в одну строку:
+
+RUN apt-get update && apt-get install -y wget curl
+
+Если команда становится длинной, и нечитаемой, то для переноса на следующую строку делаем так:
+
+RUN apt-get update && apt-get install -y wget curl && \
+    && apt-get clean -y \
+    && docker-php-ext-install soap mcrypt pdo_mysql zip bcmath
+--------------------------------------------------------------------------------------
+в Dockerfile опция EXPOSE позволяет нам объявить, к какому из портов мы можем обратиться из основной ОС.
+
+Example:
+FROM php:7.2-apache
+# Указываем рабочую папку
+WORKDIR /var/www/html
+# Копируем все файлы проекта в контейнер
+COPY . /var/www/html
+EXPOSE 80
+
+Нужно собрать контейнер, далее:
+docker run -p <HOST_PORT>:<CONTAINER_PORT>  # сообщить нашему компьютеру, какой порт контейнера ему нужно слушатb
+--------------------------------------------------------------------------------------
+docker build <DOCKERFILE_PATH> --tag <IMAGE_NAME>  # Для создания образа из Dockerfile
+docker build -t ubuntu-ping:20.04 .  # запуск команды build из каталога с Dockerfile 
+--------------------------------------------------------------------------------------
+Docker Compose управляет контейнерами, запускает их вместе, в нужной последовательности, необходимой для вашего приложения.
+--------------------------------------------------------------------------------------
+docker system info # общая информация о системе (соответствует docker info)
+docker system df # занятое место на диске
+docker system prune -af # удаление неиспользуемых данных и очистка диска
+--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+# справочная информация
+podman --help # список доступных команд
+podman <command> --help # информация по команде
+ 
+# работа с образами
+podman search nginx # поиск образов по ключевому слову nginx
+ 
+podman pull ubuntu # скачивание последней версии (тег по умолчанию latest) официального образа ubuntu (издатель не указывается) из репозитория по умолчанию docker.io/library
+podman pull quay.io/bitnami/nginx:latest # скачивание последней версии образа nginx от издателя bitnami из репозитория quay.io/bitnami
+podman pull docker.io/library/ubuntu:18.04 # скачивание из репозитория docker.io официального образа ubuntu с тегом 18.04
+ 
+podman images # просмотр локальных образов
+ 
+podman rmi <image_name>:<tag> # удаление образа. Вместо <image_name>:<tag> можно указать <image_id>. Для удаления образа все контейнеры на его основе должны быть как минимум остановлены
+podman rmi --all # удаление всех образов
+ 
+# работа с контейнерами
+podman run hello-world # Hello, world! в мире контейнеров
+podman run -it ubuntu bash # запуск контейнера ubuntu и выполнение команды bash в интерактивном режиме
+podman run --detach --name nginx --publish 9090:8080 quay.io/bitnami/nginx:1.20.2 # запуск контейнера nginx с отображением (маппингом) порта 9090 хоста на порт 8080 внутрь контейнера
+podman run --detach --name mongodb docker.io/library/mongo:4.4.10 # запуск контейнера mongodb с именем mongodb в фоновом режиме. Данные будут удалены при удалении контейнера!
+ 
+podman ps # просмотр запущенных контейнеров
+podman ps -a # просмотр всех контейнеров (в том числе остановленных)
+podman stats --no-stream # просмотр статистики. Если у пользователя нет прав доступа root, то необходимо переключиться на cgroups v2
+ 
+podman create alpine # создание контейнера из образа alpine
+ 
+podman start <container_name> # запуск созданного контейнера. Вместо <container_name> можно указать <container_id>
+podman start --all # запуск всех созданных контейнеров
+ 
+podman stop <container_name> # остановка контейнера. Вместо <container_name> можно указать <container_id>
+podman stop --all # остановка всех контейнеров
+ 
+podman rm <container_name> # удаление контейнера. Вместо <container_name> можно указать <container_id>
+podman rm --all # удаление всех контейнеров
+ 
+# система
+podman system info # общая информация о системе
+podman system df # занятое место на диске
+podman system prune -af # удаление неиспользуемых данных и очистка диска
+--------------------------------------------------------------------------------------
+# named volume
+podman run --detach --name jenkins --publish 8080:8080 --volume=jenkins_home:/var/jenkins_home/ docker.io/jenkins/jenkins:lts-jdk11 # запуск контейнера jenkins с подключением каталога /var/jenkins_home как тома jenkins_home
+podman volume ls # просмотр томов
+podman volume prune # удаление неиспользуемых томов и очистка диска. Для удаления тома все контейнеры, в которых он подключен, должны быть остановлены и удалены
+ 
+# bind mount
+# запуск контейнера node-exporter с монтированием каталогов внутрь контейнера в режиме ro (read only)
+podman run \
+-p 9100:9100 \
+-v "/proc:/host/proc:ro" \
+-v "/sys:/host/sys:ro" \
+-v "/:/rootfs:ro" \
+--name node-exporter docker.io/prom/node-exporter:v1.1.2
+--------------------------------------------------------------------------------------
+# commit
+# запуск контейнера из образа ubuntu в интерактивном режиме, установка утилиты ping и коммит образа под именем simust/ubuntu-ping:20.04
+podman run -it --name ubuntu-ping ubuntu:20.04 bash
+apt update && apt install -y iputils-ping
+exit
+podman commit ubuntu-ping simust/ubuntu-ping:20.04
+podman tag ubuntu-ping:20.04 ubuntu-ping:20.04
+ 
+# Containerfile
+# создание файла Containerfile декларативного описания
+FROM ubuntu:20.04
+RUN apt-get update && apt-get install -y iputils-ping
+ 
+# запуск команды build из каталога с Containerfile для создания образа ubuntu-ping:20.04
+podman build -t ubuntu-ping:20.04 .
+ 
+# tag, login, push
+podman tag ubuntu-ping:20.04 quay.io/simust/ubuntu-ping:20.04 # создание из локального образа ubuntu-ping:20.04 тега с репозиторием для издателя simust
+# вход в репозиторий quay.io под пользователем simust и отправка образа
+podman login -u simust quay.io
+podman push quay.io/simust/ubuntu-ping:20.04
+--------------------------------------------------------------------------------------
+$ sudo vim /etc/systemd/system/nginx-container.service
+
+[Unit]
+Description=Cool Nginx container
+Wants=syslog.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/podman start -a nginx_server
+ExecStop=/usr/bin/podman stop -t 2 nginx_server
+
+[Install]
+WantedBy=multi-user.target
+--------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+

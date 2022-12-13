@@ -1,0 +1,24 @@
+*****************************************************************************************
+vim /etc/nginx/conf.d/uk.conf  # open 8080 port
+
+server {
+        listen       8080;
+        server_name  ks;
+        root         /var/www/html/ks/;
+
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
+
+        location / {
+            autoindex on;
+        }
+
+        error_page 404 /404.html;
+            location = /40x.html {
+        }
+
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }
+    }
+*****************************************************************************************

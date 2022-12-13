@@ -1,0 +1,121 @@
+======================================================================================
+Первым делом нужно создать в своём домашнем каталоге файл директорию rpmbuild со следующей структурой:
+
+mkdir -p ~/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}  # создать сразу несколько вложенных директорий
+
+~/rpmbuild
+|-- BUILD
+|-- BUILDROOT
+|-- RPMS
+|   |-- i586
+|   |-- x86_64
+|   `-- noarch
+|-- SOURCES
+|-- SPECS
+`-- SRPMS
+--------------------------------------------------------------------------------------
+echo '%_topdir %(echo $HOME)/rpmbuild' >~/.rpmmacros  # Создаем файл конфигурации утилиты rpmbuild, чтобы она узнала, где находится созданное дерево каталогов
+--------------------------------------------------------------------------------------
+rpm -qip package.rpm  # вывод заголовков spec-файла
+	где «q» означает «режим запросов (query)», «i» — получение информации о пакете, «p» — получение информации об указанном файле пакета (без этой опции будет получена информация о пакете, установленном в системе, если он установлен).
+--------------------------------------------------------------------------------------
+rpm2cpio package.rpm | cpio -di   # распаковать дерево файлов, предоставляемых данным пакетом, в текущую директорию
+	где rpm2cpio пишет в стандартный вывод cpio-архив, хранящийся в rpm-пакете; утилита cpio распаковывает архив, принятый из стандартного ввода. Параметр «i» включает режим распаковки, а «d» создает нужные директории.
+--------------------------------------------------------------------------------------
+rpm -qlp package.rpm  # Посмотреть, какие файлы предоставляет пакет не распаковывая его
+--------------------------------------------------------------------------------------
+rpmbuild -bs  # собрать только исходник
+rpmbuild -bb  # собрать только бинарник
+rpmbuild -ba  # собрать и исходник, и бирнарник
+--------------------------------------------------------------------------------------
+rpm -ql indicator-1.3.3-1.el8.sz.noarch  # директории, куда распакован пакет
+--------------------------------------------------------------------------------------
+rpm -e ict-service-1.3.2-1.el8.sz.noarch --nodeps --noscripts  # если пакет выебывается, удалить нахуй его
+--------------------------------------------------------------------------------------
+к какой группе пакетов относится пкет можно посмотреть в
+/c45d1a64-8062-4f68-a896-226327b138a6/sintezm-kuf-el8-4.4.20210225/repodata/ищем_файл_comps
+скачиваем
+выглядит так
+
+This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<comps>
+<group>
+<id>server-kuf</id>
+<name>server-kuf</name>
+<name xml:lang="ru">Сервер ПС "СИНТЕЗ-КУФ"</name>
+<description>server-kuf</description>
+<description xml:lang="ru">Сервер ПС "СИНТЕЗ-КУФ"</description>
+<default>false</default>
+<uservisible>true</uservisible>
+<packagelist>
+<packagereq type="default">zabbix-get</packagereq>
+<packagereq type="default">zabbix-sender</packagereq>
+<packagereq type="default">zabbix-server-pgsql</packagereq>
+<packagereq type="default">zabbix-web</packagereq>
+<packagereq type="default">zabbix-web-pgsql</packagereq>
+<packagereq type="default">postgresql-server</packagereq>
+<packagereq type="default">pszi-zabbix</packagereq>
+</packagelist>
+</group>
+<group>
+<id>agent-kuf</id>
+<name>agent-kuf</name>
+<name xml:lang="ru">Агент ПС "СИНТЕЗ-КУФ"</name>
+<description>agent-kuf</description>
+<description xml:lang="ru">Агент ПС "СИНТЕЗ-КУФ"</description>
+<default>false</default>
+<uservisible>true</uservisible>
+<packagelist>
+<packagereq type="default">zabbix-agent</packagereq>
+<packagereq type="default">pszi-zabbix</packagereq>
+</packagelist>
+</group>
+<group>
+<id>proxy-kuf</id>
+<name>proxy-kuf</name>
+<name xml:lang="ru">Прокси ПС "СИНТЕЗ-КУФ"</name>
+<description>proxy-kuf</description>
+<description xml:lang="ru">Прокси ПС "СИНТЕЗ-КУФ"</description>
+<default>false</default>
+<uservisible>true</uservisible>
+<packagelist>
+<packagereq type="default">zabbix-proxy-pgsql</packagereq>
+<packagereq type="default">pszi-zabbix</packagereq>
+</packagelist>
+</group>
+</comps>
+--------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
