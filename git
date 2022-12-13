@@ -10,6 +10,21 @@ git init <directory> --template=<template_directory> инициализация 
 $GIT_DIR #задать переменной среды путь для инициализации.
 git submodule update --init --recursive #инициализирует субмодуль
 ========================================================================================================
+как создать репу локально и запушить в гитхаб
+cd /path/to/repo
+git init
+создать репу на гитхабе, скопировать урл
+git remote add study https://github.com/WasyaUragan/zavtra_viuchu.git
+git remote -v
+git add .
+git commit -m "zametki"
+git config --global user.email "ilya.zhuzhukov@yandex.ru"
+git config --global user.name "zhuzhu"
+git branch -M main
+если цепляемся по хттпс, нужно создать на гитхабе токен
+Profile - Settings - Developer Settings - Personal Access tokens - Fine-grained token
+git push -u study main
+========================================================================================================
 git push <remote> <branch> #экспортируем ветку.
 git push <remote> --force #форсим, если нельзя выполнить ускоренное слияние.
 git push <remote> --all #пушим все ветки.
