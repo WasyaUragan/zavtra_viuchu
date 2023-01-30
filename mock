@@ -1,0 +1,30 @@
+####################################################################################################################
+PATH=/usr/local/go/bin:"$PATH" mock -r default.cfg --rebuild ***.src.rpm  
+====================================================================================================================
+Ошибка:
+configure: error: Unable to find "go" executable in path
+
+
+RPM build errors:
+error: Bad exit status from /var/tmp/rpm-tmp.FAshnu (%build)
+    Bad exit status from /var/tmp/rpm-tmp.FAshnu (%build)
+Finish: rpmbuild zabbix-6.2.6-release1.el8.src.rpm
+Finish: build phase for zabbix-6.2.6-release1.el8.src.rpm
+ERROR: Exception(zabbix-6.2.6-release1.el8.src.rpm) Config(name_chroot) 4 minutes 3 seconds
+INFO: Results and/or logs in: /var/lib/mock/name_chroot/result
+ERROR: Command failed: 
+ # /usr/bin/systemd-nspawn -q -M 2de29342a0974e3893d1e3a2454532f3 -D /var/lib/mock/name_chroot/root -a -u mockbuild --capability=cap_ipc_lock --bind=/tmp/mock-resolv.v1vyccbf:/etc/resolv.conf --bind=/dev/btrfs-control --bind=/dev/mapper/control --bind=/dev/loop-control --bind=/dev/loop0 --bind=/dev/loop1 --bind=/dev/loop2 --bind=/dev/loop3 --bind=/dev/loop4 --bind=/dev/loop5 --bind=/dev/loop6 --bind=/dev/loop7 --bind=/dev/loop8 --bind=/dev/loop9 --bind=/dev/loop10 --bind=/dev/loop11 --console=pipe --setenv=TERM=vt100 --setenv=SHELL=/bin/bash --setenv=HOME=/builddir --setenv=HOSTNAME=mock --setenv=PATH=/usr/bin:/bin:/usr/sbin:/sbin --setenv=PROMPT_COMMAND=printf "\033]0;<mock-chroot>\007" --setenv=PS1=<mock-chroot> \s-\v\$  --setenv=LANG=C.UTF-8 --resolv-conf=off bash --login -c /usr/bin/rpmbuild -bb --noclean --target x86_64 --nodeps /builddir/build/SPECS/zabbix.spec
+ ====================================================================================================================
+Успешная сборка:
+Добавил "go" в config_opts['chroot_setup_cmd'] в default.cfg,
+из директории с файлами cfg и srpm, указывая к ним абсолютный путь (иначе возьмет системный конфиг), запустил:
+mock -r ./default.cfg --rebuild ./zabbix-6.2.6-release1.el8.src.rpm
+
+go-srpm-macros	noarch	2-17.el8	                     rocky-AppStream                   12 k
+golang-bin	x86_64	1.17.7-1.module+el8.6.0+824+8e984c20 rocky-AppStream                   98 M
+golang-src	noarch	1.17.7-1.module+el8.6.0+824+8e984c20 rocky-AppStream                   9.0 M
+ 
+Enabling module streams:
+go-toolset              rhel8 
+====================================================================================================================
+
