@@ -705,7 +705,7 @@ from math import *
 #     print(n, end='\n')
 #     n = int(input())
 
-languages = ['Python', 'Java', 'C++', 'Ruby', 'C']
+# languages = ['Python', 'Java', 'C++', 'Ruby', 'C']
 # print('\nWhen -3 is passed:') 
 # print('Return Value:', languages.pop(-3))
 # print('Updated List:', languages)
@@ -717,20 +717,53 @@ languages = ['Python', 'Java', 'C++', 'Ruby', 'C']
 # print('Return Value:', languages.pop())
 # print('Updated List:', languages)
 
-list = [{1, 2}, ('a'), ['1.1', '2.2']]
-del list[:]
-print('List:', list)
+# list = [{1, 2}, ('a'), ['1.1', '2.2']]
+# del list[:]
+# print('List:', list)
 
 
+# secret = 8
+# guess = 3
 
+# if guess == secret:
+#     print('just rigth')
+# elif guess > 7:
+#     print('too low')
+# else:
+#     print('too high')
 
+# small = True
+# green = False
 
+# if small:
+#     if green:
+#         print('peas')
+#     else:
+#         print('cherry')
+# if not small:
+#     if green:
+#         print('watermelon')
+#     else:
+#         print('pumpkin')            
 
+# actor = 'krutoi_pacan'
 
+# "My wife's favourite actor is %+s" % actor
+# Q: вопрос
+# A: ответ
 
+questions = [
+"We don't serve strings around here. Are you a string?",
+"What is said on Father's Day in the forest?",
+"What makes the sound 'Sis! Boom! Bah!'?"
+]
 
+answers = [
+"An exploding sheep.",
+"No, I'm a frayed knot.",
+"'Pop!' goes the weasel."
+]
 
-
-
-
-
+print(f'Q:{questions[0]}\nA:{answers[0]}')
+print(f'Q:{questions[1]}\nA:{answers[2]}')
+print(f'Q:{questions[2]}\nA:{answers[1]}')
