@@ -752,18 +752,173 @@ from math import *
 # Q: вопрос
 # A: ответ
 
-questions = [
-"We don't serve strings around here. Are you a string?",
-"What is said on Father's Day in the forest?",
-"What makes the sound 'Sis! Boom! Bah!'?"
-]
+# questions = [
+# "We don't serve strings around here. Are you a string?",
+# "What is said on Father's Day in the forest?",
+# "What makes the sound 'Sis! Boom! Bah!'?"
+# ]
 
-answers = [
-"An exploding sheep.",
-"No, I'm a frayed knot.",
-"'Pop!' goes the weasel."
-]
+# answers = [
+# "An exploding sheep.",
+# "No, I'm a frayed knot.",
+# "'Pop!' goes the weasel."
+# ]
 
-print(f'Q:{questions[0]}\nA:{answers[0]}')
-print(f'Q:{questions[1]}\nA:{answers[2]}')
-print(f'Q:{questions[2]}\nA:{answers[1]}')
+# print(f'Q:{questions[0]}\nA:{answers[0]}')
+# print(f'Q:{questions[1]}\nA:{answers[2]}')
+# print(f'Q:{questions[2]}\nA:{answers[1]}')
+
+
+# count = 1
+# while count <= 5:
+#     print(count)
+#     count += 1
+
+# while True:
+#     staff = input("String to capitalize [type q to quit]: ")
+#     if staff == "q":
+#         break
+#     print(staff.capitalize())
+
+# while True:
+#     value = input("Integer, please [q to quit]: ")
+#     if value == 'q':
+#         break
+#     number = int(value)
+#     if number % 2 == 0:
+#         continue
+#     print(number, "squared is", number*number)
+
+# numbers = [1, 3, 5]
+# position = 0
+# while position < len(numbers):
+#     number = numbers[position]
+#     if number % 2 == 0:
+#         print('Found even number', number)
+#         break
+#     position += 1
+# else:
+#     print('Not even number found')
+
+# test = [3, 2, 1, 0]
+# for i in test:
+#     print(i)
+
+# Присвойте значение 7 переменной guess_me и значение 1 переменной number. На-
+# пишите цикл while, который сравнивает переменные number и guess_me. Выведите
+# строку 'too low', если значение переменной number меньше значения переменной
+# guess_me. Если значение переменной number равно значению переменной guess_me,
+# выведите строку 'found it!' и выйдите из цикла. Если значение переменной
+# number больше значения переменной guess_me, выведите строку 'oops' и выйдите
+# из цикла. Увеличьте значение переменной number на выходе из цикла.
+
+# guess_me = 7
+# number = 1
+
+# while True:
+#     if number < guess_me:
+#         print('too low')
+#     elif number == guess_me:
+#         print('found it!')
+#         break
+#     elif number > guess_me:
+#         print('oops')
+#         break
+#     number = number + 1
+
+# guess_me = 5
+
+# for number in range(10):
+#     if number < guess_me:
+#         print('too low')
+#     elif number == guess_me:
+#         print('found it!')
+#         break
+#     elif number > guess_me:
+#         print('oops')
+#         break
+
+turple = 'yo',
+print(turple)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

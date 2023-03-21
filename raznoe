@@ -269,11 +269,12 @@ I terminated the connection from that DB,
 SELECT pg_terminate_backend(pg_stat_activity.pid)
 FROM pg_stat_activity
 WHERE pg_stat_activity.datname = 'TARGET_DB';    
-        
-        
-        
-        
-        
+###########################################################################################################     
+dmidecode --type 17  # сведения о модулях оперативной памяти (fedora)       
+###########################################################################################################
+поиск и замена в тек.дир. 
+find . \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i 's/zabbix.php/kuf.php/g'  
+###########################################################################################################
         
         
 
