@@ -838,8 +838,66 @@ from math import *
 #         print('oops')
 #         break
 
-turple = 'yo',
-print(turple)
+number_list = []
+# number_list.append(1)
+# number_list.append(2)
+# number_list.append(3)
+# number_list.append(4)
+# number_list.append(5)
+
+# for i in range(1,6):
+#     number_list.append(i)
+# print(number_list)
+
+# number_list = list(range(1,6))
+# print(number_list)
+
+# number_list = [number for number in range(1,6)]
+# print(number_list)
+
+# rows = range(1,4)
+# cols = range(1,3)
+# for row in rows:
+#     for col in cols:
+#         print(row, col)
+
+# rows = range(1,4)
+# cols = range(1,3)
+# cells = [[row, col] for row in rows for col in cols]
+# for row, col in cells:
+#     print(row, col)
+
+
+# small_birds = ['hummingbird', 'finch']
+# extinct_birds = ['dodo', 'passenger pigeon', 'Norwegian Blue']
+# carol_birds = [3, 'French hens', 2, 'turtledoves']
+# all_birds = [small_birds, extinct_birds, 'macaw', carol_birds]
+
+# print(all_birds[0][1])
+
+# years_list = [years for years in range(1991,1997)]
+# print(years_list)
+# print(years_list[3])
+# print(max(years_list))
+
+things = ['mozzarella', 'cinderella', 'salmonella']
+
+print(things[1].capitalize())
+print()
+
+print(things[0].upper())
+print(things)
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -275,6 +275,6 @@ dmidecode --type 17  # сведения о модулях оперативной
 поиск и замена в тек.дир. 
 find . \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i 's/zabbix.php/kuf.php/g'  
 ###########################################################################################################
-        
-        
+snmpwalk -c public -v2c ip-addr      
+ipmitool -I lanplus -H 10.32.113.200 -U Administrator -P pswd -vvv sdr   
 
