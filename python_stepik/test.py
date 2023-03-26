@@ -880,52 +880,71 @@ number_list = []
 # print(years_list[3])
 # print(max(years_list))
 
-things = ['mozzarella', 'cinderella', 'salmonella']
+# things = ['mozzarella', 'cinderella', 'salmonella']
 
-print(things[1].capitalize())
-print()
+# print(things[1].capitalize())
+# print()
 
-print(things[0].upper())
-print(things)
+# print(things[0].upper())
+# print(things)
 
+# # del things[2]
+# print(things)
 
+# surprise = ['Groucho', 'Chico', 'Harpo']
 
+# print(surprise[2].lower())
 
+# surprise.reverse()
+# print(surprise)
 
+# even = [tst for tst in range(10) if tst % 2 == 0]
+# print(even)
 
+# start1 = ["fee", "fie", "foe"]
+# rhymes = [
+# ("flop", "get a mop"),
+# ("fope", "turn the rope"),
+# ("fa", "get your ma"),
+# ("fudge", "call the judge"),
+# ("fat", "pet the cat"),
+# ("fog", "pet the dog"),
+# ("fun", "say we're done"),
+# ]
+# start2 = "Someone better"
+# start1_caps = "*".join([gavno.capitalize() + "!" for gavno in start1])
+# # for hui, nihuya in rhymes:
+# #     print(f"{start1_caps} {hui.capitalize()}!")
+# #     print(f"{start2} {nihuya}.")
+# print(start1_caps)
 
+# lol = [ ['a', 'b'], ['c', 'd'], ['e', 'f'] ]
+# print(dict(lol))
 
+# kuku = ('we', 'ty')
+# print(dict(kuku))
 
+# first = {'a': 'agony', 'b': 'bliss'}
+# second = {'b': 'bagels', 'c': 'candy'}
+# lol = {**first, **second}
+# print(type(lol))
 
+# signals = {'green': 'go', 'yellow': 'go faster', 'red': 'smile for the camera'}
+# print(signals.keys())
 
+# print('go' in signals)
 
+drinks = {
+    'martini': {'vodka', 'vermouth'},
+    'black russian': {'vodka', 'kahlua'},
+    'white russian': {'cream', 'kahlua', 'vodka'},
+    'manhattan': {'rye', 'vermouth', 'bitters'},
+    'screwdriver': {'orange juice', 'vodka'}
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+for name, surname in drinks.items():
+    if 'vodka' in surname:
+        print(name)
 
 
 
