@@ -934,35 +934,37 @@ number_list = []
 
 # print('go' in signals)
 
-drinks = {
-    'martini': {'vodka', 'vermouth'},
-    'black russian': {'vodka', 'kahlua'},
-    'white russian': {'cream', 'kahlua', 'vodka'},
-    'manhattan': {'rye', 'vermouth', 'bitters'},
-    'screwdriver': {'orange juice', 'vodka'}
-    }
+# drinks = {
+#     'martini': {'vodka', 'vermouth'},
+#     'black russian': {'vodka', 'kahlua'},
+#     'white russian': {'cream', 'kahlua', 'vodka'},
+#     'manhattan': {'rye', 'vermouth', 'bitters'},
+#     'screwdriver': {'orange juice', 'vodka'}
+#     }
 
-for name, surname in drinks.items():
-    if 'vodka' in surname:
-        print(name)
+# for name, surname in drinks.items():
+#     if 'vodka' in surname:
+#         print(name)
 
+# e2f = {
+#     'dog': 'chien',
+#     'cat': 'chat',
+#     'walrus': 'morse'
+#     }
 
+# eng = list(e2f.keys())
+# list.reverse(eng)
+# fr = list(e2f.values())
+# list.reverse(fr)
+# f2e = dict(zip(fr, eng))
+# print(f2e)
 
+# print(f2e['chien'])
 
+# print(set(eng))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+life = {'animals': {'cats': ['Henri', 'Grumpy', 'Lucy'], 'octopi': '', 'emus': ''}, 'plants': '', 'other': ''}
+print(life['animals'])
 
 
 
