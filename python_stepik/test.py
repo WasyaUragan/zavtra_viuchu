@@ -963,8 +963,64 @@ number_list = []
 
 # print(set(eng))
 
-life = {'animals': {'cats': ['Henri', 'Grumpy', 'Lucy'], 'octopi': '', 'emus': ''}, 'plants': '', 'other': ''}
-print(life['animals'])
+life = {
+    'animals': {
+        'cats': [
+            'Henri', 'Grumpy', 'Lucy'
+            ], 
+            'octopi': {}, 
+            'emus': {}
+            }, 
+        'plants': {}, 
+        'other': {}
+        }
+# print(life['animals'])
+
+# print(life.keys())
+
+# print ( list ( life['animals'].keys() ) )
+
+# print(type(life['animals']['cats']))
+
+
+# odd = {odd for odd in range(10) if odd % 2 == 1}
+
+# ls0 = [1,2,3]
+# ls1 = ls0
+# ls1.append(4)
+# print(ls0)
+
+# ls1 = [i+1 for i in ls1]
+# print(ls1)
+# print(ls0)
+
+
+
+# for tst in ('Got %s' % i for i in range(10)):
+#     print(tst)
+
+# first = ('optimist', 'pessimist', 'troll')
+# second = ('The glass is half full', 'The glass is half empty', 'How did you get a glass?') 
+
+# for firs, secon in zip(first, second):
+#     print(firs, secon)
+
+
+
+
+titles = [
+    'Creature of Habit', 
+    'Crewel Fate', 
+    'Sharks On a Plane'
+    ]
+plots = [
+    'A nun turns into a monster', 
+    'A haunted yarn shop', 
+    'Check your exits'
+    ]
+
+movies = dict(zip(titles, plots))
+print(movies)
 
 
 
