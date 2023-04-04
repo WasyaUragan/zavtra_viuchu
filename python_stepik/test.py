@@ -838,7 +838,7 @@ from math import *
 #         print('oops')
 #         break
 
-number_list = []
+# number_list = []
 # number_list.append(1)
 # number_list.append(2)
 # number_list.append(3)
@@ -886,145 +886,83 @@ number_list = []
 # print()
 
 # print(things[0].upper())
+
 # print(things)
 
-# # del things[2]
-# print(things)
+#Можно «разбить» кортеж с именем args на позиционные параметры *args внутри
+#функции, которые затем будут пересобраны в кортеж-параметр args
 
-# surprise = ['Groucho', 'Chico', 'Harpo']
+# def print_args(*args):
+#     print('Positional argument tuple:', args)
+# print_args()
+# print_args(2, 5, 7, 'x')
+# args = (2,5,7,'x')
+# print_args(args)
 
-# print(surprise[2].lower())
+# print_args(*args)
 
-# surprise.reverse()
-# print(surprise)
+# class Person:
+#     def __init__(self, n, s, r=1):
+#         self.name = n
+#         self.surname = s
+#         self.rank = r
 
-# even = [tst for tst in range(10) if tst % 2 == 0]
-# print(even)
+# p1 = Person('Ilon', 'Fucking', 'Musk')
 
-# start1 = ["fee", "fie", "foe"]
-# rhymes = [
-# ("flop", "get a mop"),
-# ("fope", "turn the rope"),
-# ("fa", "get your ma"),
-# ("fudge", "call the judge"),
-# ("fat", "pet the cat"),
-# ("fog", "pet the dog"),
-# ("fun", "say we're done"),
-# ]
-# start2 = "Someone better"
-# start1_caps = "*".join([gavno.capitalize() + "!" for gavno in start1])
-# # for hui, nihuya in rhymes:
-# #     print(f"{start1_caps} {hui.capitalize()}!")
-# #     print(f"{start2} {nihuya}.")
-# print(start1_caps)
+# print(p1.name, p1.surname, p1.rank)
 
-# lol = [ ['a', 'b'], ['c', 'd'], ['e', 'f'] ]
-# print(dict(lol))
+# def print_args(*args):
+#     print('Positional argument tuple:', args)
 
-# kuku = ('we', 'ty')
-# print(dict(kuku))
+# print_args('onetwo', 'onetwo')
 
-# first = {'a': 'agony', 'b': 'bliss'}
-# second = {'b': 'bagels', 'c': 'candy'}
-# lol = {**first, **second}
-# print(type(lol))
+# list = {1: 'a', 2: 'b', 3: 'c'}
 
-# signals = {'green': 'go', 'yellow': 'go faster', 'red': 'smile for the camera'}
-# print(signals.keys())
+# print(type(list))
+# print(*list)
 
-# print('go' in signals)
+# def print_kwargs(**kwargs):
+#     print('Keyword arguments:', kwargs)
+    
+# print_kwargs()
+# print_kwargs(wine='merlot', entree='mutton', dessert='macaroon')
 
-# drinks = {
-#     'martini': {'vodka', 'vermouth'},
-#     'black russian': {'vodka', 'kahlua'},
-#     'white russian': {'cream', 'kahlua', 'vodka'},
-#     'manhattan': {'rye', 'vermouth', 'bitters'},
-#     'screwdriver': {'orange juice', 'vodka'}
-#     }
+# def print_data(data, *, start=0, end=100):
 
-# for name, surname in drinks.items():
-#     if 'vodka' in surname:
-#         print(name)
+# for value in (data[start:end]):
 
-# e2f = {
-#     'dog': 'chien',
-#     'cat': 'chat',
-#     'walrus': 'morse'
-#     }
+# print(value)
 
-# eng = list(e2f.keys())
-# list.reverse(eng)
-# fr = list(e2f.values())
-# list.reverse(fr)
-# f2e = dict(zip(fr, eng))
-# print(f2e)
+# data = ['a', 'b', 'c', 'd', 'e', 'f']
+# >>> print_data(data)
 
-# print(f2e['chien'])
+class Vehicle(object):
+    """docstring"""
+ 
+    def __init__(self, color, doors, tires):
+        """Constructor"""
+        self.color = color
+        self.doors = doors
+        self.tires = tires
+    
+    def brake(self):
+        """
+        Stop the car
+        """
+        return "Braking"
+    
+    def drive(self):
+        """
+        Drive the car
+        """
+        return "I'm driving!"
 
-# print(set(eng))
-
-life = {
-    'animals': {
-        'cats': [
-            'Henri', 'Grumpy', 'Lucy'
-            ], 
-            'octopi': {}, 
-            'emus': {}
-            }, 
-        'plants': {}, 
-        'other': {}
-        }
-# print(life['animals'])
-
-# print(life.keys())
-
-# print ( list ( life['animals'].keys() ) )
-
-# print(type(life['animals']['cats']))
-
-
-# odd = {odd for odd in range(10) if odd % 2 == 1}
-
-# ls0 = [1,2,3]
-# ls1 = ls0
-# ls1.append(4)
-# print(ls0)
-
-# ls1 = [i+1 for i in ls1]
-# print(ls1)
-# print(ls0)
-
-
-
-# for tst in ('Got %s' % i for i in range(10)):
-#     print(tst)
-
-# first = ('optimist', 'pessimist', 'troll')
-# second = ('The glass is half full', 'The glass is half empty', 'How did you get a glass?') 
-
-# for firs, secon in zip(first, second):
-#     print(firs, secon)
-
-
-
-
-titles = [
-    'Creature of Habit', 
-    'Crewel Fate', 
-    'Sharks On a Plane'
-    ]
-plots = [
-    'A nun turns into a monster', 
-    'A haunted yarn shop', 
-    'Check your exits'
-    ]
-
-movies = dict(zip(titles, plots))
-print(movies)
-
-
-
-
+if __name__ == "__main__":
+    car = Vehicle("blue", 5, 4)
+    print(car.color)
+    
+    truck = Vehicle("red", 3, 6)
+    print(truck.color)
 
 
 
