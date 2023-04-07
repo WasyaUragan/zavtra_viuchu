@@ -936,35 +936,36 @@ from math import *
 # data = ['a', 'b', 'c', 'd', 'e', 'f']
 # >>> print_data(data)
 
-class Vehicle(object):
-    """docstring"""
+# class Vehicle(object):
+#     """docstring"""
  
-    def __init__(self, color, doors, tires):
-        """Constructor"""
-        self.color = color
-        self.doors = doors
-        self.tires = tires
+#     def __init__(self, color, doors, tires):
+#         """Constructor"""
+#         self.color = color
+#         self.doors = doors
+#         self.tires = tires
     
-    def brake(self):
-        """
-        Stop the car
-        """
-        return "Braking"
+#     def brake(self):
+#         """
+#         Stop the car
+#         """
+#         return "Braking"
     
-    def drive(self):
-        """
-        Drive the car
-        """
-        return "I'm driving!"
+#     def drive(self):
+#         """
+#         Drive the car
+#         """
+#         return "I'm driving!"
 
-if __name__ == "__main__":
-    car = Vehicle("blue", 5, 4)
-    print(car.color)
+# if __name__ == "__main__":
+#     car = Vehicle("blue", 5, 4)
+#     print(car.color)
     
-    truck = Vehicle("red", 3, 6)
-    print(truck.color)
+#     truck = Vehicle("red", 3, 6)
+#     print(truck.color)
 
-
+import errno
+print(errno.errorcode.keys())
 
 
 
