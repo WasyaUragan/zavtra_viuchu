@@ -964,35 +964,69 @@ from math import *
 #     truck = Vehicle("red", 3, 6)
 #     print(truck.color)
 
-import errno
-print(errno.errorcode.keys())
+# import errno
+# print(errno.errorcode.keys())
 
+# def lol(kwargs, *, start=0, end=100):
+#     for value in (kwargs[start:end]):
+#         print(value)
 
+# etodrugoe = ['nu', 'nichego', 'sebe', 'nomer']
 
+# lol(etodrugoe, start=1, end=3)
 
+# def answer():
+#     print(42)
 
+# def run_something(func):
+#     func()
 
+# run_something(answer)
 
+# def add_args(arg1, arg2):
+#     print(arg1 + arg2)
 
+# def run_something_with_args(func, arg1, arg2):
+#     func(arg1, arg2)
 
+# def sum_args(*args):
+#     return print(sum(args))
 
+# def run_with_positional_args(func, *args):
+#     return func(*args)
 
+# run_with_positional_args(sum_args, 1, 2, 3, 4)
 
+# def knights(saying):
+#     def inner(quote):
+#         return "We are the knights who say: '%s'" % quote
+#     return inner(saying)
 
+# print(knights('shabat_shalom'))
 
+def knights2(saying):
+    def inner2():
+        return "We are the knights who say: '%s'" % saying
+    return inner2
+a = knights2('shabat_shalom')
+# print(a())
 
+def document_it(func):
+    def new_function(*args, **kwargs):
+        print('Running function:', func.__name__)
+        print('Positional arguments:', args)
+        print('Keyword arguments:', kwargs)
+        result = func(*args, **kwargs)
+        print('Result:', result)
+        return result
+    return new_function
 
+print(document_it(a))
 
+def add_ints(a, b):
+	return a + b
 
+add_ints(3, 5)
 
-
-
-
-
-
-
-
-
-
-
-
+cooler_add_ints = document_it(add_ints) # создание декоратора вручную
+cooler_add_ints(3, 5)
