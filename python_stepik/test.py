@@ -1004,29 +1004,65 @@ from math import *
 
 # print(knights('shabat_shalom'))
 
-def knights2(saying):
-    def inner2():
-        return "We are the knights who say: '%s'" % saying
-    return inner2
-a = knights2('shabat_shalom')
-# print(a())
+# def knights2(saying):
+#     def inner2():
+#         return "We are the knights who say: '%s'" % saying
+#     return inner2
+# a = knights2('shabat_shalom')
+# # print(a())
 
-def document_it(func):
-    def new_function(*args, **kwargs):
-        print('Running function:', func.__name__)
-        print('Positional arguments:', args)
-        print('Keyword arguments:', kwargs)
-        result = func(*args, **kwargs)
-        print('Result:', result)
-        return result
-    return new_function
+# def document_it(func):
+#     def new_function(*args, **kwargs):
+#         print('Running function:', func.__name__)
+#         print('Positional arguments:', args)
+#         print('Keyword arguments:', kwargs)
+#         result = func(*args, **kwargs)
+#         print('Result:', result)
+#         return result
+#     return new_function
 
-print(document_it(a))
+# print(document_it(a))
 
-def add_ints(a, b):
-	return a + b
+# def add_ints(a, b):
+# 	return a + b
 
-add_ints(3, 5)
+# add_ints(3, 5)
 
-cooler_add_ints = document_it(add_ints) # создание декоратора вручную
-cooler_add_ints(3, 5)
+# cooler_add_ints = document_it(add_ints) # создание декоратора вручную
+# cooler_add_ints(3, 5)
+
+
+# def print_kwargs(**kwargs):
+#     print('Keyword arguments:', kwargs)
+
+# print_kwargs(wine='merlot', entree='mutton', dessert='macaroon')
+
+# def edit_story(words, func):
+#  	for word in words:
+#  		print(func(word))
+
+# stairs = ['thud', 'meow', 'thud', 'hiss']
+
+# def enliven(word): # больше эмоций!
+#  	return word.capitalize() + '!'
+
+# edit_story(stairs, enliven)
+
+def my_range(first=0, last=10, step=1):
+    number = first
+    while number < last:
+        yield number
+        number += step
+
+#возвращает объект генератора:
+ranger = my_range(1, 5)
+ranger
+
+#Мы можем проитерировать по этому объекту генератора:
+for x in ranger:
+    print(x)
+
+
+
+
+
