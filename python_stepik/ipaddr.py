@@ -28,27 +28,27 @@
 # str_ip = str.split()(ip)
 # print(type(str_ip))
 
-ip = str(input())
+data = input('Введите IP-адрес: ')
+tst = data.split('.')
 
-if len(ip.split('.')) == 4:
-    print('yes')
+if len(tst) == 4:
+    tst[0].isdigit() and tst[1].isdigit() and tst[2].isdigit() and tst[3].isdigit()
+        # oct1, oct2, oct3, oct4 = int(tst[0]), int(tst[1]), int(tst[2]), int(tst[3])
+        # if 0 <= oct1 <= 255 and 0 <= oct2 <= 255 and 0 <= oct3 <= 255 and 0 <= oct4 <= 255:
+            # print('ip-address is valid')
+    print(type(tst[2]))
+        # else:
+        #     print('there\'s a mistake')
 else:
-    print('lol')
+    print('it\'s not an ip-addr')
 
-tst = ip.split('.')
-print(tst[2])
+# def getNumber02 ():
+#     while True:
+#         getNumber = input('Введите целое положительное число: ')  # Ввод числа
+#         if getNumber.isdigit() : return getNumber
 
-count = 0
-count = sum(map(lambda item: item == int, ip))
+# print(getNumber02())
 
-print(
-    "количество элементов списка, удовлетворяющих заданному условию:",
-    count
-)
-
-# split_ip = list(ip.split('.'))
-
-# print(split_ip)
 
 
 
