@@ -32,6 +32,7 @@ afl setup in docker container:
   apt install -y bash-com*
   apt install -y sudo
   apt install -y vim
+  apt install -y bsdmainutils
   apt install -y make
   apt-get install -y build-essential
   apt-get install -y python3-dev
@@ -56,6 +57,7 @@ afl setup in docker container:
   apt install -y llvm
   apt install -y pip
   pip3 install atheris
+  pip install psycopg2-binary
 ********************************************************************************************************************
 тестовый пример файзинга с afl:
 1)git clone --depth=1 --single-branch https://github.com/zeux/pugixml
@@ -74,9 +76,11 @@ return -1;
 4)cd /opt/GIT/pugixml && \
   /opt/GIT/AFLplusplus/afl-fuzz -i in -o out -- ./target @@
 ********************************************************************************************************************
+artifact_prefix='./'; Test unit written to ./crash-da39a3ee5e6b4b0d3255bfef95601890afd80709
 
-
-
+содержимое crash-файла:
+hexdump -C ./crash-da39a3ee5e6b4b0d3255bfef95601890afd80709
+********************************************************************************************************************
 
 
 
