@@ -1048,19 +1048,55 @@ from math import *
 
 # edit_story(stairs, enliven)
 
-def my_range(first=0, last=10, step=1):
-    number = first
-    while number < last:
-        yield number
-        number += step
+# def my_range(first=0, last=10, step=1):
+#     number = first
+#     while number < last:
+#         yield number
+#         number += step
 
-#возвращает объект генератора:
-ranger = my_range(1, 5)
-ranger
+# #возвращает объект генератора:
+# ranger = my_range(1, 5)
+# ranger
 
-#Мы можем проитерировать по этому объекту генератора:
-for x in ranger:
-    print(x)
+# #Мы можем проитерировать по этому объекту генератора:
+# for x in ranger:
+#     print(x)
+
+
+#9.3. Определите декоратор test, который выводит строку 'start' при вызове функ-
+#ции и строку 'end', когда функция завершает свою работу.
+
+def test(func):
+    def wrapper():
+        print('start')
+        func()
+        print('end')
+    return wrapper
+
+def tst():
+    print('nu nuhuyasibe')
+
+
+tsttsts = (test(tst))
+
+tsttsts()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

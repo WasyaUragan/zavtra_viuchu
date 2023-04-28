@@ -1082,13 +1082,8 @@ Finish: chroot ['su -c "cd /builddir && ./chroot.sh samba-4.9.1-8.el8.src.rpm" m
 	Ошибка на этапе грязной сборки
 
 ===================================================================================================================
-
-
-
-
-
-
-
+ERROR: Unable to find src/build-test from git https://gitlab.draszi.fintech.ru/devops/pipeline.git
+надо править джобу
 
 
 

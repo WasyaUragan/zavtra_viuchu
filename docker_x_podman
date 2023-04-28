@@ -74,6 +74,12 @@ docker system info # общая информация о системе (соот
 docker system df # занятое место на диске
 docker system prune -af # удаление неиспользуемых данных и очистка диска
 --------------------------------------------------------------------------------------
+Пробросить сеть в docker-контейнер
+https://docs.docker.com/network/proxy/
+
+1)On the Docker client, create or edit the file ~/.docker/config.json in the home directory of the user that starts containers.Add JSON similar to the following example. Substitute the type of proxy with httpsProxy or ftpProxy if necessary, and substitute the address and port of the proxy server. You can also configure multiple proxy servers simultaneously.
+2)systemctl daemon-reload
+--------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------
 # справочная информация
 podman --help # список доступных команд
