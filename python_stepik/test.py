@@ -1066,20 +1066,172 @@ from math import *
 #9.3. Определите декоратор test, который выводит строку 'start' при вызове функ-
 #ции и строку 'end', когда функция завершает свою работу.
 
-def test(func):
-    def wrapper():
-        print('start')
-        func()
-        print('end')
-    return wrapper
+# def test(func):
+#     def wrapper():
+#         print('start')
+#         func()
+#         print('end')
+#     return wrapper
 
-def tst():
-    print('nu nuhuyasibe')
+# def tst():
+#     print('nu nuhuyasibe')
 
 
-tsttsts = (test(tst))
+# tsttsts = (test(tst))
 
-tsttsts()
+# tsttsts()
+
+#9.4. Определите исключение OopsException. Сгенерируйте его и посмотрите, что
+#произойдет. Затем напишите код, позволяющий поймать это исключение и вы-
+#вести строку 'Caught an oops'.
+
+# def print_data(data, *, start=1, end=3):
+#     for value in (data[start:end]):
+#         print(value)
+
+# data = ['a', 'b', 'c', 'd', 'e', 'f']
+# print_data(data)
+
+# outside = ['one', 'fine', 'day']
+# def mangle(arg):
+#     arg[1] = 'terrible!'
+
+# mangle(outside)
+# print(outside)
+
+# def echo(anything):
+#     'echo returns its input argument'
+#     return anything
+
+# print(echo.__doc__)
+
+
+# def print_if_true(thing, check):
+#     '''
+#     Prints the first argument if a second argument is true.
+#     The operation is:
+#     1. Check whether the *second* argument is true.
+#     2. If it is, print the *first* argument.
+#     '''
+#     if check:
+#         print(thing)
+
+# # help(print_if_true)
+# print(print_if_true.__doc__)
+
+# def knights2(saying):
+#     def inner2():
+#         return "We are the knights who say: '%s'" % saying
+#     return inner2
+
+# a = knights2('nihuya_sibe1')
+# print(a())
+
+# def my_range(first=0, last=10, step=1):
+#     number = first
+#     while number < last:
+#         yield number
+#         number += step
+
+# ranger = my_range(1, 5)
+
+# for x in ranger:
+#     print(x)
+
+# def my_shiny_new_decorator(function_to_decorate):
+#     # Внутри себя декоратор определяет функцию-"обёртку". Она будет обёрнута вокруг декорируемой,
+#     # получая возможность исполнять произвольный код до и после неё.
+#     def the_wrapper_around_the_original_function():
+#         print("Я - код, который отработает до вызова функции")
+#         function_to_decorate() # Сама функция
+#         print("А я - код, срабатывающий после")
+#     # Вернём эту функцию
+#     return the_wrapper_around_the_original_function
+
+# def stand_alone_function():
+#     print("Я простая одинокая функция, ты ведь не посмеешь меня изменять?")
+
+# stand_alone_function()
+
+
+# stand_alone_function_decorated = my_shiny_new_decorator(stand_alone_function)
+# stand_alone_function_decorated()
+
+# def flatten(lol):
+#     for item in lol:
+#         if isinstance(item, list):
+#             for subitem in flatten(item):
+#                 yield subitem
+#         else:
+#             yield item
+
+# lol = [1, 2, [3,4,5], [6,[7,8,9], []]]
+
+# flatten(lol)
+
+# print(list(flatten(lol)))
+
+
+# def flatten(lol):
+#     for item in lol:
+#         if isinstance(item, list):
+#             yield from flatten(item)
+#         else:
+#             yield item
+
+# lol = [1, 2, [3,4,5], [6,[7,8,9], []]]
+# print(list(flatten(lol)))
+
+# short_list = [1, 2, 3]
+# position = 5
+# try:
+#     short_list[position]
+# except:
+#     print('Need a position between 0 and', len(short_list)-1, ' but got', position)
+
+# # Need a position between 0 and 2 but got 5
+
+# # Любое исключение является классом, частным случаем класса Exception.
+# class UppercaseException(Exception):
+#     pass
+
+# words = ['eeenie', 'meenie', 'miny', 'MO']
+# for word in words:
+#     if word.isupper():
+#         raise UppercaseException(word)
+
+# #[zhuzhu@workpc ~]$ /bin/python /opt/GIT/zavtra_viuchu/python_stepik/test.py
+# #Need a position between 0 and 2  but got 5
+# #Traceback (most recent call last):
+# #  File "/opt/GIT/zavtra_viuchu/python_stepik/test.py", line 1201, in <module>
+# #    raise UppercaseException(word)
+# #__main__.UppercaseException: MO
+
+import subprocess
+
+link = input('Адрес проекта в GIT: ')
+
+process = subprocess.Popen(['git', 'clone', link],
+                     stdin=subprocess.PIPE,
+                     stdout=subprocess.PIPE, 
+                     stderr=subprocess.PIPE)
+while True:
+    break
+    # output = process.stdout.readline()
+    # print(output.strip())
+    
+# stdout, stderr = process.communicate()
+# print(stdout, stderr)
+
+
+
+
+
+
+
+
+
+
 
 
 

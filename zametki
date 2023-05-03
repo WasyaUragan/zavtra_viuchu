@@ -1088,17 +1088,94 @@ ERROR: Unable to find src/build-test from git https://gitlab.draszi.fintech.ru/d
 
 
 
+/builddir/build/BUILD/syslinux-6.04-pre1/extlinux/main.c:1185: undefined reference to `minor'
+/builddir/build/BUILD/syslinux-6.04-pre1/extlinux/main.c:1185: undefined reference to `major'
+main.o: In function `sysfs_get_offset':
+/builddir/build/BUILD/syslinux-6.04-pre1/extlinux/main.c:134: undefined reference to `minor'
+/builddir/build/BUILD/syslinux-6.04-pre1/extlinux/main.c:134: undefined reference to `major'
+collect2: error: ld returned 1 exit status
+make[3]: *** [/builddir/build/BUILD/syslinux-6.04-pre1/extlinux/Makefile:56: extlinux] Error 1
+make[3]: Leaving directory '/builddir/build/BUILD/syslinux-6.04-pre1/bios/extlinux'
+make[2]: *** [/builddir/build/BUILD/syslinux-6.04-pre1/Makefile:288: extlinux] Error 2
+make[2]: Leaving directory '/builddir/build/BUILD/syslinux-6.04-pre1/bios'
+make[1]: *** [/builddir/build/BUILD/syslinux-6.04-pre1/Makefile:257: bios] Error 2
+make[1]: Leaving directory '/builddir/build/BUILD/syslinux-6.04-pre1'
+make: *** [Makefile:102: bios] Error 2
+error: Bad exit status from /var/tmp/rpm-tmp.b6Ly3Z (%build)
 
 
+================================
+нет srpm в sintezm-8.1/baseos
+нет в gitlab.draszi
+--------------------------------
+python3-fintech-unique-run
+python-pexpect
+python3-ptyprocess
+sintez-repos
+sintezm-indexhtml
+sintezm-lsb
+sintezm-repos
+User-messagebox
+================================
+python3
+в files2delete 4 тысячи строк
+================================
+qemu-kvm
+http://logserver.draszi.fintech.ru/el8.1/baseos/qemu-kvm/44/cleaning_logs/build.log.html
+в files2delete 15 тысяч строк
+================================
+qt5-qtwebengine
+
+Подготовка исходников
+warning: Macro expanded in comment on line 519: %{ix86}
+
+warning: Macro expanded in comment on line 525: %{_qt5_plugindir}/designer/libqwebengineview.so
+
+Executing(%prep): /bin/sh -e /var/tmp/rpm-tmp.HIUwd8
++ umask 022
++ cd /builddir/build/BUILD
++ rm -rf /usr/bin/python
++ ln -s /usr/bin/python2 /usr/bin/python
+ln: failed to create symbolic link '/usr/bin/python': Permission denied
 
 
+srpm-cleaner вместо папки Report/Logs создает файл Logs и пишел в него
+================================
+qtwebkit
++ ln -s /usr/bin/python2 /usr/bin/python
+ln: failed to create symbolic link '/usr/bin/python': Permission denied
+srpm-cleaner вместо папки Report/Logs создает файл Logs и пишел в него
+================================
+rsyslog
++ /usr/bin/patch --no-backup-if-mismatch -p1 -b --suffix .default-tag --fuzz=0
+can't find file to patch at input line 4
+Perhaps you used the wrong -p or --strip option?
+The text leading up to this was:
+--------------------------
+|diff -up ./plugins/imjournal/imjournal.c.default-tag ./plugins/imjournal/imjournal.c
+|--- ./plugins/imjournal/imjournal.c.default-tag	2018-05-17 08:50:11.416418022 -0400
+|+++ ./plugins/imjournal/imjournal.c	2018-05-17 08:53:02.884418022 -0400
+--------------------------
+File to patch: 
+Skip this patch? [y] 
+Skipping patch.
+10 out of 10 hunks ignored
 
 
+RPM build errors:
+error: Bad exit status from /var/tmp/rpm-tmp.t9EEEh (%prep)
+    Bad exit status from /var/tmp/rpm-tmp.t9EEEh (%prep)
+Распаковка исходников окончилась неудачно
+================================
+
+написать функцию
+проверить валидность передаваемой пользователем ssh-ссылки на гит проект
+ссылка должна быть одна 
+использовать срезы, сплит по пробелам, курл
 
 
+git@gitlab.draszi.fintech.ru:code/fintech_tools/python3-fintech-unique-run.git
 
-
-
-
+написать отчет за день антону
 
 

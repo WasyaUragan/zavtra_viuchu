@@ -151,71 +151,77 @@ Keyword arguments: {'dessert': 'macaroon', 'wine': 'merlot', 'entree': 'mutton'}
 -------------------------------------------------------------------------------------------------------------------
 Знак * в определении функции говорит о том, что параметры start и end нужно предоставлять как именованные аргументы, если мы не хотим использовать их значения по умолчанию:
 
->>> def print_data(data, *, start=0, end=100):
-... for value in (data[start:end]):
-... print(value)
-...
->>> data = ['a', 'b', 'c', 'd', 'e', 'f']
->>> print_data(data)
+def print_data(data, *, start=0, end=100):
+    for value in (data[start:end]):
+        print(value)
+
+data = ['a', 'b', 'c', 'd', 'e', 'f']
+print_data(data)
 -------------------------------------------------------------------------------------------------------------------
-Если аргумент изменяемый, то его значение можно изменить изнутри функции с помощью соответствующего параметра1:
->>> outside = ['one', 'fine', 'day']
->>> def mangle(arg):
-... arg[1] = 'terrible!'
-...
->>> outside
-['one', 'fine', 'day']
->>> mangle(outside)
->>> outside
+Если аргумент изменяемый, то его значение можно изменить изнутри функции с помощью соответствующего параметра:
+
+outside = ['one', 'fine', 'day']
+def mangle(arg):
+    arg[1] = 'terrible!'
+
+mangle(outside)
+print(outside)
+>>> 
 ['one', 'terrible!', 'day']
-Хорошим тоном считается умение избегать подобных ситуаций2. Любой документ, являющийся аргументом, может измениться или вернуть новое значение.
+
+Хорошим тоном считается умение избегать подобных ситуаций. Любой документ, являющийся аргументом, может измениться или вернуть новое значение.
 -------------------------------------------------------------------------------------------------------------------
 прикрепить документацию к определению функции
 
->>> def echo(anything):
-... 'echo returns its input argument'
-... return anything
+def echo(anything):
+    'echo returns its input argument'
+    return anything
 
 применить к документации, если хотите, форматирование:
 
 def print_if_true(thing, check):
-'''
-Prints the first argument if a second argument is true.
-The operation is:
-1. Check whether the *second* argument is true.
-2. If it is, print the *first* argument.
-'''
-if check:
-print(thing)
+    '''
+    Prints the first argument if a second argument is true.
+    The operation is:
+    1. Check whether the *second* argument is true.
+    2. If it is, print the *first* argument.
+    '''
+    if check:
+        print(thing)
 
 Для вывода строки документации функции вызовите функцию help(). Передайте ей имя функции
-
->>> help(echo)
+help(echo)
 
 Если хотите увидеть только строку документации без форматирования:
->>> print(echo.__doc__)
+print(echo.__doc__)
 -------------------------------------------------------------------------------------------------------------------
-Вы можете использовать функции как элементы списков, кортежей, множеств и словарей. Функции неизменяемы, поэтому их можно применять даже в качестве ключей для словарей.
+Вы можете использовать функции как элементы списков, кортежей, множеств и словарей.
+Функции неизменяемы, поэтому их можно применять даже в качестве ключей для словарей.
 -------------------------------------------------------------------------------------------------------------------
-Замыкания (closure).Внутренняя функция может действовать как замыкание. Замыкание — это функция, которая динамически генерируется другой функцией. Обе они могут изменяться и запоминать значения переменных, которые были созданы вне функции.
+Замыкания (closure).
+Внутренняя функция может действовать как замыкание.
+Замыкание — это функция, которая динамически генерируется другой функцией. Обе они могут изменяться и запоминать значения переменных, которые были созданы вне функции.
 
->>> def knights2(saying):
-... 	def inner2():
-... 		return "We are the knights who say: '%s'" % saying
-...	return inner2
+def knights2(saying):
+    def inner2():
+        return "We are the knights who say: '%s'" % saying
+    return inner2
+
+a = knights2('nihuya_sibe1')
+print(a())
 -------------------------------------------------------------------------------------------------------------------
 лямбда-функция — это анонимная функция, выраженная в виде одного оператора.
 
->>> def edit_story(words, func):
-... 	for word in words:
-... 		print(func(word))
+def edit_story(words, func):
+    for word in words:
+        print(func(word))
 
 stairs = ['thud', 'meow', 'thud', 'hiss']
 
->>> def enliven(word): # больше эмоций!
-... 	return word.capitalize() + '!'
+def enliven(word): # больше эмоций!
+    return word.capitalize() + '!'
 
->>> edit_story(stairs, enliven)
+edit_story(stairs, enliven)
 Thud!
 Meow!
 Thud!
@@ -223,39 +229,34 @@ Hiss!
 
 равно
 
->>> edit_story(stairs, lambda word: word.capitalize() + '!')
+edit_story(stairs, lambda word: word.capitalize() + '!')
 Thud!
 Meow!
 Thud!
 Hiss!
 -------------------------------------------------------------------------------------------------------------------
-генератор — это объект, который предназначен для создания последовательностей. С его помощью вы можете итерировать потенциально огромные последовательности, не создавая и не сохраняя всю последовательность в памяти сразу.
+генератор — это объект, который предназначен для создания последовательностей.
+С его помощью вы можете итерировать потенциально огромные последовательности, не создавая и не сохраняя всю последовательность в памяти сразу.
 
 Каждый раз, когда вы итерируете через генератор, он отслеживает, где находился во время последнего вызова, и возвращает следующее значение. Это отличает его от обычной функции, которая не помнит о предыдущих вызовах и всегда начинает работу с первой строки в том же состоянии.
 
 Если вы хотите создать потенциально большую последовательность, вы можете написать функцию-генератор. Это обычная функция, однако она возвращает значение с помощью выражения yield, а не return.
 
->>> def my_range(first=0, last=10, step=1):
-... 	number = first
-... 		while number < last:
-...			yield number
-... 			number += step
+def my_range(first=0, last=10, step=1):
+    number = first
+    while number < last:
+        yield number
+        number += step
+#возвращает объект генератора:
+ranger = my_range(1, 5)
+#Мы можем проитерировать по этому объекту генератора:
+for x in ranger:
+    print(x)
 
-возвращает объект генератора:
->>> ranger = my_range(1, 5)
->>> ranger
-<generator object my_range at 0x101a0a168>
 
-Мы можем проитерировать по этому объекту генератора:
->>> for x in ranger:
-... print(x)
-...
-1
-2
-3
-4
-
-Генератор можно запустить лишь однажды. Списки, множества, строки и словари существуют в памяти, а генераторы создают свои значения на лету и выдают их по одному с помощью итератора. Генератор не запоминает значения, поэтому вы не можете перезапустить его или создать резервную копию.
+Генератор можно запустить лишь однажды.
+Списки, множества, строки и словари существуют в памяти, а генераторы создают свои значения на лету и выдают их по одному с помощью итератора.
+Генератор не запоминает значения, поэтому вы не можете перезапустить его или создать резервную копию.
 -------------------------------------------------------------------------------------------------------------------
 Включения генераторов
 заключается в круглые скобки, а не в квадратные или фигурные.
@@ -277,35 +278,33 @@ https://pythonworld.ru/osnovy/dekoratory.html
 
 У каждой функции может быть больше одного декоратора.
 
+def my_shiny_new_decorator(function_to_decorate):
+    # Внутри себя декоратор определяет функцию-"обёртку". Она будет обёрнута вокруг декорируемой,
+    # получая возможность исполнять произвольный код до и после неё.
+    def the_wrapper_around_the_original_function():
+        print("Я - код, который отработает до вызова функции")
+        function_to_decorate() # Сама функция
+        print("А я - код, срабатывающий после")
+    # Вернём эту функцию
+    return the_wrapper_around_the_original_function
+    
+# Представим теперь, что у нас есть функция, которую мы не планируем больше трогать.
+def stand_alone_function():
+    print("Я простая одинокая функция, ты ведь не посмеешь меня изменять?")
 
-
->>> def my_shiny_new_decorator(function_to_decorate):
-...     # Внутри себя декоратор определяет функцию-"обёртку". Она будет обёрнута вокруг декорируемой,
-...     # получая возможность исполнять произвольный код до и после неё.
-...     def the_wrapper_around_the_original_function():
-...         print("Я - код, который отработает до вызова функции")
-...         function_to_decorate() # Сама функция
-...         print("А я - код, срабатывающий после")
-...     # Вернём эту функцию
-...     return the_wrapper_around_the_original_function
-...
->>> # Представим теперь, что у нас есть функция, которую мы не планируем больше трогать.
->>> def stand_alone_function():
-...     print("Я простая одинокая функция, ты ведь не посмеешь меня изменять?")
-...
->>> stand_alone_function()
+stand_alone_function()
 Я простая одинокая функция, ты ведь не посмеешь меня изменять?
->>> # Однако, чтобы изменить её поведение, мы можем декорировать её, то есть просто передать декоратору,
->>> # который обернет исходную функцию в любой код, который нам потребуется, и вернёт новую,
->>> # готовую к использованию функцию:
->>> stand_alone_function_decorated = my_shiny_new_decorator(stand_alone_function)
->>> stand_alone_function_decorated()
+
+# Однако, чтобы изменить её поведение, мы можем декорировать её, то есть просто передать декоратору,
+# который обернет исходную функцию в любой код, который нам потребуется, и вернёт новую,
+# готовую к использованию функцию:
+
+stand_alone_function_decorated = my_shiny_new_decorator(stand_alone_function)
+stand_alone_function_decorated()
+
 Я - код, который отработает до вызова функции
 Я простая одинокая функция, ты ведь не посмеешь меня изменять?
 А я - код, срабатывающий после
-
-
-
 
 В качестве альтернативы созданию декоратора вручную можно добавить конструкцию @имя_декоратора перед функцией, которую нужно декорировать:
 
@@ -313,9 +312,6 @@ https://pythonworld.ru/osnovy/dekoratory.html
 def add_ints(a, b):
 	return a + b
 add_ints(3, 5)
-
-
-
 
 При этом, естественно, можно использовать несколько декораторов для одной функции, например так:
 
@@ -376,32 +372,39 @@ Python предоставляет две функции для доступа к
 -------------------------------------------------------------------------------------------------------------------
 если функция вызовет саму себя?1 Это называется рекурсией.
 
-«уплотнить» все подсписки1 независимо от того, насколько глубоко они вложены. Для этого отлично подойдет функция-генератор:
->>> def flatten(lol):
-... for item in lol:
-... if isinstance(item, list):
-... for subitem in flatten(item):
-... yield subitem
-... else:
-... yield item
-...
->>> lol = [1, 2, [3,4,5], [6,[7,8,9], []]]
->>> flatten(lol)
-<generator object flatten at 0x10509a750>
->>> list(flatten(lol))
+«уплотнить» все подсписки независимо от того, насколько глубоко они вложены.
+Для этого отлично подойдет функция-генератор:
+
+def flatten(lol):
+    for item in lol:
+        if isinstance(item, list):
+            for subitem in flatten(item):
+                yield subitem
+        else:
+            yield item
+
+lol = [1, 2, [3,4,5], [6,[7,8,9], []]]
+
+flatten(lol)
+print(list(flatten(lol)))
+
+[zhuzhu@workpc ~]$ /bin/python /opt/GIT/zavtra_viuchu/python_stepik/test.py
 [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-выражение yield from, которое позволяет генератору передавать часть работы другому генератору.
+выражение yield from, которое позволяет генератору передавать часть работы другому генератору:
 
->>> def flatten(lol):
-... for item in lol:
-... if isinstance(item, list):
-... yield from flatten(item)
-... else:
-... yield item
-...
->>> lol = [1, 2, [3,4,5], [6,[7,8,9], []]]
->>> list(flatten(lol))
+def flatten(lol):
+    for item in lol:
+        if isinstance(item, list):
+            yield from flatten(item)
+        else:
+            yield item
+
+lol = [1, 2, [3,4,5], [6,[7,8,9], []]]
+
+print(list(flatten(lol)))
+
+[zhuzhu@workpc ~]$ /bin/python /opt/GIT/zavtra_viuchu/python_stepik/test.py
 [1, 2, 3, 4, 5, 6, 7, 8, 9]
 -------------------------------------------------------------------------------------------------------------------
 Асинхронные функции
@@ -411,28 +414,31 @@ Python предоставляет две функции для доступа к
 -------------------------------------------------------------------------------------------------------------------
 Обрабатываем ошибки с помощью операторов try и except
 
->>> short_list = [1, 2, 3]
->>> position = 5
->>> try:
-... short_list[position]
-... except:
-... print('Need a position between 0 and', len(short_list)-1, ' but got',
-... position)
-...
-Need a position between 0 and 2 but got 5
+short_list = [1, 2, 3]
+position = 5
+try:
+    short_list[position]
+except:
+    print('Need a position between 0 and', len(short_list)-1, ' but got', position)
 
-Любое исключение является классом, частным случаем класса Exception.
->>> class UppercaseException(Exception):
-... pass
-...
->>> words = ['eeenie', 'meenie', 'miny', 'MO']
->>> for word in words:
-... if word.isupper():
-... raise UppercaseException(word)
-...
-Traceback (most recent call last):
-File "<stdin>", line 3, in <module>
-__main__.UppercaseException: MO
+# Need a position between 0 and 2 but got 5
+
+# Любое исключение является классом, частным случаем класса Exception.
+class UppercaseException(Exception):
+    pass
+
+words = ['eeenie', 'meenie', 'miny', 'MO']
+for word in words:
+    if word.isupper():
+        raise UppercaseException(word)
+
+#[zhuzhu@workpc ~]$ /bin/python /opt/GIT/zavtra_viuchu/python_stepik/test.py
+#Need a position between 0 and 2  but got 5
+#Traceback (most recent call last):
+#  File "/opt/GIT/zavtra_viuchu/python_stepik/test.py", line 1201, in <module>
+#    raise UppercaseException(word)
+#__main__.UppercaseException: MO
+
 -------------------------------------------------------------------------------------------------------------------
 
 
