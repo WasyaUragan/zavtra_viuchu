@@ -1177,5 +1177,32 @@ error: Bad exit status from /var/tmp/rpm-tmp.t9EEEh (%prep)
 git@gitlab.draszi.fintech.ru:code/fintech_tools/python3-fintech-unique-run.git
 
 написать отчет за день антону
+================================
+sssd
+
+/builddir/build/BUILD/sssd-2.3.0/src/util/sss_python.c
+/builddir/build/BUILD/sssd-2.3.0/src/util/sss_python.h
+/builddir/build/BUILD/sssd-2.3.0/src/python/pyhbac.c
+/builddir/build/BUILD/sssd-2.3.0/src/python/pysss.c
+/builddir/build/BUILD/sssd-2.3.0/src/python/pysss_murmur.c
+/builddir/build/BUILD/sssd-2.3.0/src/python/pysss_nss_idmap.c
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

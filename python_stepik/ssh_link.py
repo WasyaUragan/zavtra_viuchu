@@ -1,63 +1,53 @@
-# написать функцию
-# проверить валидность передаваемой пользователем ssh-ссылки на гит проект
-# ссылка должна быть одна
-# использовать срезы, сплит по пробелам, курл
-
-#  git@gitlab.draszi.fintech.ru:code/fintech_tools/python3-fintech-unique-run.git
-
-import subprocess
 
 link = input('Адрес проекта в GIT: ')
 
 def link_validation(link):
-    if not ' ' in link:
-        a = sum(char == '@' for char in link)
-        b = sum(char == ':' for char in link)  
-        if a == 1 and b == 1:
-            # Is it a link or it\'s not? That is the question
-            try:
-                process = subprocess.Popen(['git', 'clone', link],
-                     stdin=subprocess.PIPE,
-                     stdout=subprocess.PIPE, 
-                     stderr=subprocess.PIPE)
-                while True:
-                    break
-            except Exception:
-                return False
-
-
-
-        # # if '@' and ':' in link and link[-4:] == '.git' and not ' ' in link:
-        #     count += 1
-        #     if count == 1:
-        #         print('Is it a link or it\'s not? That is the question')
+    # 1)сплит на количество значений
+    if len(link.split()) == 1:
+        # 2)гитсобака
+        if 'git@' in link:
+            # 3)либа реквест
+            print('a')
+        else:
+            print('It\'s not a link!')
     else:
         print('It\'s not a link!')
-
-
 
 a = link_validation(link)
 print(a)
 
 
-# def dfsdfs(ssssasdas):
-#     try:
-#         urllib.request.urlopen(url)
-#         return True
-#     except Exception:
-#         return False
 
+# import os
+# import git
 
+# link = input('Адрес проекта в GIT: ')
 
+# def link_validation(link):
+#     # 1)сплит на количество значений
+#     if len(link.split()) == 1:
+#         # 2)гитсобака
+#         if 'git@' in link:
+#             # 3)проверка ссылки
+#             cmd = 'git ls-remote ' + link + ' > /tmp/output'
+#             cmd1 = 'cat /tmp/output | grep HEAD' + ' > /tmp/output1'
+#             os.system(cmd)
+#             os.system(cmd1)
+#             with open('/tmp/output1') as vivod:
+#                 vivod = vivod.read()
+#             if 'HEAD' in vivod:
+#                 print('The link is valid!')
+#             else:
+#                 print('neok') 
+            
+#             # print('The link is valid!')
+#         else:
+#             print('It\'s not a link!')
+#     else:
+#         print('It\'s not a link!')
 
-
-
-
-
-
-
-
-
+# a = link_validation(link)
+# # print(a)
 
 
 
