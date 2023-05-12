@@ -1,0 +1,78 @@
+###
+====================================================================================================================
+по установке и настройке смотри роли, здесь нюансы для bareos версии 22.0.2-11
+--------------------------------------------------------------------------------------------------------------------
+vim /etc/yum.repos.d/Sintezm-BaseOS.repo
+--------------------------------------------------------------------------------------------------------------------
+yum install postgresql-server
+
+vim /var/lib/pgsql/data/pg_hba.conf
+local   all             all                                     trust
+
+vim /var/lib/pgsql/data/pg_ident.conf
+# MAPNAME       SYSTEM-USERNAME         PG-USERNAME
+root            backup86.krm.ru         postgres
+
+postgresql-setup initdb
+systemctl enable postgresql.service
+systemctl restart postgresql.service
+--------------------------------------------------------------------------------------------------------------------
+yum install bareos-client bareos-database-tools bareos-filedaemon bareos-database-postgresql bareos bareos-bconsole bareos-database-common bareos-storage bareos-director bareos-common bareos-webui bareos-storage-tape
+--------------------------------------------------------------------------------------------------------------------
+vim /etc/bareos/bareos-dir.d/console/admin.conf
+Console {
+  Name = admin
+  Password = "passwd"
+  Profile = "webui-admin"
+  TlsEnable = false
+}
+
+/etc/bareos/bareos-dir.d/client/client.conf
+Client {
+  Name = "hostname"
+  Address = "ip-addr"
+  Password = "test_password"
+  TlsEnable = yes (!!!)
+  TlsRequire = yes (!!!)
+  File Retention = 30 days
+  Job Retention = 1 month
+  AutoPrune = yes
+}
+--------------------------------------------------------------------------------------------------------------------
+fileset.conf
+изменился путь к базе
+{% if backup_db_name_list is sequence %}
+{% for db_name in backup_db_name_list %}
+    File = "/var/lib/bareos/{{ db_name }}.sql"
+{% endfor %}
+{% endif %}
+--------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

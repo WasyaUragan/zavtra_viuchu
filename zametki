@@ -1188,12 +1188,46 @@ sssd
 /builddir/build/BUILD/sssd-2.3.0/src/python/pysss_nss_idmap.c
 
 
+================================
+бареос
+раскатать
+проверить функционал
+прикрепить ленту
 
+-- checking for library vixDiskLib and vixDiskLib.h header ...
+-- HAVE_VIXDISKLIB=0
+-- ERROR: vixDiskLib libraries NOT found.
+-- ERROR: vixDiskLib includes NOT found.
+# pkgconf-pkg-config python36-devel ?
 
-
-
-
-
+Entering /builddir/build/BUILD/bareos/core/src/droplet
+-- Could NOT find LibXml2 (missing: LIBXML2_LIBRARY LIBXML2_INCLUDE_DIR)
+-- Could NOT find jsonc (missing: JSONC_INCLUDE_DIRS JSONC_LIBRARIES)
+-- LibDroplet not configured to be built
+-- VERSION:
+-- PROJECT_SOURCE_DIR: /builddir/build/BUILD/bareos/core
+-- Looking for include file alloca.h
+-- Looking for include file alloca.h - not found
+-- Looking for include file afs/afsint.h
+-- Looking for include file afs/afsint.h - not found
+-- Looking for include file afs/venus.h
+-- Looking for include file afs/venus.h - not found
+-- Looking for include file arpa/nameser.h
+-- Looking for include file arpa/nameser.h - not found
+-- Looking for include file attr.h
+-- Looking for include file attr.h - not found
+-- Looking for include file demangle.h
+-- Looking for include file demangle.h - not found
+-- Looking for include file execinfo.h
+-- Looking for include file execinfo.h - not found
+-- Looking for include file grp.h
+-- Looking for include file grp.h - not found
+-- Looking for include file libutil.h
+-- Looking for include file libutil.h - not found
+ 
+scsi crypto support selected but required headers are missing
+================================
+tag: name-mock == сборка без чистки
 
 
 
