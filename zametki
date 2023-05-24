@@ -1228,15 +1228,89 @@ Entering /builddir/build/BUILD/bareos/core/src/droplet
 scsi crypto support selected but required headers are missing
 ================================
 tag: name-mock == сборка без чистки
+================================
+180523
 
+util-linux
 
+ignore_files:
 
+/builddir/build/BUILD/util-linux-2.32.1/configure.ac
+/builddir/build/SOURCES/0000-login-create-var-log-lastlog.patch
+/builddir/build/SOURCES/0001-libblkid-Check-for-a-secondary-LUKS2-header.patch
+/builddir/build/SOURCES/0002-losetup-keep-f-and-devname-mutually-exclusive.patch
+/builddir/build/SOURCES/0003-mount-add-ext4-to-some-places-to-the-man-page.patch
+/builddir/build/SOURCES/0004-logger-add-S-to-the-man-page.patch
+/builddir/build/SOURCES/0005-lslogins-add-info-about-single-user-output-mode.patch
+/builddir/build/SOURCES/0006-lslogins-return-1-on-lslogins-nonexisting.patch
+/builddir/build/SOURCES/0007-libuuid-fix-name-based-UUIDs.patch
+/builddir/build/SOURCES/0008-test-update-UUID-v5-tests.patch
+/builddir/build/SOURCES/0009-tests-enlarge-backing-file-for-fstab-btrfs.patch
+/builddir/build/SOURCES/0010-tests-make-lsns-netnsid-portable.patch
+/builddir/build/SOURCES/0011-tests-break-up-large-strings-for-PySys_WriteStdout.patch
+/builddir/build/SOURCES/0012-libmount-umount-make-mnt_stat_mountpoin-usable-for-r.patch
+/builddir/build/SOURCES/0013-libfdisk-Fix-multipath-partition-seperators-for-user.patch
+/builddir/build/SOURCES/0014-blkid-make-PART_ENTRY_-tags-optional-add-no-part-det.patch
+/builddir/build/SOURCES/util-linux-2.32.1.tar.gz
+/builddir/build/BUILD/util-linux-2.32.1/po/boldquot.sed
+/builddir/build/BUILD/util-linux-2.32.1/po/ca.po
+/builddir/build/BUILD/util-linux-2.32.1/po/cs.po
+/builddir/build/BUILD/util-linux-2.32.1/po/da.po
+/builddir/build/BUILD/util-linux-2.32.1/po/de.po
+/builddir/build/BUILD/util-linux-2.32.1/po/en@boldquot.header
+/builddir/build/BUILD/util-linux-2.32.1/po/en@quot.header
+/builddir/build/BUILD/util-linux-2.32.1/po/es.po
+/builddir/build/BUILD/util-linux-2.32.1/po/et.po
+/builddir/build/BUILD/util-linux-2.32.1/po/eu.po
+/builddir/build/BUILD/util-linux-2.32.1/po/fi.po
+/builddir/build/BUILD/util-linux-2.32.1/po/fr.po
+/builddir/build/BUILD/util-linux-2.32.1/po/gl.po
+/builddir/build/BUILD/util-linux-2.32.1/po/hr.po
+/builddir/build/BUILD/util-linux-2.32.1/po/hu.po
+/builddir/build/BUILD/util-linux-2.32.1/po/id.po
+/builddir/build/BUILD/util-linux-2.32.1/po/insert-header.sin
+/builddir/build/BUILD/util-linux-2.32.1/po/it.po
+/builddir/build/BUILD/util-linux-2.32.1/po/ja.po
+/builddir/build/BUILD/util-linux-2.32.1/po/nl.po
+/builddir/build/BUILD/util-linux-2.32.1/po/pl.po
+/builddir/build/BUILD/util-linux-2.32.1/po/pt_BR.po
+/builddir/build/BUILD/util-linux-2.32.1/po/quot.sed
+/builddir/build/BUILD/util-linux-2.32.1/po/remove-potcdate.sin
+/builddir/build/BUILD/util-linux-2.32.1/po/ru.po
+/builddir/build/BUILD/util-linux-2.32.1/po/sl.po
+/builddir/build/BUILD/util-linux-2.32.1/po/sv.po
+/builddir/build/BUILD/util-linux-2.32.1/po/tr.po
+/builddir/build/BUILD/util-linux-2.32.1/po/uk.po
+/builddir/build/BUILD/util-linux-2.32.1/po/update-potfiles
+/builddir/build/BUILD/util-linux-2.32.1/po/vi.po
+/builddir/build/BUILD/util-linux-2.32.1/po/zh_CN.po
+/builddir/build/BUILD/util-linux-2.32.1/po/zh_TW.po
+~                                                      
 
+некоторые файлы перевода можно удалить
 
+/builddir/build/SOURCES/0005-lslogins-add-info-about-single-user-output-mode.patch
+/builddir/build/SOURCES/0006-lslogins-return-1-on-lslogins-nonexisting.patch
+/builddir/build/SOURCES/0007-libuuid-fix-name-based-UUIDs.patch
+/builddir/build/SOURCES/0008-test-update-UUID-v5-tests.patch
+/builddir/build/SOURCES/0009-tests-enlarge-backing-file-for-fstab-btrfs.patch
+/builddir/build/SOURCES/0010-tests-make-lsns-netnsid-portable.patch
+/builddir/build/SOURCES/0011-tests-break-up-large-strings-for-PySys_WriteStdout.patch
+/builddir/build/SOURCES/0012-libmount-umount-make-mnt_stat_mountpoin-usable-for-r.patch
+/builddir/build/SOURCES/0013-libfdisk-Fix-multipath-partition-seperators-for-user.patch
+/builddir/build/SOURCES/0014-blkid-make-PART_ENTRY_-tags-optional-add-no-part-det.patch
+/builddir/build/SOURCES/util-linux-2.32.1.tar.gz
+/builddir/build/BUILD/util-linux-2.32.1/po/boldquot.sed
+/builddir/build/BUILD/util-linux-2.32.1/po/en@boldquot.header
+/builddir/build/BUILD/util-linux-2.32.1/po/en@quot.header
+/builddir/build/BUILD/util-linux-2.32.1/po/insert-header.sin
+/builddir/build/BUILD/util-linux-2.32.1/po/quot.sed
+/builddir/build/BUILD/util-linux-2.32.1/po/remove-potcdate.sin
+/builddir/build/BUILD/util-linux-2.32.1/po/ru.po
+/builddir/build/BUILD/util-linux-2.32.1/po/update-potfiles
 
+================================
 
-
-
-
+/builddir/build/BUILD/tcpdump-4.9.2/bpf_dump.c
 
 

@@ -1207,33 +1207,75 @@ from math import *
 # #    raise UppercaseException(word)
 # #__main__.UppercaseException: MO
 import os
-import git
+# import git
 
-link = input('Адрес проекта в GIT: ')
+# link = input('Адрес проекта в GIT: ')
 
-def link_validation(link):
-    # 1)сплит на количество значений
-    if len(link.split()) == 1:
-        # 2)гитсобака
-        if 'git@' in link:
-            # 3)проверка ссылки
-            cmd = 'git ls-remote ' + link + ' > /tmp/output'
-            cmd1 = 'cat /tmp/output | grep HEAD' + ' > /tmp/output1'
-            os.system(cmd)
-            os.system(cmd1)
-            with open('/tmp/output1') as vivod:
-                vivod = vivod.read()
-            if 'HEAD' in vivod:
-                print('The link is valid!')
-            else:
-                print('It\'s not a link!')
-        else:
-            print('It\'s not a link!')
-    else:
-        print('It\'s not a link!')
+# def link_validation(link):
+#     # 1)сплит на количество значений
+#     if len(link.split()) == 1:
+#         # 2)гитсобака
+#         if 'git@' in link:
+#             # 3)проверка ссылки
+#             cmd = 'git ls-remote ' + link + ' > /tmp/output'
+#             cmd1 = 'cat /tmp/output | grep HEAD' + ' > /tmp/output1'
+#             os.system(cmd)
+#             os.system(cmd1)
+#             with open('/tmp/output1') as vivod:
+#                 vivod = vivod.read()
+#             if 'HEAD' in vivod:
+#                 print('The link is valid!')
+#             else:
+#                 print('It\'s not a link!')
+#         else:
+#             print('It\'s not a link!')
+#     else:
+#         print('It\'s not a link!')
 
-a = link_validation(link)
+# a = link_validation(link)
 # print(a)
+
+import pygit2
+from pygit2 import Repository
+
+current_working_directory = os.getcwd()
+repository_path = current_working_directory
+repo = Repository(input('Адрес проекта в GIT: '))
+
+
+
+
+
+
+
+
+
+
+
+
+# class Repository:
+
+#     """Pickleable proxy for pygit2.Repository."""
+
+#     def __init__(self, path):
+#         self._repo = pygit2.Repository(path)
+
+#     def __getattr__(self, key):
+#         return getattr(self._repo, key)
+
+#     def __getitem__(self, key):
+#         return self._repo[key]
+
+#     def __getstate__(self):
+#         return self._repo.path
+
+#     def __setstate__(self, path):
+#         self._repo = pygit2.Repository(path)
+
+# def __init__(self):
+#     self.gitdir = pygit2.discover_repository('.')
+#     self.objmap = os.path.join(self.gitdir, 'objmap')
+#     self.repo = Repository(self.gitdir)
 #либа парамика
 
 # process = subprocess.Popen(['echo', 'More output'],
@@ -1242,10 +1284,7 @@ a = link_validation(link)
 # stdout, stderr = process.communicate()
 # print(stdout, stderr)
 
-#  git ls-remote the-url-to-test
-
-
-
+#  git ls-remote the-url-to-tes
 
 
 

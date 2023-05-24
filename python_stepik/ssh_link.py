@@ -1,3 +1,4 @@
+import paramiko
 
 link = input('Адрес проекта в GIT: ')
 
@@ -6,15 +7,16 @@ def link_validation(link):
     if len(link.split()) == 1:
         # 2)гитсобака
         if 'git@' in link:
-            # 3)либа реквест
-            print('a')
+            # 3)paramiko
+            a = paramiko.Agent.
+            return('этап проверки ссылки')
         else:
-            print('It\'s not a link!')
+            return('It\'s not a link!')
     else:
-        print('It\'s not a link!')
+        return('It\'s not a link!')
 
-a = link_validation(link)
-print(a)
+print(link_validation(link))
+
 
 
 
