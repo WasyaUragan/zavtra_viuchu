@@ -60,9 +60,62 @@ scp root@10.128.150.123:/home/exports/RESULTS/GSC_build_work/Source-8.1-fix
 	здесь все что нужно для сборки
 4) от своего пользователя собираем src.rpm
 	mock -r python3.cfg -N -n --buildsrpm --spec=python3.spec --sources=./ --resultdir=./result/ --rootdir=/home/jenkins/chroots/python3/root/	
+--------------------------------------------------------------------------------------
+Как модифицировать любой файл в RPM (включая SPEC): 
+1) Устанавливаем rpmrebuild из EPEL (в Fedora он находится в базовом репозитории)
+2) Выполняем команду rpmrebuild -enp <пакет>.rpm (не src.rpm)
+3) Открывается сгенерированный spec на редактирование
+4) Не закрывая файл, открываем соседний терминал и идем в папку ~/.tmp
+5) Видим примерно такую картину:
 
+i.borisov@build4 ~/.tmp> tree -L 5
+.
+└── rpmrebuild.312443
+    └── work
+        ├── changelog.1
+        ├── conflicts.1
+        ├── description.1
+        ├── enhances.1
+        ├── files.1
+        ├── files.in
+        ├── obsoletes.1
+        ├── post.1
+        ├── posttrans.1
+        ├── postun.1
+        ├── pre.1
+        ├── preamble.1
+        ├── pretrans.1
+        ├── preun.1
+        ├── PROCESSING
+        ├── provides.1
+        ├── recommends.1
+        ├── requires.1
+        ├── root
+        │   └── usr
+        │       ├── bin
+        │       ├── include
+        │       ├── lib
+        │       ├── lib64
+        │       └── share
+        ├── rpmrebuild_rpmqf.src.1
+        ├── rpmrebuild_rpmqf.src.2
+        ├── rpmrebuild_rpmqf.src.3
+        ├── rpmrebuild_rpmqf.src.4
+        ├── rpmrebuild_rpmqf.src.5
+        ├── rpmrebuild_rpmqf.src.6
+        ├── rpmrebuild_rpmqf.src.7
+        ├── spec.1
+        ├── spec.2
+        ├── suggests.1
+        ├── supplements.1
+        ├── triggers.1
+        └── verifyscript.1
 
-
+6) Правим все что нужно
+7) Возвращаемся в первый терминал, где открыт spec на редактирование
+8) НЕ сохраняем этот spec, просто выходим из редактора
+9) Соглашаемся на перепаковку, ждем... готово
+--------------------------------------------------------------------------------------
 
 
 

@@ -1313,4 +1313,235 @@ ignore_files:
 
 /builddir/build/BUILD/tcpdump-4.9.2/bpf_dump.c
 
+================================
+
+
+/builddir/build/BUILD/star-1.5.3/autoconf/install-sh
+/builddir/build/SOURCES/star-1.5.3.tar.bz2
+/builddir/build/SOURCES/star-1.5-changewarnSegv.patch
+/builddir/build/SOURCES/star-1.5.1-crc.patch
+/builddir/build/SOURCES/star-1.5.1-manpagereferences.patch
+/builddir/build/SOURCES/star-1.5.1-selinux-segfault.patch
+/builddir/build/SOURCES/star-1.5.2-bufferoverflow.patch
+/builddir/build/SOURCES/star-1.5.2-rmt-rh-access.patch
+/builddir/build/SOURCES/star-1.5.2-use-ssh-by-default.patch
+/builddir/build/SOURCES/star-1.5.3-default-acl.patch
+/builddir/build/SOURCES/star-1.5.3-pax-X-option.patch
+/builddir/build/SOURCES/star-1.5.3-selinux.patch
+/builddir/build/SOURCES/star-1.5.3-star-mk.patch
+
+/builddir/build/BUILD/star-1.5.3/TARGETS/25inc
+/builddir/build/BUILD/star-1.5.3/TARGETS/25include
+/builddir/build/BUILD/star-1.5.3/TARGETS/43lib
+/builddir/build/BUILD/star-1.5.3/TARGETS/44libdeflt
+/builddir/build/BUILD/star-1.5.3/TARGETS/45libfind -
+/builddir/build/BUILD/star-1.5.3/TARGETS/45librmt -
+
+без этого не собирается, все что выше нужно пробовать удалить
+
+/builddir/build/BUILD/star-1.5.3/TARGETS/55mt
+/builddir/build/BUILD/star-1.5.3/TARGETS/55cmd
+/builddir/build/BUILD/star-1.5.3/TARGETS/55rmt
+/builddir/build/BUILD/star-1.5.3/TARGETS/55star
+
+==========================================================
+
+WARNING: /builddir/build/BUILD/webkit-qtwebkit-23/Source/WTF/WTF.pri:26: Unable to find file for inclusion .qmake.cache
+
+error: line 298: Invalid version (double separator '-'): 1.1.0-28-g55a080e5: Provides: bundled(libwebp) = 1.1.0-28-g55a080e5
+
+===========================================================
+
+
+cc1plus: warning: unrecognized command line option '-Wno-deprecated-copy'
+[24927/25550] /usr/bin/g++ -MMD -MF obj/third_party/blink/renderer/platform/platform/platform_jumbo_42.o.d -DUSE_UDEV -DUSE_AURA=1 -DUSE_NSS_CERTS=1 -DUSE_OZONE=1 -DOFFICIAL_BUILD -DTOOLKIT_QT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -DNO_UNWIND_TABLES -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -DNDEBUG -DNVALGRIND -DDYNAMIC_ANNOTATIONS_ENABLED=0 -DBLINK_IMPLEMENTATION=1 -DINSIDE_BLINK -DBLINK_PLATFORM_IMPLEMENTATION=1 -DWEBP_EXTERN=extern -DGL_GLEXT_PROTOTYPES -DUSE_GLX -DUSE_EGL -DSUPPORT_WEBGL2_COMPUTE_CONTEXT=1 -DWTF_USE_WEBAUDIO_PFFFT=1 -DUSE_BLINK_V8_BINDING_NEW_IDL_INTERFACE -DSK_CODEC_DECODES_PNG -DSK_CODEC_DECODES_WEBP -DSK_ENCODE_PNG -DSK_ENCODE_WEBP -DSK_USER_CONFIG_HEADER=\"../../skia/config/SkUserConfig.h\" -DSK_GL -DSK_CODEC_DECODES_JPEG -DSK_ENCODE_JPEG -DSK_USE_LIBGIFCODEC -DSK_VULKAN_HEADER=\"../../skia/config/SkVulkanConfig.h\" -DSK_VULKAN=1 -DSK_SUPPORT_GPU=1 -DSK_GPU_WORKAROUNDS_HEADER=\"gpu/config/gpu_driver_bug_workaround_autogen.h\" -DGOOGLE_PROTOBUF_NO_RTTI -DGOOGLE_PROTOBUF_NO_STATIC_INITIALIZER -DHAVE_PTHREAD -DV8_COMPRESS_POINTERS -DV8_31BIT_SMIS_ON_64BIT_ARCH -DV8_DEPRECATION_WARNINGS -DV8_REVERSE_JSARGS -DU_USING_ICU_NAMESPACE=0 -DU_ENABLE_DYLOAD=0 -DUSE_CHROMIUM_ICU=1 -DU_ENABLE_TRACING=1 -DU_ENABLE_RESOURCE_TRACING=0 -DU_STATIC_IMPLEMENTATION -DICU_UTIL_DATA_IMPL=ICU_UTIL_DATA_FILE -DUCHAR_TYPE=uint16_t -DWEBRTC_NON_STATIC_TRACE_EVENT_HANDLERS=0 -DWEBRTC_CHROMIUM_BUILD -DWEBRTC_POSIX -DWEBRTC_LINUX -DABSL_ALLOCATOR_NOTHROW=1 -DWEBRTC_USE_BUILTIN_ISAC_FIX=0 -DWEBRTC_USE_BUILTIN_ISAC_FLOAT=1 -DWEBRTC_USE_X11 -DWEBRTC_USE_X11 -DHAVE_SCTP -DNO_MAIN_THREAD_WRAPPING -DCRASHPAD_ZLIB_SOURCE_EXTERNAL -DLEVELDB_PLATFORM_CHROMIUM=1 -DLEVELDB_PLATFORM_CHROMIUM=1 -DUSE_SYSTEM_LIBJPEG -DV8_COMPRESS_POINTERS -DV8_31BIT_SMIS_ON_64BIT_ARCH -DV8_DEPRECATION_WARNINGS -DV8_REVERSE_JSARGS -I../../3rdparty/chromium/third_party/pffft/src -I. -Igen -I../../3rdparty/chromium -I../../3rdparty/chromium/third_party/perfetto/include -Igen/third_party/perfetto/build_config -Igen/third_party/perfetto -Igen -Igen -I../../3rdparty/chromium/third_party/libwebp/src -Igen -Igen/third_party/dawn/src/include -I../../3rdparty/chromium/third_party/dawn/src/include -I../../3rdparty/chromium/third_party/khronos -I../../3rdparty/chromium/gpu -I../../3rdparty/chromium/third_party/vulkan_headers/include -I../../3rdparty/chromium/third_party/libyuv/include -I../../3rdparty/chromium/third_party/jsoncpp/source/include -I../../3rdparty/chromium/third_party/abseil-cpp -I../../3rdparty/chromium/third_party/boringssl/src/include -I../../3rdparty/chromium/third_party/protobuf/src -Igen/protoc_out -I../../3rdparty/chromium/third_party/skia -I../../3rdparty/chromium/third_party/libgifcodec -I../../3rdparty/chromium/third_party/vulkan/include -I../../3rdparty/chromium/third_party/vulkan_headers/include -I../../3rdparty/chromium/third_party/protobuf/src -I../../3rdparty/chromium/v8/include -Igen/v8/include -I../../3rdparty/chromium/third_party/icu/source/common -I../../3rdparty/chromium/third_party/icu/source/i18n -I../../3rdparty/chromium/third_party/ced/src -I../../3rdparty/chromium/third_party/webrtc_overrides -I../../3rdparty/chromium/third_party/webrtc -Igen/third_party/webrtc -I../../3rdparty/chromium/third_party/crashpad/crashpad -I../../3rdparty/chromium/third_party/crashpad/crashpad/compat/non_mac -I../../3rdparty/chromium/third_party/crashpad/crashpad/compat/linux -I../../3rdparty/chromium/third_party/crashpad/crashpad/compat/non_win -I../../3rdparty/chromium/third_party/zlib -I../../3rdparty/chromium/third_party/mesa_headers -I../../3rdparty/chromium/third_party/libwebm/source -I../../3rdparty/chromium/third_party/leveldatabase -I../../3rdparty/chromium/third_party/leveldatabase/src -I../../3rdparty/chromium/third_party/leveldatabase/src/include -I../../3rdparty/chromium/third_party/iccjpeg -I../../3rdparty/chromium/third_party/ots/include -I../../3rdparty/chromium/v8/include -Igen/v8/include -I../../3rdparty/chromium/third_party/harfbuzz-ng/src/src -I../../3rdparty/chromium/third_party/emoji-segmenter/src -I../../3rdparty/chromium/third_party/one_euro_filter/src -fno-strict-aliasing --param=ssp-buffer-size=4 -fstack-protector -fno-unwind-tables -fno-asynchronous-unwind-tables -fPIC -pipe -pthread -m64 -Wall -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -Wno-unused-local-typedefs -Wno-maybe-uninitialized -Wno-deprecated-declarations -fno-delete-null-pointer-checks -Wno-comments -Wno-packed-not-aligned -Wno-dangling-else -Wno-missing-field-initializers -Wno-unused-parameter -fno-omit-frame-pointer -fvisibility=hidden -Wno-unused-variable -O2 -fno-ident -fdata-sections -ffunction-sections -g0 -I/usr/include/nss3 -I/usr/include/nspr4 -I/usr/include/libpng16 -I/usr/include/freetype2 -I/usr/include/libpng16 -std=gnu++14 -Wno-narrowing -Wno-class-memaccess -Wno-attributes -Wno-class-memaccess -Wno-subobject-linkage -Wno-invalid-offsetof -Wno-return-type -Wno-deprecated-copy -fno-exceptions -fno-rtti -fvisibility-inlines-hidden -Wno-deprecated-declarations -c gen/third_party/blink/renderer/platform/platform_jumbo_42.cc -o obj/third_party/blink/renderer/platform/platform/platform_jumbo_42.o
+ninja: build stopped: subcommand failed.
+
+=================================================
+
+[24890/25550] /usr/bin/g++ -MMD -MF obj/third_party/blink/renderer/platform/platform/platform_jumbo_42.o.d -DUSE_UDEV -DUSE_AURA=1 -DUSE_NSS_CERTS=1 -DUSE_OZONE=1 -DOFFICIAL_BUILD -DTOOLKIT_QT -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -DNO_UNWIND_TABLES -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -DNDEBUG -DNVALGRIND -DDYNAMIC_ANNOTATIONS_ENABLED=0 -DBLINK_IMPLEMENTATION=1 -DINSIDE_BLINK -DBLINK_PLATFORM_IMPLEMENTATION=1 -DWEBP_EXTERN=extern -DGL_GLEXT_PROTOTYPES -DUSE_GLX -DUSE_EGL -DSUPPORT_WEBGL2_COMPUTE_CONTEXT=1 -DWTF_USE_WEBAUDIO_PFFFT=1 -DUSE_BLINK_V8_BINDING_NEW_IDL_INTERFACE -DSK_CODEC_DECODES_PNG -DSK_CODEC_DECODES_WEBP -DSK_ENCODE_PNG -DSK_ENCODE_WEBP -DSK_USER_CONFIG_HEADER=\"../../skia/config/SkUserConfig.h\" -DSK_GL -DSK_CODEC_DECODES_JPEG -DSK_ENCODE_JPEG -DSK_USE_LIBGIFCODEC -DSK_VULKAN_HEADER=\"../../skia/config/SkVulkanConfig.h\" -DSK_VULKAN=1 -DSK_SUPPORT_GPU=1 -DSK_GPU_WORKAROUNDS_HEADER=\"gpu/config/gpu_driver_bug_workaround_autogen.h\" -DGOOGLE_PROTOBUF_NO_RTTI -DGOOGLE_PROTOBUF_NO_STATIC_INITIALIZER -DHAVE_PTHREAD -DV8_COMPRESS_POINTERS -DV8_31BIT_SMIS_ON_64BIT_ARCH -DV8_DEPRECATION_WARNINGS -DV8_REVERSE_JSARGS -DU_USING_ICU_NAMESPACE=0 -DU_ENABLE_DYLOAD=0 -DUSE_CHROMIUM_ICU=1 -DU_ENABLE_TRACING=1 -DU_ENABLE_RESOURCE_TRACING=0 -DU_STATIC_IMPLEMENTATION -DICU_UTIL_DATA_IMPL=ICU_UTIL_DATA_FILE -DUCHAR_TYPE=uint16_t -DWEBRTC_NON_STATIC_TRACE_EVENT_HANDLERS=0 -DWEBRTC_CHROMIUM_BUILD -DWEBRTC_POSIX -DWEBRTC_LINUX -DABSL_ALLOCATOR_NOTHROW=1 -DWEBRTC_USE_BUILTIN_ISAC_FIX=0 -DWEBRTC_USE_BUILTIN_ISAC_FLOAT=1 -DWEBRTC_USE_X11 -DWEBRTC_USE_X11 -DHAVE_SCTP -DNO_MAIN_THREAD_WRAPPING -DCRASHPAD_ZLIB_SOURCE_EXTERNAL -DLEVELDB_PLATFORM_CHROMIUM=1 -DLEVELDB_PLATFORM_CHROMIUM=1 -DUSE_SYSTEM_LIBJPEG -DV8_COMPRESS_POINTERS -DV8_31BIT_SMIS_ON_64BIT_ARCH -DV8_DEPRECATION_WARNINGS -DV8_REVERSE_JSARGS -I../../3rdparty/chromium/third_party/pffft/src -I. -Igen -I../../3rdparty/chromium -I../../3rdparty/chromium/third_party/perfetto/include -Igen/third_party/perfetto/build_config -Igen/third_party/perfetto -Igen -Igen -I../../3rdparty/chromium/third_party/libwebp/src -Igen -Igen/third_party/dawn/src/include -I../../3rdparty/chromium/third_party/dawn/src/include -I../../3rdparty/chromium/third_party/khronos -I../../3rdparty/chromium/gpu -I../../3rdparty/chromium/third_party/vulkan_headers/include -I../../3rdparty/chromium/third_party/libyuv/include -I../../3rdparty/chromium/third_party/jsoncpp/source/include -I../../3rdparty/chromium/third_party/abseil-cpp -I../../3rdparty/chromium/third_party/boringssl/src/include -I../../3rdparty/chromium/third_party/protobuf/src -Igen/protoc_out -I../../3rdparty/chromium/third_party/skia -I../../3rdparty/chromium/third_party/libgifcodec -I../../3rdparty/chromium/third_party/vulkan/include -I../../3rdparty/chromium/third_party/vulkan_headers/include -I../../3rdparty/chromium/third_party/protobuf/src -I../../3rdparty/chromium/v8/include -Igen/v8/include -I../../3rdparty/chromium/third_party/icu/source/common -I../../3rdparty/chromium/third_party/icu/source/i18n -I../../3rdparty/chromium/third_party/ced/src -I../../3rdparty/chromium/third_party/webrtc_overrides -I../../3rdparty/chromium/third_party/webrtc -Igen/third_party/webrtc -I../../3rdparty/chromium/third_party/crashpad/crashpad -I../../3rdparty/chromium/third_party/crashpad/crashpad/compat/non_mac -I../../3rdparty/chromium/third_party/crashpad/crashpad/compat/linux -I../../3rdparty/chromium/third_party/crashpad/crashpad/compat/non_win -I../../3rdparty/chromium/third_party/zlib -I../../3rdparty/chromium/third_party/mesa_headers -I../../3rdparty/chromium/third_party/libwebm/source -I../../3rdparty/chromium/third_party/leveldatabase -I../../3rdparty/chromium/third_party/leveldatabase/src -I../../3rdparty/chromium/third_party/leveldatabase/src/include -I../../3rdparty/chromium/third_party/iccjpeg -I../../3rdparty/chromium/third_party/ots/include -I../../3rdparty/chromium/v8/include -Igen/v8/include -I../../3rdparty/chromium/third_party/harfbuzz-ng/src/src -I../../3rdparty/chromium/third_party/emoji-segmenter/src -I../../3rdparty/chromium/third_party/one_euro_filter/src -fno-strict-aliasing --param=ssp-buffer-size=4 -fstack-protector -fno-unwind-tables -fno-asynchronous-unwind-tables -fPIC -pipe -pthread -m64 -Wall -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -Wno-unused-local-typedefs -Wno-maybe-uninitialized -Wno-deprecated-declarations -fno-delete-null-pointer-checks -Wno-comments -Wno-packed-not-aligned -Wno-dangling-else -Wno-missing-field-initializers -Wno-unused-parameter -fno-omit-frame-pointer -fvisibility=hidden -Wno-unused-variable -O2 -fno-ident -fdata-sections -ffunction-sections -g0 -I/usr/include/nss3 -I/usr/include/nspr4 -I/usr/include/libpng16 -I/usr/include/freetype2 -I/usr/include/libpng16 -std=gnu++14 -Wno-narrowing -Wno-class-memaccess -Wno-attributes -Wno-class-memaccess -Wno-subobject-linkage -Wno-invalid-offsetof -Wno-return-type -Wno-deprecated-copy -fno-exceptions -fno-rtti -fvisibility-inlines-hidden -Wno-deprecated-declarations -c gen/third_party/blink/renderer/platform/platform_jumbo_42.cc -o obj/third_party/blink/renderer/platform/platform/platform_jumbo_42.o
+ninja: build stopped: subcommand failed.
+make[3]: *** [Makefile.gn_run:368: run_ninja] Error 1
+make[3]: Leaving directory '/builddir/build/BUILD/qtwebengine-everywhere-src-5.15.8/src/core'
+make[2]: *** [Makefile:80: sub-gn_run-pro-make_first] Error 2
+make[2]: Leaving directory '/builddir/build/BUILD/qtwebengine-everywhere-src-5.15.8/src/core'
+make[1]: *** [Makefile:78: sub-core-make_first] Error 2
+make[1]: Leaving directory '/builddir/build/BUILD/qtwebengine-everywhere-src-5.15.8/src'
+make: *** [Makefile:47: sub-src-make_first] Error 2
+error: Bad exit status from /var/tmp/rpm-tmp.uXlXAN (%build)
+================================================================
+
+Running configuration tests...
+Checking for architecture supported... yes
+Checking for bison... yes
+Checking for submodule initialized... yes
+Checking for build path without whitespace... yes
+Checking for platform supported...
+Checking for gperf... yes
+Checking for flex... yes
+Checking for python2... /usr/bin/python2
+Checking for node.js... true
+Checking for host pkg-config... /usr/bin/pkg-config
+Checking for glibc > 2.16... yes
+Checking for khr... yes
+Checking for nss >= 3.26... yes
+Checking for d-bus... yes
+Checking for fontconfig... yes
+Checking for x11... yes
+Checking for libdrm... yes
+Checking for xcomposite... yes
+Checking for xcursor... yes
+Checking for xi... yes
+Checking for xproto (glproto)... yes
+Checking for xtst... yes
+Checking for xkbfile... yes
+Checking for jumbo build merge limit... 8
+Checking for linker supports -z noexecstack... yes
+Checking for freetype >= 2.4.2... yes
+Checking for glib-2.0 >= 2.32.0... yes
+Checking for harfbuzz >= 2.4.0... no
+Checking for compatible jpeglib... yes
+Checking for lcms2... yes
+Checking for libevent... yes
+Checking for libvpx... no
+Checking for libwebp, libwebpmux and libwebpdemux... no
+Checking for compatible libxml2 and libxslt... no
+Checking for minizip... no
+Checking for system ninja... yes
+Checking for opus... no
+Checking for libpng >= 1.6.0... yes
+Checking for re2... no
+Checking for snappy... no
+Checking for zlib... yes
+Checking for alsa... no
+Checking for embedded build... no
+Checking for poppler-cpp... yes
+Checking for pulseaudio >= 0.9.10... yes
+Done running configuration tests.
+======================================================
+Configure summary:
+
+Qt WebEngine Build Tools:
+  Use System Ninja ....................... yes
+  Jumbo Build Merge Limit ................ 8
+  Developer build ........................ no
+  Sanitizer .............................. no
+  QtWebEngine required system libraries:
+    fontconfig ........................... yes
+    dbus ................................. yes
+    nss .................................. yes
+    khr .................................. yes
+    glibc ................................ yes
+  QtWebEngine required system libraries for qpa-xcb:
+    x11 .................................. yes
+    libdrm ............................... yes
+    xcomposite ........................... yes
+    xcursor .............................. yes
+    xi ................................... yes
+    xproto (glproto) ..................... yes
+    xtst ................................. yes
+    xkbfile .............................. yes
+  Optional system libraries used:
+    re2 .................................. no
+    icu .................................. no
+    libwebp, libwebpmux and libwebpdemux . no
+    opus ................................. no
+    ffmpeg ............................... no
+    libvpx ............................... no
+    snappy ............................... no
+    glib ................................. yes
+    zlib ................................. yes
+    minizip .............................. no
+    libevent ............................. yes
+    libxml2 and libxslt .................. no
+    lcms2 ................................ yes
+    png .................................. yes
+    JPEG ................................. yes
+    harfbuzz ............................. no
+    freetype ............................. yes
+Qt WebEngineCore:
+  Embedded build ......................... no
+  Full debug information ................. no
+  Pepper Plugins ......................... yes
+  Printing and PDF ....................... yes
+  Proprietary Codecs ..................... no
+  Spellchecker ........................... yes
+  Native Spellchecker .................... no
+  WebRTC ................................. yes
+  PipeWire over GIO ...................... no
+  Geolocation ............................ yes
+  WebChannel support ..................... yes
+  Kerberos Authentication ................ yes
+  Extensions ............................. yes
+  Support qpa-xcb ........................ yes
+  Use ALSA ............................... no
+  Use PulseAudio ......................... yes
+Qt WebEngineQml:
+  Support Qt WebEngine Qml ............... yes
+  UI Delegates ........................... yes
+  Test Support ........................... no
+Qt WebEngineWidgets:
+  Support Qt WebEngine Widgets ........... yes
+Qt PDF:
+  Support V8 ............................. no
+  Support XFA ............................ no
+  Support XFA-BMP ........................ no
+  Support XFA-GIF ........................ no
+  Support XFA-PNG ........................ no
+  Support XFA-TIFF ....................... no
+  Bitcode support ........................ no
+  Use static runtime ..................... no
+Qt PDF Widgets:
+  Support Qt PDF Widgets ................. yes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -1207,7 +1207,7 @@ from math import *
 # #    raise UppercaseException(word)
 # #__main__.UppercaseException: MO
 import os
-# import git
+import git
 
 # link = input('Адрес проекта в GIT: ')
 
@@ -1235,22 +1235,21 @@ import os
 # a = link_validation(link)
 # print(a)
 
-import pygit2
-from pygit2 import Repository
+# import pygit2
+# from pygit2 import Repository
 
-current_working_directory = os.getcwd()
-repository_path = current_working_directory
-repo = Repository(input('Адрес проекта в GIT: '))
+# current_working_directory = os.getcwd()
+# repository_path = current_working_directory
+# repo = Repository(input('Адрес проекта в GIT: '))
 
-
-
-
-
+import unittest
+from giturlparse import parse 
 
 
+p = 'gitlab.draszi.fintech.ru:code/fintech_tools/python3-fintec'
 
 
-
+print(parse(p).valid)
 
 
 # class Repository:
