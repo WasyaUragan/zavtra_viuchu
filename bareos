@@ -47,11 +47,55 @@ fileset.conf
 {% endfor %}
 {% endif %}
 --------------------------------------------------------------------------------------------------------------------
+bareos-tools-22.0.2-11mock.x86_64
+bareos-database-postgresql-22.0.2-11mock.x86_64
+bareos-bconsole-22.0.2-11mock.x86_64
+bareos-storage-tape-22.0.2-11mock.x86_64
+bareos-filedaemon-22.0.2-11mock.x86_64
+bareos-director-22.0.2-11mock.x86_64
+bareos-webui-22.0.2-11mock.x86_64
+bareos-client-22.0.2-11mock.x86_64
+bareos-database-common-22.0.2-11mock.x86_64
+bareos-22.0.2-11mock.x86_64
+bareos-common-22.0.2-11mock.x86_64
+bareos-storage-22.0.2-11mock.x86_64
+bareos-database-tools-22.0.2-11mock.x86_64
+
+pkgs-list
+--------------------------------------------------------------------------------------------------------------------
+ vim webui/module/Application/view/layout/login.phtml.in
 
 
+<body>
 
+   <?php
+      include 'version.php';
+   ?>
 
+   <div class="container text-center">
+      <img src="<?php echo $this->basePath() . '/themes/'.$_SESSION['bareos']['theme'].'/img/bareos.png'; ?>" />
+      <br /><br /><br />
+      <?php echo $this->content; ?>
+      <br />
+      <p>
+        CинтезМ-СРК © 2023, <a href="http://www.fintech.ru/" target="_blank">АО ФинТех</a>,<br />
 
+      </p>
+   </div>
+
+   <?php echo $this->inlineScript() ?>
+
+</body>
+
+--------------------------------------------------------------------------------------------------------------------
+1) vim webui/module/Application/view/layout/login.phtml.in
+
+   изменил подпись и удалил ссылки на сайт бареос на странице авторизации
+   как и с КУФом, не применяет изменения при повторном редактировании
+
+2) убрал вражескую тему, установил тему по умолчанию.
+
+./webui/config/autoload/global.php.in:90:         'name' => "sunflower"
 
 
 
