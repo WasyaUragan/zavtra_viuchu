@@ -18,6 +18,10 @@
 }
 
 3) systemctl deamon reload
+
+4) sudo groupadd docker
+   sudo usermod -aG docker ${USER}
+   relogin
 ********************************************************************************************************************
 afl setup in docker container:
 
