@@ -1,0 +1,24 @@
+zabbix-6.2.6/ui/assets/styles/dark-theme.css:54
+
+body {
+  position: relative;
+  background-color: #0e1012;
+  background-image: url(sintez_wallpaper_dark.png);  # путь к файлу указывается относительно файла dark-theme.css
+  background-size: 100% auto;  # масштабирует автоматически на весь экран
+  font-size: 75%;
+  font-family: Arial, Tahoma, Verdana, sans-serif;
+  line-height: 1.4em;
+  color: #f2f2f2; }
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -76,10 +76,22 @@ git rebase --continue
  Если изменения, в коммитах разных веток являются взаимоисключающими, причем «правильные» изменения сделаны в коммите ветки, куда перебазируются изменения, то нельзя продолжить git rebase --continue, так как изменений в рабочей копии нет. Надо пропустить создание конфликтовавшего коммита, набрав команду
 git rebase --skip
 ========================================================================================================
+сборка пакетов el7.7, el8.6 на базе проекта el8.1:
 
+1) git clone git@gitlab.draszi.fintech.ru:code/baseos_8.6/pszi/pszi-dab.git
+2) cd pszi-dab
+3) rm *.spec
+4) git submodule add git@gitlab.draszi.fintech.ru:code/baseos_8.1/pszi/pszi-dab.git spec/
+5) ln -s spec/pszi-dab.spec pszi-dab.spec
+6) git add .
+7) git commit -m "Added git submodule"
+8) git push
+9) #add in additional-parameters-el8.6.txt:
+pszi-dab ! cfg="pszi-dab.cfg" && sed -i "8a\config_opts['files']['/etc/hosts'] = '10.10.0.80 gitlab.draszi.fintech.ru'" ${cfg} && sed -i "2a\config_opts['rpmbuild_networking'] = True" ${cfg} !
+10) create tag in gitlab
+
+Еще надо будет пересоздать job для получившихся git-проектов в боте
 ========================================================================================================
-
-
 
 
 
