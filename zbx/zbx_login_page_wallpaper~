@@ -74,20 +74,6 @@ body {
 вопрос, упоминается ли где-то еще .signin-container ?
 достаточно ли задать новый блок только в dark-theme.css ?
 
-ответ:
-
-./zabbix-6.2.6/ui/assets/styles/hc-light.css
-./zabbix-6.2.6/ui/assets/styles/hc-dark.css
-./zabbix-6.2.6/ui/assets/styles/blue-theme.css
-./zabbix-6.2.6/ui/assets/styles/dark-theme.css
-
-./zabbix-6.2.6/ui/include/defines.inc.php:2077:define('ZBX_STYLE_SIGNIN_CONTAINER', 'signin-container');
-
-./zabbix-6.2.6/sass/stylesheets/sass/screen.scss:2859:.signin-container {
-
-
-
-
 
 
 
