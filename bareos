@@ -96,13 +96,13 @@ pkgs-list
 2) убрал вражескую тему, установил тему по умолчанию.
 
 ./webui/config/autoload/global.php.in:90:         'name' => "sunflower"
-
-
-
-
-
-
-
+--------------------------------------------------------------------------------------------------------------------
+bareos database creation
+su postgres -c /usr/lib/bareos/scripts/create_bareos_database
+su postgres -c /usr/lib/bareos/scripts/make_bareos_tables
+su postgres -c /usr/lib/bareos/scripts/grant_bareos_privileges
+--------------------------------------------------------------------------------------------------------------------
+vim bareos-22.0.2/webui/module/Application/view/layout/login.phtml.in:72
 
 
 
