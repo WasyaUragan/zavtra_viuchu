@@ -33,9 +33,10 @@ mock shell -r config --rootdir /path/to/root
 доставить пакет
 mock -i libpcap-devel -r tcpdump.cfg
 ====================================================================================================================
-
-
-
+mock -r zabbix.cfg -N -n --rebuild ./result/zabbix-6.2.6-6.src.rpm --resultdir=mock-result-zabbix --rootdir=/home/jenkins/chroots/el8.6/zabbix/root/
+-N - не чистит chroot после сборки
+-n - не чистит chroot до сборки
+====================================================================================================================
 
 
 
