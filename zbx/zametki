@@ -3,12 +3,11 @@
 ========================================================================
 Установка и настройка zabbix:
 
+Я ставлю примерно так:
+
 dnf module switch-to php:7.4
-dnf install epel-release
 yum install fping
-dnf install zabbix-server-pgsql zabbix-web zabbix-web-pgsql zabbix-apache-conf zabbix-sql-scripts zabbix-selinux-policy zabbix-agent
-yum install zabbix-java-gateway
-dnf module list postgresql
+dnf install zabbix-server-pgsql zabbix-web zabbix-web-pgsql zabbix-apache-conf zabbix-sql-scripts zabbix-selinux-policy zabbix-agent zabbix-java-gateway
 dnf module enable postgresql:13
 yum install postgresql
 yum install postgresql-server
@@ -21,23 +20,15 @@ systemctl restart postgresql.service
 createuser -U postgres zabbix -dSw
 createdb -U zabbix zabbix
 zcat /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz | psql -U zabbix zabbix
-vim /etc/php-fpm.d/zabbix.conf 
+vim /etc/php-fpm.d/zabbix.conf
 yum install nginx
 vim /etc/nginx/nginx.conf
 vim /etc/zabbix/web/zabbix.conf.php
 vim /etc/php.ini
 vim /etc/zabbix/zabbix_server.conf
-systemctl restart postgresql.service 
-systemctl enable postgresql.service 
-systemctl restart nginx.service 
-systemctl enable nginx.service 
-systemctl restart php-fpm.service 
-systemctl enable php-fpm.service 
-systemctl restart zabbix-server.service 
-systemctl enable zabbix-server.service 
-systemctl restart zabbix-agent.service 
-systemctl enable zabbix-agent.service 
-systemctl status zabbix-server.service 
+systemctl restart/enable postgresql/nginx/php-fpm/zabbix-server/zabbix-agent
+
+Конфигурационные файлы настраиваю как в ролях проекта ipo-deployment
 
 ========================================================================
 ========================================================================
