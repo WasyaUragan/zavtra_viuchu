@@ -1,30 +1,31 @@
 #include <stdio.h>
 #include <math.h>
 
-int main(void)
+int main()
 {
-	int a, b, c;
-    float x, x1, x2;
-    scanf(" %d %d %d", &a, &b, &c);
+	float a, b, c, D;
+    double x, x1, x2;
+    scanf(" %f %f %f", &a, &b, &c);
 
-//    a*a + b*x + c = 0;
+//    a^2 + b*x + c = 0;
 // дискриминант
-    double sqrt(D);
-    double D;
+     
     D = b*b - 4*a*c;
-    printf("%f \n", D);
-    x = -b / 2*a;
-    x1 = (-b + sqrt(D)) / 2*a; 
-    x2 = (-b - sqrt(D)) / 2*a;
+//    printf("%.4f \n", D);
 
-    if(D < 0)
-        printf("NO");
-    else if ((D = 0))
+    if ((D == 0))
+    {
+        x = -b / 2*a;
         printf("%.4f \n", x);
+    }
+    else if (D < 0)
+        printf("NO");
     else
     {
         if (D > 0)
         {
+            x1 = (-b + sqrt(D)) / (2*a);
+            x2 = (-b - sqrt(D)) / (2*a);
             if (x1<x2)
                 printf("%.4f %.4f \n", x1, x2);
             else
