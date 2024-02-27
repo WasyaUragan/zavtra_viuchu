@@ -104,7 +104,7 @@ git config --global http.sslVerify false/true #отключить/включит
 updatedb
 locate sintezm-subd8-10.6.201029
 cd /var/www/sintez-repo/repo/metadata/channel/c45d1a64-8062-4f68-a896-226327b138a6/repo/sintezm-subd8-10.6.201029/repodata
-mount -o loop /var/www/sintez-repo/repo/repo/sintezm-subd8/10.6.201029/x86_64/iso/sintezm-subd8-10.6.201029-x86_64.iso /mnt
+mount -o loop .iso /mnt
 scp /mnt/repodata/* .
 chmod 777 *
 umount /mnt
@@ -310,12 +310,27 @@ zabbix_get -s 127.0.0.1 -k vfs.fs.discovery | jq
 читает 1гиг случайных данных и записывает в мой файл. имитируем нагрузку на диск
 while true; do head -c 1G </dev/random > myfile; done 
 ----------------------------------------------------------
+mount: /mnt/: mount failed: Operation not permitted.
+root@ossm-267 /home [1]# sudo modprobe loop
+root@ossm-267 /home# mount  sintezm-client-8.1-x86_64-tl_2023.10.05_10.45.iso /mnt/
+mount: /mnt: WARNING: device write-protected, mounted read-only.
+----------------------------------------------------------
+обновить gcc для 7ки
+name=opensource-devtools
+baseurl=http://ip/opensource/centos/7/devtools/
+enabled=1
+mock -r /run/media/zhuzhu/sdb/cfg/77/gobject-introspection_mock.cfg -i devtoolset-8-gcc
+<mock-chroot> sh-4.2# source /opt/rh/devtoolset-8/enable 
+<mock-chroot> sh-4.2# gcc --version
+gcc (GCC) 8.2.1 20180801 (Red Hat 8.2.1-2)
 
-
-
-
-
-
+правка в spec секция build
+source /opt/rh/devtoolset-8/enable
+/usr/bin/make  -j4 CFLAGS="${CFLAGS} -std=c23" - где с std мы передаем стандарт языка C
+----------------------------------------------------------
+кто слушает порт
+ss -nltup | grep 9100
+----------------------------------------------------------
 
 
 
