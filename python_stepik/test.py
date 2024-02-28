@@ -1206,8 +1206,7 @@ from math import *
 # #  File "/opt/GIT/zavtra_viuchu/python_stepik/test.py", line 1201, in <module>
 # #    raise UppercaseException(word)
 # #__main__.UppercaseException: MO
-import os
-import git
+# import git
 
 # link = input('Адрес проекта в GIT: ')
 
@@ -1242,14 +1241,14 @@ import git
 # repository_path = current_working_directory
 # repo = Repository(input('Адрес проекта в GIT: '))
 
-import unittest
-from giturlparse import parse 
+# import unittest
+# from giturlparse import parse 
 
 
-p = 'gitlab.draszi.fintech.ru:code/fintech_tools/python3-fintec'
+# p = 'gitlab.draszi.fintech.ru:code/fintech_tools/python3-fintec'
 
 
-print(parse(p).valid)
+# print(parse(p).valid)
 
 
 # class Repository:
@@ -1284,19 +1283,351 @@ print(parse(p).valid)
 # print(stdout, stderr)
 
 #  git ls-remote the-url-to-tes
+import os
+import math
+
+
+# n = int(input())
+
+# while n % 7 == 0:
+#     print(n, end='\n')
+#     n = int(input())
+
+# score = int(input())
+# count = 0
+
+# while 1 <= score <= 5:
+#     if score == 5:
+#         count += 1
+#     score = (int(input()))
+# print(count)
+
+# n = int(input())
+# count = 0
+
+# for i in (25, 10, 5, 1):
+#     while n >= i:
+#         count += 1
+#         n = n - i
+# print(count)    
+    
+
+
+# while n != 0:
+#     last_digit = n % 10
+#     print(last_digit, end='\n')
+#     n = n // 10
+
+# reversed_n = ''
+# while n:
+#     last_digit = n % 10
+#     reversed_n = reversed_n + str(last_digit)
+#     n = n // 10
+# print(reversed_n)   
+ 
+# n = int(input())
+# row = ''
+
+# while n >= 10:
+#     last_digit = n % 10
+#     row = row + str(last_digit)
+#     n = n // 10
+# if n < 10:
+#     row = row + str(n)
+# print('Максимальная цифра равна ' + max(row))
+# print('Минимальная цифра равна ' + min(row))
+
+# n = int(input())
+# sum_all, count = 0, 0
+# multiplication = 1
+
+# last_digit = n % 10
+
+# while n != 0:
+#     last_in_circle = n % 10
+    
+#     sum_all += last_in_circle
+#     count += 1
+#     multiplication *= last_in_circle
+#     first_digit = n
+    
+#     n = n // 10
+    
+# sum_fl = first_digit + last_digit
+# avg = sum_all / count 
+    
+# print(sum_all, count, multiplication,
+#       avg, first_digit, sum_fl, sep='\n',
+#       )
+
+# n = int(input())
+
+# while n != 0:
+#     last_in_circle = n % 10
+#     if n < 100:
+#         second_digit = n % 10
+#         break
+#     n = n // 10    
+
+# print(second_digit)
+
+# n = int(input())
+# last_digit = n % 10
+# result = 'YES'
+
+# while n != 0:
+#     memory_digit = n % 10    
+#     if last_digit != memory_digit:
+#         result = 'NO'    
+#     n //= 10
+    
+# print(result)
+
+# n = int(input())
+# n = str(n)
+ 
+# if max(n) != min(n):
+#     print('NO')
+# else:
+#     print('YES')
+
+# n = int(input())
+# result = 'YES'
+
+# while n != 0:
+#     last_digit = n % 10
+#     prelast_digit = n // 10 % 10
+#     if last_digit > prelast_digit:
+#         result = 'NO'
+#         break
+#     else:
+#         if n > 99:
+#             n //= 10
+#         else:
+#             break
+      
+# print(result)
+
+# 12123223
+
+# for i in range(1, 101):
+#     if i == 7 or i == 17 or i == 29 or i == 78:
+#         continue  # переходим на следующую итерацию
+#     print(i)
+
+# n = int(input())
+
+# for i in range(2, n + 1):
+#     if n % i == 0:
+#         print(i)
+#         break
+#     else:
+#         continue
+
+# n = int(input())
+
+# for i in range(1, n + 1):
+#     if 5 <= i <= 9 or 17 <= i <= 37 or 78 <= i <= 87:
+#         continue
+#     print(i, end='\n')
+
+# maximum = -1000000
+# summary = 0
+
+# for _ in range(10):
+#     x = int(input())
+#     if x < 0:
+#         summary += x
+#         if x > maximum:
+#             maximum = x
+
+# if summary < 0:          
+#     print(summary, maximum, sep='\n')
+# else:
+#     print('NO')
+
+# summary = 0
+
+# for _ in range(7):
+#     n = int(input())
+#     if n % 2 == 0:
+#         summary += n
+        
+# print(summary)
+
+# n = int(input())
+# count = 0
+# max_digit = n % 10
+
+# while n > 1:
+#     current_digit = n % 10
+#     if current_digit % 3 == 0:
+#         count += 1
+#         if current_digit < max_digit:
+#             current_digit = max_digit
+#     n = n // 10
+    
+# if count == 0:
+#     print('NO')
+# else:
+#     print(max_digit)
+
+
+# n = int(input())
+# max_digit = n % 10
+
+# while n > 0:
+#     digit = n % 10
+#     if digit % 3 == 0:
+#         if digit < max_digit:
+#             digit = max_digit
+#     n = n % 10
+    
+# if max_digit == 0:
+#     print('NO')
+# else:
+#     print(max_digit)
+    
+    
+# n = int(input())
+
+# for i in range(1, n + 1):
+#     print(i, i, i, i, i)
+
+# n = int(input())
+
+# for i in range(1, n + 1):
+#     for j in range(5):
+#         print(i, end=' ')
+#     print()
+    
+# n = int(input())
+
+# for i in range(1, n // 2 + 1):
+#     for _ in range(1, i + 1):
+#         print('*', end='')
+#     print()
+
+# for j in range(n // 2 + 1, 0, -1):
+#     for _ in range(1, j + 1):
+#         print('*', end='')
+#     print()
+
+# n = int(input())
+
+# for i in range(1, n + 1):
+#     for j in range(i):
+#         if i + j <= n:
+#             print('*', end='')
+        
+#     print()
+
+# n < 14
+# k < 13
+# m < 12
+
+# total = 0
+
+# for n in range(1, 14):
+#     for k in range(1, 13):
+#         for m in range(1, 12):
+#             if 28 * n + 30 * k + 31 * m == 365:
+#                 total += 1
+#                 print(n, k, m, sep='\n')
+#                 print()
+# print('Общее количество решений: ', total)
+
+# b + k + t == 100
 
 
 
+# total = 0
+
+# for b in range(1, 11):
+#     for k in range(1, 21):
+#         for t in range(1, 201):
+#             if b * 10 + k * 5 + t * 0.5 == 100:
+#                 if b + k + t == 100:
+#                     total += 1
+#                     print(b, k , t, sep='\n')
+#                     print()
+# print('Общее количество решений: ', total)                
+
+# for i in range(144,152):
+#     for x in range(5, 152,4):
+#         for y in range(4, 152,4):
+#             for z in range(3, 152,4):
+#                 for w in range(2, 152,4):
+#                     if (x**5)+(y**5)+(z**5)+(w**5)==i**5:
+#                         print(i+x+y+z+w)
 
 
+# n = int(input())
+# total = 1
+
+# for i in range(1, n + 1):
+#     for _ in range(1, i + 1):
+#         print(total, end=' ')
+#         total += 1
+#     print()
 
 
+# n = int(input())
 
+# for i in range(1, n + 1):
+#     for j in range(i):
+#         print(j + 1, end='')
+#     for x in range(i - 1, 0, -1):
+#         print(x, end='')
+#     print()
 
+# a = int(input())
+# b = int(input())
 
+# n = int(input())
 
+# for i in range(1, n + 1):
+#     count = 0
+#     for j in range(1, i + 1):
+#         if i % j == 0:
+#             count += 1
+#     print(i, '+' * count, sep='')
 
+# a, b = int(input()), int(input())
 
+# for i in range(a, b + 1):
+#     count = 0
+#     for j in range(1, i + 1):
+#         if i % j == 0:
+#             count += 1
+#     if count == 2:
+#         print(i, end='\n')
+
+# n = int(input())
+
+# while n > 9:
+#     summary = 0
+#     while n > 0:
+#         last_digit = n % 10
+#         summary += last_digit
+#         n //= 10
+#     n = summary    
+# print(n)
+        
+a, b = int(input()), int(input())
+total = 0
+largest = 0
+
+for i in range(a, b + 1):
+    counter = 0
+    for j in range(1, i + 1):
+        if i % j == 0:
+            counter += j
+        if counter >= total:
+            total = counter
+            largest = i    
+print(largest, total)     
+        
 
 
 
