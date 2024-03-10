@@ -1614,20 +1614,209 @@ import math
 #     n = summary    
 # print(n)
         
-a, b = int(input()), int(input())
-total = 0
-largest = 0
+# a, b = int(input()), int(input())
+# total = 0
+# largest = 0
 
-for i in range(a, b + 1):
-    counter = 0
-    for j in range(1, i + 1):
-        if i % j == 0:
-            counter += j
-        if counter >= total:
-            total = counter
-            largest = i    
-print(largest, total)     
+# for i in range(a, b + 1):
+#     counter = 0
+#     for j in range(1, i + 1):
+#         if i % j == 0:
+#             counter += j
+#         if counter >= total:
+#             total = counter
+#             largest = i    
+# print(largest, total)     
         
+# n = int(input())
+# max_digit = -1
+
+# while n > 0:
+#     digit = n % 10
+#     if digit % 3 == 0:
+#         if digit > max_digit:
+#             max_digit = digit
+#     n = n // 10
+    
+# if max_digit % 3 != 0:
+#     print('NO')
+# else:
+#     print(max_digit)
+
+
+# s = input()
+
+# for i in range(0, len(s), 2):
+#     print(s[i])
+
+# s = input()
+
+# for i in range(-1, -len(s) - 1, -1):
+#     print(s[i])
+
+# name = input()
+# surname = input()
+# otchestvo = input()
+
+
+# n, surn, otch = input(), input(), input()
+
+# print(surn[0], n[0], otch[0], sep='')
+
+# s = ''
+# for _ in range(3):
+#     i = input()
+#     s = s + i[0]
+# print(s[1] + s[0] + s[2])
+
+# string = input()
+# summary = 0
+    
+# for number in range(len(string)):
+#     summary += int(string[number])
+# print(summary)
+    
+# s = input()
+# sl = 0
+# umn = 0
+
+# for c in s:
+#     if '+' in c:
+#         sl += 1
+#     if '*' in c:
+#         umn += 1
+# print('Символ + встречается', sl, 'раз')
+# print('Символ * встречается', umn, 'раз')
+        
+# s = input()
+
+# vovels = 'ауоыиэяюёеАУОЫИЭЯЮЁЕ'
+# consonants = 'бвгджзйклмнпрстфхцчшщБВГДЖЗЙКЛМНПРСТФХЦЧШЩ'
+# vov = 0
+# cons = 0
+
+# for c in s:
+#     if c in vovels:
+#         vov += 1
+#     elif c in consonants:
+#         cons += 1
+        
+# print('Количество гласных букв равно', vov)
+# print('Количество согласных букв равно', cons)
+
+# word = input()
+
+# if word[:] == word[::-1]:
+#     print('YES')
+# else:
+#     print('NO')
+
+# string = input()
+
+# print(string[2])
+# print(string[-2])
+# print(string[:5])
+# print(string[:-2])
+# print(string[::2])
+# print(string[1::2])
+# print(string[::-1])
+# print(string[-1::-2])
+
+# string = input()
+
+# if len(string) % 2 == 0:
+#     half = len(string) // 2
+# else:
+#     half = (len(string) // 2) + 1
+        
+# print(string[half:] + string[:half])
+
+# imyafamiliya = input()
+
+# if imyafamiliya.istitle():
+#     print('YES')
+# else:
+#     print('NO')
+
+# stroka = input()
+
+# print(input().swapcase())
+
+# stroka = input()
+# stroka = stroka.lower()
+
+# if 'хорош' in stroka:
+#     print('YES')
+# else:
+#     print('NO')
+
+# string = input()
+# counter = 0
+
+# for c in string:
+#     if c != c.title():
+#         counter += 1
+# print(counter)
+    
+# string = input()
+# a, g, c, t = 'а', 'г', 'ц', 'т'
+# string = string.lower()
+
+# print('Аденин:', string.count(a))
+# print('Гуанин:', string.count(g))
+# print('Цитозин:', string.count(c))
+# print('Тимин:', string.count(t))
+
+# obrascheniya = int(input())
+# count = 0
+
+# for _ in range(obrascheniya):
+#     a = input()
+#     messages = a.count('11')
+#     if messages >= 3:    
+#         count += 1
+        
+# print(count)
+        
+# string = input()
+# numbers = '0123456789'
+# count = 0
+
+# for c in string:
+#     if c in numbers:
+#         count += 1
+
+# print(count)
+
+# string = input()
+
+# if string.endswith(('.com', '.ru')):
+#     print('YES')
+# else:
+#     print('NO')
+
+string = input()
+# c = 'f'
+count = 0
+
+for _ in string:
+    if _ == 'f':
+        count += 1
+
+if count >= 2:
+    print(string.find('f'), string.rfind('f') + 1)
+elif count == 1:
+    print(string.find('f'))
+else:
+    print('NO')
+
+
+
+
+
+
+
+
 
 
 
