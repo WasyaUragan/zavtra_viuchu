@@ -1,0 +1,89 @@
+- name: Searching for a /etc/yum.repos.d/ directory
+  stat:
+    path: /etc/yum.repos.d/
+  register: repo_dir
+
+- name: Create /etc/yum.repos.d/ directory
+  file:
+    path: /etc/yum.repos.d/
+    state: directory
+  when: not repo_dir.stat.exists
+
+- name: Disable old repo
+  shell: "{{ item }}"
+  with_items:
+  # если папка yum.repos.d есть, но она пуста, то tar -czf не отработает(создает пустой архив т ломается)
+    - "cd /etc/yum.repos.d/ && touch crutch && tar -czf repo_bckp.tar.gz ./*"
+    - "rm -rf /etc/yum.repos.d/*.repo"
+    - "yum clean all"
+  when: repo_dir.stat.exists
+
+###tmp fedora crutch###
+- name: debug
+  debug: msg={{ dist }} 
+
+- name: Add kuf el8 repo to client
+  copy: src=kuf_el8.repo dest=/etc/yum.repos.d/
+  when: dist == '39'
+########################
+
+- name: Add kuf el7 repo to client
+  copy: src=kuf_el7.repo dest=/etc/yum.repos.d/
+  when: dist == '7'
+
+- name: Add kuf el8 repo to client
+  copy: src=kuf_el8.repo dest=/etc/yum.repos.d/
+  when: dist == '8'
+
+- name: Node-Exporter installation
+  yum: name=node-exporter state=latest
+
+- name: Remove kuf.repo
+  shell: "{{ item }}"
+  with_items:
+    - "rm -rf /etc/yum.repos.d/kuf_el{{ dist }}.repo"
+    - "rm -rf /etc/yum.repos.d/crutch"
+
+- name: Return old repo
+  shell: "{{ item }}"
+  with_items:
+    - "cd /etc/yum.repos.d/ && tar -xf repo_bckp.tar.gz"
+    - "rm -rf /etc/yum.repos.d/repo_bckp.tar.gz"
+    - "yum clean all"
+  when: repo_dir.stat.exists
+
+- name: Whether firewalld.service is running
+  systemd_service:
+    state: started
+    name: firewalld
+  check_mode: true
+  register: firewalld_status
+
+- name: debug
+  debug: msg='firewalld.service is {{ firewalld_status['status']['ActiveState'] }}'
+
+
+- name: Open Port 9100
+  firewalld:
+    port: 9100/tcp
+    permanent: true
+    state: enabled
+  when: firewalld_status['status']['ActiveState'] == 'active'
+
+- name: Reload Firewalld rules    
+  service:
+    name: firewalld
+    state: reloaded
+  when: firewalld_status['status']['ActiveState'] == 'active'
+
+# Либо добалять опции списком здесь, либо с loop, либо использовать типовой шаблон
+- name: Add options to Node-Exporter EnvironmentFile
+  lineinfile:
+    path: /etc/default/node-exporter
+    insertafter: 'EOF'
+    line: '{{ item }}'
+    backup: true
+  with_items: ['NODE_EXPORTER_OPTS="--collector.systemd --collector.systemd.unit-whitelist=firewalld.service"']
+
+- name: Start and Enable Node-Exporter Service
+  service: name=node_exporter state=restarted enabled=yes

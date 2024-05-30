@@ -1,0 +1,67 @@
+- name: Copy node-exporter rule file
+  copy: src=node_exporter.yml dest=/etc/prometheus/rules/node_exporter.yml
+
+- name: Add node-exporter rules to prometheus config
+  lineinfile:
+    path: /etc/prometheus/prometheus.yml
+    insertafter: 'rule_files:'
+    line: '{{ item }}'
+    backup: true
+  with_items: ["   - rules/node_exporter-test-line.yml"]
+
+- name: Copy add_job for prometheus cfg 
+  copy: src=add_job dest=/etc/prometheus/
+
+- name: Add new job to prometheus config
+  shell: echo | cat /etc/prometheus/add_job >> /etc/prometheus/prometheus.yml
+
+- name: Register client hostname as variable
+  shell: head -n 1 /tmp/crutch
+  register: node_exporter_client_hostname
+
+- name: Register client ip as variable
+  shell: tail -n 1 /tmp/crutch
+  register: node_exporter_client_ip
+
+- name: Replace "crutch_0" with real client hostname
+  replace:
+    dest: "/etc/prometheus/prometheus.yml"
+    regexp: "crutch_0"
+    replace: "{{ node_exporter_client_hostname.stdout_lines }}"
+
+- name: Replace "crutch_1" with real client ip
+  replace:
+    dest: "/etc/prometheus/prometheus.yml"
+    regexp: "crutch_1"
+    replace: "{{ node_exporter_client_ip.stdout_lines }}"
+
+- name: Del temporary file
+  shell: rm /tmp/crutch
+
+- name: Start and Enable Prometheus Service
+  service: name=prometheus state=restarted enabled=yes    
+###############################################################################
+# попытки скопировать три строки в файл
+
+# не добавляет строку, если такая уже есть в файле 
+  #- name: Add node-exporter job to prometheus config
+  #  lineinfile:
+  #    path: /etc/prometheus/prometheus.yml
+  #    insertafter: 'EOF'
+  #    line: '{{ item }}'
+  #    backup: true
+  #    # игнорирует айтем если строка уже встречается в файле
+  #  with_items: ["  - job_name: tst","    static_configs:","      targets: ['test:9100'"]
+
+# копирует не учитывая пробелы
+  #- name: Add node-exporter job to prometheus config
+  #  ansible.builtin.blockinfile:
+  #    path: /etc/prometheus/prometheus.yml
+  #    prepend_newline: true
+  #    block: |
+  #      - job_name: tst
+  #        static_configs:
+  #          - targets: ['test:9100']
+###############################################################################
+
+

@@ -1,0 +1,60 @@
+- name: Needed packages installation
+  yum: name={{ item }} state=latest
+  with_items:
+     - "node-exporter"
+     - "rsync"
+     - "sshpass"
+
+- name: Open Port 9100
+  ansible.posix.firewalld:
+    port: 9100/tcp
+    permanent: true
+    state: enabled
+
+- name: Reload Firewalld rules    
+  ansible.builtin.service:
+    name: firewalld
+    state: reloaded
+
+# Либо добалять опции списком здесь, либо с loop, либо использовать типовой шаблон
+- name: Add options to Node-Exporter EnvironmentFile
+  lineinfile:
+    path: /etc/default/node-exporter
+    insertafter: 'EOF'
+    line: '{{ item }}'
+    backup: true
+  with_items: ['NODE_EXPORTER_OPTS="--collector.systemd --collector.systemd.unit-whitelist=firewalld.service"']
+
+- name: Start and Enable Node-Exporter Service
+  service: name=node_exporter state=restarted enabled=yes
+
+#############################################################################
+# МЕГАКОСТЫЛЬ. Пишу переменные в файл, копирую на удаленный хост, там их седом вкорячиваю 
+# в конфиг
+- name: Set variables
+  set_fact:
+    node_exporter_client_hostname: "{{ ansible_facts['hostname'].split(':')[0] }}"
+    node_exporter_client_ip: "{{ ansible_facts['default_ipv4']['address'].split(':')[0] }}"
+
+- name: Create temporary file for variables
+  file:
+    path: /tmp/crutch
+    state: touch   
+
+- name: Put hostname in file
+  shell: echo {{ node_exporter_client_hostname }} >> /tmp/crutch
+
+- name: Put ip in file
+  shell: echo {{ node_exporter_client_ip }} >> /tmp/crutch
+
+#для этой операции нужны пакеты rsync и sshpass
+- name: Transfer file from Client to Prom Server
+  synchronize:
+    src: /tmp/crutch
+    dest: /tmp/crutch
+    mode: pull
+  delegate_to: prometheus-server
+
+- name: Del temporary file
+  shell: rm /tmp/crutch
+#############################################################################

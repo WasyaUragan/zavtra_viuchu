@@ -1,0 +1,37 @@
+- name: Alertmanager installation
+  yum: name=prometheus-alertmanager state=latest
+
+name: Whether firewalld.service is running
+  systemd_service:
+    state: started
+    name: firewalld
+  check_mode: true
+  register: firewalld_status
+
+- name: debug
+  debug: msg='firewalld.service is {{ firewalld_status['status']['ActiveState'] }}'
+
+
+- name: Open Port 9080
+  firewalld:
+    port: 9080/tcp
+    permanent: true
+    state: enabled
+  when: firewalld_status['status']['ActiveState'] == 'active'
+
+- name: Reload Firewalld rules    
+  service:
+    name: firewalld
+    state: reloaded
+  when: firewalld_status['status']['ActiveState'] == 'active'
+
+- name: Add the user 'promtail', appending the group 'wheel' to the user's groups
+  user:
+    name: promtail
+    system: true
+    shell: /bin/false
+    groups: wheel
+    append: yes
+
+- name: Start and Enable Alertmanager Service
+  service: name=prometheus-alertmanager state=restarted enabled=yes

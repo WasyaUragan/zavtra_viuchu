@@ -1,0 +1,17 @@
+[all]
+ansible_private_key_file=/root/.ssh/id_rsa.pub
+ansible_connection=ssh
+ansible_port=22
+
+[monitoring]
+prometheus-server ansible_host=
+# node-exporter-client ansible_host= ansible_ssh_pass=
+node-exporter-client ansible_host=
+
+[monitoring:vars]
+ansible_user=
+ansible_ssh_pass=
+
+# [infra]
+# build2.draszi.fintech.ru ansible_host= ansible_ssh_pass=
+# build4.draszi.fintech.ru ansible_host=ip ansible_ssh_pass=passwd

@@ -1,0 +1,15 @@
+- hosts: node-exporter-client
+  vars:
+    dist: "{{ hostvars['node-exporter-client']['ansible_facts']['distribution_major_version'] }}"
+  roles:
+   - ssh-key
+   - node-exporter-client-new
+
+- hosts: prometheus-server
+  vars:
+    node_exporter_client_ip: "{{ hostvars['node-exporter-client']['ansible_default_ipv4']['address'].split(':')[0] }}"
+    node_exporter_client_hostname: "{{ hostvars['node-exporter-client']['ansible_nodename'].split(':')[0] }}"
+  roles:
+   - ssh-key
+   - node-exporter-server-new
+  #  - alertmanager
