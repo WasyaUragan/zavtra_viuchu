@@ -8,3 +8,6 @@
   /^pattern
 # search line ends with
   /pattern$
+# отсортировать по алфавиту
+  :sort
+

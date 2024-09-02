@@ -1795,25 +1795,42 @@ import math
 # else:
 #     print('NO')
 
-string = input()
-# c = 'f'
-count = 0
+# string = input()
+# # c = 'f'
+# count = 0
 
-for _ in string:
-    if _ == 'f':
-        count += 1
+# for _ in string:
+#     if _ == 'f':
+#         count += 1
 
-if count >= 2:
-    print(string.find('f'), string.rfind('f') + 1)
-elif count == 1:
-    print(string.find('f'))
-else:
-    print('NO')
+# if count >= 2:
+#     print(string.find('f'), string.rfind('f') + 1)
+# elif count == 1:
+#     print(string.find('f'))
+# else:
+#     print('NO')
+#########################################
+#########################################
+###############05.08.24##################
 
+n = input()
 
+spisok = list(n.split())
+result = 0
+chislo = []
 
+for i in spisok:
+    tmp = spisok.count(i)
+    if i not in chislo:
+        if tmp > 1:
+            result += 1
+            chislo.append(i)
+        else:
+            continue
+    else:
+        continue
 
-
+print(result)
 
 
 
