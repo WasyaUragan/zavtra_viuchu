@@ -1,0 +1,61 @@
+###
+sudo /usr/sbin/usermod -a -G mock $USER
+======================================
+провалиться в окружение сборки
+mock shell -r config --rootdir /path/to/root
+--------------------------------------
+доставить пакет
+mock -i libpcap-devel -r tcpdump.cfg
+--------------------------------------
+mock -r zabbix.cfg -N -n --rebuild ./result/zabbix-6.2.6-6.src.rpm --resultdir=mock-result-zabbix --rootdir=/home/jenkins/chroots/el8.6/zabbix/root/
+-N - не чистит chroot после сборки
+-n - не чистит chroot до сборки
+--------------------------------------
+--snapshot
+Make a snapshot of the current state of the chroot. That snapshot will be set as the current base to which --clean and implicit clean happening during rebuild command will return. This feature is available only when the lvm_root or overlayfs plugin is installed and enabled.
+======================================
+
+======================================
+Mock Bootstrap
+======================================
+config_opts['bootstrap_image'] = 'docker.io/library/amazonlinux:2
+
+bootstrap_image - это docker-image, используемый podman'ом как минимальный образ сборочного окружения.
+
+Таким образом, мы можем использовать условный debian как хостовую сборочную систему, главное установить на нее podman.
+--------------------------------------
+Mock runs rpmbuild(8) in an isolated environment consisting of a minimal set of packages.
+
+Mock is neither container nor VM. Mock does some isolation, but it does not aim to be fully isolated.
+
+config_opts['bootstrap_image'] = 'docker.io/library/amazonlinux:2
+--------------------------------------
+Bootstrap chroot means that we first create very minimal chroot for the target platform and we call DNF/YUM from that platform
+
+This feature is enabled by default. If you want to disable it you should set: 
+
+    config_opts['use_bootstrap'] = False
+
+It is possible to use file:// local repositories with bootstrap chroot. However, you should not bind mount repositories located in /tmp, /dev, etc., as they might be over-mounted by systemd-nspawn.
+--------------------------------------
+--bootstrap-chroot
+build in two stages, using chroot rpm for creating the build chroot
+
+--no-bootstrap-chroot
+build in a single stage, using system rpm for creating the build chroot
+
+--use-bootstrap-image
+Instead of creating a bootstrap chroot from scrath, use podman image specified in config_opts['bootstrap_image'], extract it, and use it as a cache for the bootstrap chroot. This is useful when host rpm version is not compatible with the target system, or when using mock on non-RPM distributions.  This option turns --bootstrap-chroot on.
+
+--no-bootstrap-image
+don't create bootstrap chroot from container image
+--------------------------------------
+
+
+
+
+
+
+
+
+
