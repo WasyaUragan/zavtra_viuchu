@@ -331,7 +331,8 @@ source /opt/rh/devtoolset-8/enable
 кто слушает порт
 ss -nltup | grep 9100
 ----------------------------------------------------------
-
+запись iso в cli
+wodim -eject -tao speed=2 dev=/dev/sr0 -v -data myiso.iso
 
 
 
