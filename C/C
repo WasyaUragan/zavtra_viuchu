@@ -91,8 +91,9 @@ int main() {
 
 Блок-схема
 https://pro-prof.com/archives/1462
-
-
+-----------------
+Передаем %make дополнительный путь к либам через CFLAGS:
+make %{?_smp_mflags} CFLAGS="$CFLAGS -L%{_sourcedir}"
 
 
 
