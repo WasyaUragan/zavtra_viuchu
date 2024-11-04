@@ -1,12 +1,14 @@
 #!/bin/bash
 
-ls -la:q | grep '\.tar\.' | awk -F " " '{ print $(NF) }' > tmp
-file="./tmp"
+sudo find . -type d -name 'root' > root_2_del
+
+file="./root_2_del"
 
 while read line; do
     echo ===================
-    echo ${line} 
-    tar -xf ./${line}
+    echo ${line}
+    rm -rf ./${line}
     echo ===================
 done < ${file}
+
 
