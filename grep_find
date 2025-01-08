@@ -1,0 +1,28 @@
+ ##########################################
+ grep -Hrn "zabbix" .  # рекурсивный поиск в тексте файлов с указанием номера строки
+ ------------------------------------------
+ grep -rl "icon-support" .  # рукурсивный поиск. выводит список файлов. останавливает сканирование файла при первом совпадении. 
+ ------------------------------------------
+ grep -Rv "word_to_be_ignored" . | grep "word_to_be_searched"
+ ------------------------------------------
+ grep -e pattern1 -e pattern2 fileName_or_filePath
+ ------------------------------------------
+ find / -type f -name 'file_name'  # найти /где -тип файл -имя 'имяфайла'
+ ------------------------------------------
+ find . \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i 's/zabbix.php/kuf.php/g'
+ 
+  -print0 tells find to print each of the results separated by a null character, rather than a new line. In the unlikely event that your directory has files with newlines in the names, this still lets xargs work on the correct filenames.
+\( -type d -name .git -prune \) is an expression which completely skips over all directories named .git. You could easily expand it, if you use SVN or have other folders you want to preserve -- just match against more names. It's roughly equivalent to -not -path .git, but more efficient, because rather than checking every file in the directory, it skips it entirely. The -o after it is required because of how -prune actually works.
+ ------------------------------------------
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

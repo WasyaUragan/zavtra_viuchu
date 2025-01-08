@@ -1,0 +1,56 @@
+- name: Searching for a /etc/yum.repos.d/ directory
+  stat:
+    path: /etc/yum.repos.d/
+  register: repo_dir
+
+- name: Create /etc/yum.repos.d/ directory
+  file:
+    path: /etc/yum.repos.d/
+    state: directory
+  when: not repo_dir.stat.exists
+
+- name: Disable old repo
+  shell: "{{ item }}"
+  with_items:
+  # если папка yum.repos.d есть, но она пуста, то tar -czf не отработает(создает пустой архив т ломается)
+    - "cd /etc/yum.repos.d/ && touch crutch && tar -czf repo_bckp.tar.gz ./*"
+    - "rm -rf /etc/yum.repos.d/*.repo"
+    - "yum clean all"
+  when: repo_dir.stat.exists
+
+- name: Add kuf el7 repo to client
+  copy: src=kuf_el7.repo dest=/etc/yum.repos.d/
+  when: dist == '7'
+
+- name: Add kuf el8 repo to client
+  copy: src=kuf_el8.repo dest=/etc/yum.repos.d/
+  when: dist == '8'
+
+- name: Prometheus installation
+  yum: name=prometheus state=latest
+
+- name: Remove kuf.repo
+  shell: "{{ item }}"
+  with_items:
+    - "rm -rf /etc/yum.repos.d/kuf_el{{ dist }}.repo"
+    - "rm -rf /etc/yum.repos.d/crutch"
+
+- name: Return old repo
+  shell: "{{ item }}"
+  with_items:
+    - "cd /etc/yum.repos.d/ && tar -xf repo_bckp.tar.gz"
+    - "rm -rf /etc/yum.repos.d/repo_bckp.tar.gz"
+    - "yum clean all"
+  when: repo_dir.stat.exists
+
+########### прописываем ip-адрес alert-manager'а #########
+
+- name: Insert alertmanagers ip-address to prometheus cfg-file
+
+
+##########################################################
+
+
+
+- name: Start and Enable Prometheus Service
+  service: name=prometheus state=restarted enabled=yes

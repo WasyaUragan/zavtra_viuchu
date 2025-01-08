@@ -1,0 +1,5 @@
+[kuf]
+name=kuf
+baseurl=http://ip:port/repository/sintezm/el7.7/platform/kuf
+gpgcheck=0
+enabled=1

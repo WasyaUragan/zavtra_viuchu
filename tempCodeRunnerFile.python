@@ -1,0 +1,23 @@
+# TODO: реализуйте функцию countWord
+
+
+def countWord(string):
+  return 0
+
+string = input()
+goal = 'Tinkoff'
+dont_repeat = []     
+count = 0
+
+for i in string:
+    if i  in dont_repeat:
+       continue
+    elif i in goal and i not in dont_repeat:
+        dont_repeat.append(i)
+
+result = len(dont_repeat) // len(goal)
+
+print(result)
+
+# print(countWord(string))
+

@@ -1,0 +1,122 @@
+###
+====================================================================================================================
+по установке и настройке смотри роли, здесь нюансы для bareos версии 22.0.2-11
+--------------------------------------------------------------------------------------------------------------------
+vim /etc/yum.repos.d/Sintezm-BaseOS.repo
+--------------------------------------------------------------------------------------------------------------------
+yum install postgresql-server
+
+vim /var/lib/pgsql/data/pg_hba.conf
+local   all             all                                     trust
+
+vim /var/lib/pgsql/data/pg_ident.conf
+# MAPNAME       SYSTEM-USERNAME         PG-USERNAME
+root            backup86.krm.ru         postgres
+
+postgresql-setup initdb
+systemctl enable postgresql.service
+systemctl restart postgresql.service
+--------------------------------------------------------------------------------------------------------------------
+yum install bareos-client bareos-database-tools bareos-filedaemon bareos-database-postgresql bareos bareos-bconsole bareos-database-common bareos-storage bareos-director bareos-common bareos-webui bareos-storage-tape
+--------------------------------------------------------------------------------------------------------------------
+vim /etc/bareos/bareos-dir.d/console/admin.conf
+Console {
+  Name = admin
+  Password = "passwd"
+  Profile = "webui-admin"
+  TlsEnable = false
+}
+
+/etc/bareos/bareos-dir.d/client/client.conf
+Client {
+  Name = "hostname"
+  Address = "ip-addr"
+  Password = "test_password"
+  TlsEnable = yes (!!!)
+  TlsRequire = yes (!!!)
+  File Retention = 30 days
+  Job Retention = 1 month
+  AutoPrune = yes
+}
+--------------------------------------------------------------------------------------------------------------------
+fileset.conf
+изменился путь к базе
+{% if backup_db_name_list is sequence %}
+{% for db_name in backup_db_name_list %}
+    File = "/var/lib/bareos/{{ db_name }}.sql"
+{% endfor %}
+{% endif %}
+--------------------------------------------------------------------------------------------------------------------
+bareos-tools-22.0.2-11mock.x86_64
+bareos-database-postgresql-22.0.2-11mock.x86_64
+bareos-bconsole-22.0.2-11mock.x86_64
+bareos-storage-tape-22.0.2-11mock.x86_64
+bareos-filedaemon-22.0.2-11mock.x86_64
+bareos-director-22.0.2-11mock.x86_64
+bareos-webui-22.0.2-11mock.x86_64
+bareos-client-22.0.2-11mock.x86_64
+bareos-database-common-22.0.2-11mock.x86_64
+bareos-22.0.2-11mock.x86_64
+bareos-common-22.0.2-11mock.x86_64
+bareos-storage-22.0.2-11mock.x86_64
+bareos-database-tools-22.0.2-11mock.x86_64
+
+pkgs-list
+--------------------------------------------------------------------------------------------------------------------
+ vim webui/module/Application/view/layout/login.phtml.in
+
+
+<body>
+
+   <?php
+      include 'version.php';
+   ?>
+
+   <div class="container text-center">
+      <img src="<?php echo $this->basePath() . '/themes/'.$_SESSION['bareos']['theme'].'/img/bareos.png'; ?>" />
+      <br /><br /><br />
+      <?php echo $this->content; ?>
+      <br />
+      <p>
+        CинтезМ-СРК © 2023, <a href="http://www.fintech.ru/" target="_blank">АО ФинТех</a>,<br />
+
+      </p>
+   </div>
+
+   <?php echo $this->inlineScript() ?>
+
+</body>
+
+--------------------------------------------------------------------------------------------------------------------
+1) vim webui/module/Application/view/layout/login.phtml.in
+
+   изменил подпись и удалил ссылки на сайт бареос на странице авторизации
+   как и с КУФом, не применяет изменения при повторном редактировании
+
+2) убрал вражескую тему, установил тему по умолчанию.
+
+./webui/config/autoload/global.php.in:90:         'name' => "sunflower"
+--------------------------------------------------------------------------------------------------------------------
+bareos database creation
+su postgres -c /usr/lib/bareos/scripts/create_bareos_database
+su postgres -c /usr/lib/bareos/scripts/make_bareos_tables
+su postgres -c /usr/lib/bareos/scripts/grant_bareos_privileges
+--------------------------------------------------------------------------------------------------------------------
+vim bareos-22.0.2/webui/module/Application/view/layout/login.phtml.in:72
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

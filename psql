@@ -1,0 +1,67 @@
+####################################################################################################################
+[root@share-od1 ~]#  psql -U postgres -c "\c eod"
+You are now connected to database "eod" as user "postgres".
+[root@share-od1 ~]#  psql -U postgres -c "SELECT table_name FROM information_schema.tables WHERE table_schema NOT IN ('information_schema', 'pg_catalog') AND table_schema IN('public', 'myschema');"
+ table_name 
+
+--------------------------------------------------------------------------------------------------------------------
+
+psql -U postgres
+\c eod
+SELECT table_name FROM information_schema.tables WHERE table_schema IN('eod') AND table_type='BASE TABLE';
+
+- name: Проверка наличия таблицы в {{ db_name }}
+  shell: >
+   psql -U postgres -c "SELECT table_name FROM information_schema.tables WHERE table_schema IN('eod') AND table_type='BASE TABLE';" eod | grep address_book\
+     || psql --dbname=eod --port=5432 --username=postgres --file=/opt/pszi-eod/database/eod.db.template.sql
+--------------------------------------------------------------------------------------------------------------------
+dropdb -U postgres osd
+createdb -U postgres osd
+psql -U postgres -d osd < osd.sql
+
+создать дамп бд
+pg_dump -U postgres zabbix > /opt/zabbix_270623_bckp.sql
+
+создать дамп отдельно взятой таблицы
+pg_dump --username postgres --format plain --verbose --file "/opt/rubric_kind.dump" --table report_classifier.rubric_kind tbd_tst_12
+--------------------------------------------------------------------------------------------------------------------
+добавить значение в таблицу
+insert into report_classifier.rubric_kind (s_id,parent_id,sort_field,name) values('f95d1b02-3261-4703-9dd0-6ebea9b0985f',null,2,'Рубрика со значениями')
+
+поиск по таблице
+select * from report_classifier.rubric_kind rk  where s_id = 'f95d1b02-3261-4703-9dd0-6ebea9b0985f'
+
+нужно дропнуть таблицу, создать новую, залить дамп с рабочего стэнда
+
+-- DROP TABLE report_classifier.rubric_kind;
+
+CREATE TABLE report_classifier.rubric_kind (
+	s_id uuid NOT NULL DEFAULT uuid_generate_v4(),
+	parent_id uuid NULL,
+	sort_field int4 NULL,
+	"name" varchar NULL
+);
+--------------------------------------------------------------------------------------------------------------------
+посчитать кол-во строк в таблице
+select count(*) from report_classifier.rubric_kind;
+--------------------------------------------------------------------------------------------------------------------
+переименовать базу
+https://www.postgresqltutorial.com/postgresql-administration/postgresql-rename-database/
+--------------------------------------------------------------------------------------------------------------------
+14. Добавить в таблицу "user".user служебных пользователей:
+psql -U postgres -d fileshare
+INSERT into "user".user (user_login, user_group_id) values ('sfh',  *выбрать s_id технологической группы пользователей для текущего КСА*)
+--------------------------------------------------------------------------------------------------------------------
+не запускалась сфх pszi-fileshare@9000.service
+из-за меты в /opt/pszi-fileshare/rsync/out/
+до этого копировал бд fileshare с соседнего стенда, передрочил все что знал, возможно мой косяк.
+вылечилось удалением меты
+rm -rf /opt/pszi-fileshare/rsync/out/*
+--------------------------------------------------------------------------------------------------------------------
+I terminated the connection from that DB,
+SELECT pg_terminate_backend(pg_stat_activity.pid)
+FROM pg_stat_activity
+WHERE pg_stat_activity.datname = 'TARGET_DB'; 
+--------------------------------------------------------------------------------------------------------------------
+
+

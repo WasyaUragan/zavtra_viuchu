@@ -1,0 +1,14 @@
+- hosts: prometheus-server
+  roles:
+   - ssh-key
+
+- hosts: node-exporter-client
+  gather_facts: yes
+  roles:
+   - ssh-key
+   - node-exporter-client
+
+- hosts: prometheus-server
+  gather_facts: no
+  roles:
+   - node-exporter-server

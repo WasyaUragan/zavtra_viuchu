@@ -1,0 +1,4 @@
+ 
+  - job_name: crutch_0
+    static_configs:
+      - targets: ['crutch_1:9100']

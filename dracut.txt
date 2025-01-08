@@ -1,0 +1,52 @@
+###
+=============================
+dracut
+=============================
+To see the contents of the image created by dracut:
+lsinitrd /boot/test.img | less
+-----------------------------
+Command:
+dracut -f
+
+Error:
+/usr/bin/dracut: line 1624: warning: command substitution: ignored null byte in input
+
+Decision:
+vim /usr/lib/dracut/modules.d/40network/module-setup.sh :33
+что
+*.ko.xz) _fcont="$(xz -dc   $_fname)" ;;
+на что
+*.ko.xz) _fcont="$(xz -dc   "$_fname" | tr -cd '[:print:]')" ;;
+
+vim /usr/lib/dracut/modules.d/50drm/module-setup.sh :28
+*.ko.xz) _fcont="$(xz -dc   $_fname)" ;;
+*.ko.xz) _fcont="$(xz -dc   "$_fname" | tr -cd '[:print:]')" ;;
+
+vim /usr/lib/dracut/modules.d/90kernel-modules/module-setup.sh :16
+*.ko.xz) [[ $(xz -dc   <$_f) =~ $_blockfuncs ]] && echo "$_f" ;;
+*.ko.xz) [[ $(xz -dc   <"$_f" | tr -cd '[:print:]') =~ $_blockfuncs ]] && echo "$_f" ;;
+-----------------------------
+Pkgs_2_build:
+rpm -qf /usr/lib/dracut/modules.d/40network/module-setup.sh
+dracut-network-033-564.el7.x86_64
+
+rpm -qf /usr/lib/dracut/modules.d/90kernel-modules/module-setup.sh
+rpm -qf /usr/lib/dracut/modules.d/50drm/module-setup.sh
+dracut-033-564.el7.x86_64
+
+
+ 
+vim /usr/lib/dracut/modules.d/90kernel-modules/module-setup.sh 
+*.ko)    [[ $(<         "$_f" | tr -cd '[:print:]') =~ $_blockfuncs ]] && echo "$_f" ;;
+*.ko.gz) [[ $(gzip -dc <"$_f" | tr -cd '[:print:]') =~ $_blockfuncs ]] && echo "$_f" ;;
+*.ko.xz) [[ $(xz -dc   <"$_f" | tr -cd '[:print:]') =~ $_blockfuncs ]] && echo "$_f" ;;
+
+vim /usr/lib/dracut/modules.d/50drm/module-setup.sh
+*.ko)    _fcont="$(<        "$_fname" | tr -cd '[:print:]')" ;;
+*.ko.gz) _fcont="$(gzip -dc "$_fname" | tr -cd '[:print:]')" ;;
+*.ko.xz) _fcont="$(xz -dc   "$_fname" | tr -cd '[:print:]')" ;; 
+
+vim /usr/lib/dracut/modules.d/40network/module-setup.sh
+*.ko)    _fcont="$(<        "$_fname" | tr -cd '[:print:]')" ;;
+*.ko.gz) _fcont="$(gzip -dc "$_fname" | tr -cd '[:print:]')" ;;
+*.ko.xz) _fcont="$(xz -dc   "$_fname" | tr -cd '[:print:]')" ;; 

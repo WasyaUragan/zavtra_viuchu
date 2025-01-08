@@ -1,0 +1,46 @@
+###
+========================================================================================
+GITLAB w Docker
+========================================================================================
+# create a directory where the configuration, logs, and data files will reside
+sudo mkdir -p /srv/gitlab
+# append the GITLAB_HOME environment variable to your shell’s profile 
+echo GITLAB_HOME=/srv/gitlab >> ~/.bash_profile
+# pull a gitlab image
+docker pull gitlab/gitlab-ce:16.10.1-ce.0
+
+----------------------------------------------------------------------------------------
+sudo docker run --detach gitlab/gitlab-ce:16.10.1-ce.0 --hostname gitlab.example.com --env GITLAB_OMNIBUS_CONFIG="external_url 'http://gitlab.fedora.home'" --publish 443:443 --publish 80:80 --publish 22:22 --name gitlab --restart always --volume $GITLAB_HOME/config:/etc/gitlab:Z --volume $GITLAB_HOME/logs:/var/log/gitlab:Z --volume $GITLAB_HOME/data:/var/opt/gitlab:Z --shm-size 256m
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

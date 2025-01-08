@@ -1,0 +1,105 @@
+###
+********************************************************************************************************************
+подготовка ВМ:
+примерно так
+1)yum clean all && yum install docker bash-com* vim systemctl -y
+2)vi ~/.docker/config.json
+
+{
+ "proxies":
+ {
+   "default":
+   {
+     "httpProxy": "http://ip:port",  # адресс:порт прокси
+     "httpsProxy": "http://ip:port",
+     "noProxy": "*.test.example.com,.example2.com,127.0.0.0/8"
+   }
+ }
+}
+
+3) systemctl deamon reload
+
+4) sudo groupadd docker
+   sudo usermod -aG docker ${USER}
+   relogin
+********************************************************************************************************************
+afl setup in docker container:
+
+1) запустить привелигированный контейнер
+   docker run -it --priveleged a0e5ea1852a9
+
+2)echo core >/proc/sys/kernel/core_pattern
+3)apt install -y git
+4)git clone --depth=1 --single-branch https://github.com/AFLplusplus/AFLplusplus.git
+5)apt update
+  apt install -y clang
+  apt install -y bash-com*
+  apt install -y sudo
+  apt install -y vim
+  apt install -y bsdmainutils
+  apt install -y make
+  apt-get install -y build-essential
+  apt-get install -y python3-dev
+  apt-get install -y automake
+  apt-get install -y cmake
+  apt-get install -y flex
+  apt-get install -y bison
+  apt-get install -y libglib2.0-dev
+  apt-get install -y libpixman-1-dev
+  apt-get install -y python3-setuptools
+  apt-get install -y cargo
+  apt-get install -y libgtk-3-dev
+  apt-get install -y lld-14
+  apt-get install -y llvm-14
+  apt-get install -y llvm-14-dev
+  apt-get install -y clang-14
+  apt-get install -y gcc
+  apt-get install -y gcc-plugin-dev
+  apt-get install -y gcc-12-plugin-dev
+  apt install -y libstdc++-12-dev
+  apt install -y ninja-build
+  apt install -y llvm
+  apt install -y pip
+  pip3 install atheris
+  pip install psycopg2-binary
+********************************************************************************************************************
+тестовый пример файзинга с afl:
+1)git clone --depth=1 --single-branch https://github.com/zeux/pugixml
+2)vim wrapper.cpp
+
+#include "pugixml.hpp"
+
+int main(int argc, char * argv[])
+{
+pugi::xml_document doc;
+pugi::xml_parse_result result = doc.load_file(argv[1]);
+if (!result)
+return -1;
+
+3)/opt/GIT/AFLplusplus/afl-clang-fast++ -g -O0  /opt/GIT/pugixml/src/pugixml.cpp /opt/GIT/pugixml/wrapper.o -Isrc -o target
+4)cd /opt/GIT/pugixml && \
+  /opt/GIT/AFLplusplus/afl-fuzz -i in -o out -- ./target @@
+********************************************************************************************************************
+artifact_prefix='./'; Test unit written to ./crash-da39a3ee5e6b4b0d3255bfef95601890afd80709
+
+содержимое crash-файла:
+hexdump -C ./crash-da39a3ee5e6b4b0d3255bfef95601890afd80709
+********************************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

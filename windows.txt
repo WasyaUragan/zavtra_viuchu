@@ -1,0 +1,7 @@
+###
+========================
+# Добавить в хосты
+C:\Windows\System32\drivers\etc\hosts  # аналог /etc/hosts в linux
+ipconfig /flushdns  # почистить dns кэш
+------------------------
+

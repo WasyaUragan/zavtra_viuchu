@@ -1,0 +1,339 @@
+##
+
+createuser -U postgres usr0070100019 -sW - добавление пользователя
+
+Добавление юзера руками в судс /etc/web-server/rulez
+usr0010100238 /baseloader/app/;/portal_aszi/api/;/frtl_service/frtl/;/maps/rest/;/indicator/rest/;/ifond/rest/;/report/rest/      http://sp1.kiv-len.ru:8080    /    http://aszi.kiv-len.ru:80      /eod/api/       http://share-od.kiv-len.ru:8000       /sfh/api/       http://sfh.kiv-len.ru:9000  /api/workmap/;/maps/;/wps    http://gis.kiv-len.ru:80
+
+Затем:
+systemctl restart wscache.service
+systemctl restart web-server.service
+
+Чистим куки, ф5, радуемся
+----------------------------------------------------------------------------------
+ovirt-aaa-jdbc-tool user unlock admin - разблокировка учетки на менеджере
+----------------------------------------------------------------------------------
+redactor otchetov:
+/home/zhuzhu/home_dell/script_gsc/redactor_shablonov.sh
+----------------------------------------------------------------------------------
+arm-vv:
+пройтись ролькой make -f scenario.mk upload-key pkgs chrony-all ipa-client-user user-space user-arm pszv configure-desktop-adm KSA=gsc/arm/arm521-2-vv
+добавить руками 'sfh_catalog_id' в MAIN_IO_CATALOG_ID в /opt/io-journal/io_config.ini 
+----------------------------------------------------------------------------------
+запустить удаленно бинарник с графикой:
+ssh пользователь@ip -XCY бинарник
+----------------------------------------------------------------------------------
+echo 3 > /proc/sys/vm/drop_caches - чистим кэш оперативной памяти
+----------------------------------------------------------------------------------
+Расчет показателей осд
+на бд-асзи
+1) ps aux | grep ict-service
+2) kill -9 ict-service
+3) cd /opt/ict-service/
+4) java -jar ict-service-main-0.1.jar & disown 
+5) на СП ребут аппсервера
+----------------------------------------------------------------------------------
+Шаблоны ОСД:
+на SP:
+1) установка indicator
+2) редактировать /opt/indicator/indicator-ds.xml в части
+
+        <xa-datasource-property name="ServerName">bd-aszi.krm.ru</xa-datasource-property>
+        <xa-datasource-property name="PortNumber">5432</xa-datasource-property>
+        <xa-datasource-property name="DatabaseName">tbd</xa-datasource-property>
+        
+3)/opt/indicator/systemd/indicator-cli.sh redeploy
+4)systemctl restart appserver.service
+
+на SUDS:
+добавить секцию в /etc/web-server/conf.d/aszi.conf
+
+ location /indicator/rest/ {
+    proxy_pass     $host;
+    negotiation_server_module on;
+    keytab_path /etc/web-server/nginx.keytab;
+    authentication_module on;
+    authorization_module on;
+    negotiation_client_module on;
+  }
+2) systemctl restart wscache.service web-server.service
+----------------------------------------------------------------------------------
+НЕ РАБОТАЕТ ЭОД
+Протухли пользаки, нужно обновить keytab'ы
+
+
+1)на sfh лежит pszi-fileshare-krbdaemon.service
+systemctl status pszi-fileshare*
+"Разблокировать" и сбросить пароль пользаку на ипе
+sss_cache -U
+kdestroy -A
+rm -rf /etc/pszi-fileshare/sfh.keytab
+kinit admin
+kinit sfh
+ipa-getkeytab -p sfh -k /etc/pszi-fileshare/sfh.keytab
+chmod 777 /etc/pszi-fileshare/django.keytab
+chmod 777 /etc/pszi-fileshare/sfh.keytab
+cd /opt/pszi-fileshare
+/usr/bin/python3 krbdaemon.py
+systemctl status pszi-fileshare*
+
+2)на share-od лежит eod_sender или вроде того
+"Разблокировать" и сбросить пароль пользаку на ипе
+sss_cache -U
+kdestroy -A
+kinit eod
+kinit admin
+rm -rf /etc/pszi-eod/techuser.keytab 
+ipa-getkeytab -s ipa.apk-bel.ru -p eod -k /etc/pszi-eod/techuser.keytab
+chmod 777 /etc/pszi-eod/techuser.keytab
+cd /opt/pszi-eod/
+python3 -m api_eod_sender
+systemctl restart pszi-eod-rest@8000.service
+systemctl restart pszi-eod-receiver.service
+systemctl restart pszi-eod-sender.service
+----------------------------------------------------------------------------------
+git config --global http.sslVerify false/true #отключить/включить проверку  ssl 
+----------------------------------------------------------------------------------
+ошибка в репе
+
+Не удается синхронизировать кэш для репозитория «sintezm-subd8-10.6.201029», игнорируя это репо.
+Последняя проверка окончания срока действия метаданных: 0:11:20 назад, Вт 15 фев 2022 15:24:03.
+
+решение:
+нужно обновить мета-дату:
+updatedb
+locate sintezm-subd8-10.6.201029
+cd /var/www/sintez-repo/repo/metadata/channel/c45d1a64-8062-4f68-a896-226327b138a6/repo/sintezm-subd8-10.6.201029/repodata
+mount -o loop .iso /mnt
+scp /mnt/repodata/* .
+chmod 777 *
+umount /mnt
+
+на нужной тачке 
+yum repolist
+
+конфиг репо
+scp /var/www/sintez-repo/config/c45d1a64-8062-4f68-a896-226327b138a6.config root@10.128.174.88:/etc/yum.repos.d/sintez.repo
+----------------------------------------------------------------------------------
+стянуть дистры из офиса, может быть ошибка из-за ключа ссш
+cd devopstools/playbooks-infra/playbooks/^C
+make -f devs.mk rc-repo  TARGET_IP=10.0.1.127
+----------------------------------------------------------------------------------
+du -h -d1 /home/zhuzhu/ -выводит размер вложенных директорий указанного каталога
+----------------------------------------------------------------------------------
+## Разблокировка дисков на менеджере
+пароль от БД  и user
+cat  /etc/ovirt-engine/engine.conf.d/10-setup-database.conf
+cd /usr/share/ovirt-engine/setup/dbutils/
+PGPASSWORD=xxxxxx ./unlock_entity.sh -u engine -t disk -q
+
+unlock_entity.sh is a utility for unlocing VM , Template and/or their associated Disks or a specific Disk VM , Template are given by thier names while a specific disk is given by its UUID
+
+Usage
+   Usage: ./unlock_entity.sh [options] [ENTITIES]
+     -h            - This help text.
+     -v            - Turn on verbosity                         (WARNING: lots of output)
+     -l LOGFILE    - The logfile for capturing output          (def. )
+     -s HOST       - The database servername for the database  (def. localhost)
+     -p PORT       - The database port for the database        (def. 5432)
+     -u USER       - The username for the database             (def. engine)
+     -d DATABASE   - The database name                         (def. engine)
+     -t TYPE       - The object type {vm | template | disk | snapshot}
+     -r            - Recursive, unlocks all disks under the selected vm/template.
+     -q            - Query db and display a list of the locked entites.
+     ENTITIES      - The list of object names in case of vm/template, UUIDs in case of a disk
+     NOTE: This utility access the database and should have the
+           corresponding credentals.
+           In case that a password is used to access the database PGPASSWORD
+           or PGPASSFILE should be set.
+     Example:
+         $ PGPASSWORD=xxxxxx ./unlock_entity.sh -t disk -q
+----------------------------------------------------------------------------------
+Проверка нахождения сервисов в автозагрузке 
+systemctl list-unit-files
+----------------------------------------------------------------------------------
+## Не работает каталог СФХ ОШИБКА:  материализованное представление "mv_user" не было наполнено
+
+1) проверить есть ли пользак в бд на СФХ
+	createuser -U postgres usr0070100271 -sw
+2) мониторить логи 
+	tail -f /var/log/pszi-fileshare/exceptions.log
+   лог постгрес 
+	tail -f /var/log/pgsql/postgresql-Thu.log
+	
+	2022-04-14 07:13:45.761 GMT [98608] ОШИБКА:  материализованное представление "mv_user" не было наполнено
+	2022-04-14 07:13:45.761 GMT [98608] ПОДСКАЗКА:  Примените команду REFRESH MATERIALIZED VIEW.
+
+3) нужно убедиться что с БД-СБ все ОК
+
+4) выполнить на СФХ 
+	psql -U postgres fileshare <  /opt/pszi-fileshare/database/sfh.refresh.sql
+----------------------------------------------------------------------------------
+http://10.128.128.194:8081/repository/sintezm-8/product/report-editor-services-1.0.1-1.el8.sz.noarch.rpm
+свежие пакеты
+----------------------------------------------------------------------------------
+ tail -f /opt/sintezm-SP/standalone/log/*
+логи на SP
+----------------------------------------------------------------------------------  
+cat  /opt/portal-aszi-baseloader/systemd/baseloader-cli.sh
+/opt/sintezm-SP/bin/jboss-cli.sh --connect --command='deployment-info'
+        
+rpm -ql indicator-1.3.3-1.el8.sz.noarch  # список директорий, в которые ставится пакет
+/etc/web-server/conf.d/ksa2k1-aszi.conf  # конфиг nginx в suds     
+----------------------------------------------------------------------------------
+рестарт нетворк в centos8
+sudo nmcli networking off && nmcli networking on
+----------------------------------------------------------------------------------
+rename network dev interface
+ip link set dev eth0 down
+ip link set dev eth0 name neweth0
+mv old_cfg  new_cfg
+ip link set dev neweth0 up
+----------------------------------------------------------------------------------
+cd /home/zhuzhu/localrepo/
+createrepo /home/zhuzhu/localrepo/
+python3 -m http.server --bind 10.0.1.163 9000  # поднять вебсервер на 9000 порту
+
+[sintezm-client-8.0.45]
+name=sintezm-client-8.0.45
+baseurl=http://10.0.1.163:9000/
+enabled=1
+gpgcheck=0
+----------------------------------------------------------------------------------
+залить дамп в бд
+dropdb -U postgres osd
+createdb -U postgres osd
+psql -U postgres -d osd < osd.sql        
+----------------------------------------------------------------------------------
+Поменять протухший пароль пользователя (напрю eod) с помощью консоли:
+       
+[root@ksa1k1ipa1 ~]# ldappasswd -D 'cn=Directory Manager' -W -S uid=eod,cn=users,cn=accounts,dc=krm,dc=ru -H ldaps://ksa1k1ipa1.krm.ru            
+----------------------------------------------------------------------------------
+Добавление порта после установки ovirt
+engine-setup 
+   30  ps aux | grep java
+   31  netstat -lntp | grep 443
+   32  systemctl status ovirt-engine.service 
+   33  iptables -L
+   34  firewall-cmd  --list-all
+   35  firewall-cmd  --permanent --add-port=443/tcp
+   36  firewall-cmd  --reload
+----------------------------------------------------------------------------------    
+portal-control 500 анспецифайд
+curl -v --negotiate --delegation always -u spo_user: -X POST -H \"Content-Type: application/json\" -d @/opt/portal-conf-control/conf-portal-control_030322.json http://portal-control-real.test.ru:8080/portal_aszi/api/web/portal_configuration/import
+psql -U postgres -c "update aszi_portal.portal set commited_configuraton_id =(select s_id from aszi_portal.portal_configuration);" portal-aszi-db
+
+Ошибка Портал контрол  SQL Error: 0, SQLState: 42703
+2022-10-31 13:36:08,543 ERROR [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (default task-10) ОШИБКА: столбец sections0_.order не существует
+
+psql -U postgres portal-aszi-db
+alter table portal_structure.sections add column "order" integer;     
+----------------------------------------------------------------------------------       
+portal-control      
+не загружаются выпадающие списки экранных форм, в целом по порталу.
+решение:      
+vim /etc/web-server/conf.d/portal-control.conf
+прописать в proxy_pass полный путь
+location /baseloader/app/ {
+  #  proxy_pass    $host;  
+    proxy_pass    http://suds.portal-control.rc407.local:80/baseloader/app/portal_control_1001/;
+    negotiation_server_module on;
+    keytab_path /etc/web-server/nginx.keytab;
+    authentication_module on;
+    authorization_module on;
+    negotiation_client_module on;
+----------------------------------------------------------------------------------
+I terminated the connection from that DB,
+SELECT pg_terminate_backend(pg_stat_activity.pid)
+FROM pg_stat_activity
+WHERE pg_stat_activity.datname = 'TARGET_DB';    
+----------------------------------------------------------------------------------     
+dmidecode --type 17  # сведения о модулях оперативной памяти (fedora)       
+----------------------------------------------------------------------------------
+поиск и замена в тек.дир. 
+find . \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i 's/zabbix.php/kuf.php/g'  
+----------------------------------------------------------------------------------
+Чтобы дополнительные модули ядра загружались автоматически в процессе загрузки, создаются статические списки в конфигурационных файлах в директории /etc/modules-load.d/. Каждый конфигурационный файл называется по схеме /etc/modules-load.d/program.conf. Эти файлы просто содержат список названий модулей ядра, которые необходимо грузить, разделённых переносом строки. Пустые строки и строки, в которых первым непробельным символом является # или ;, игнорируются.
+----------------------------------------------------------------------------------
+snmpwalk -c public -v2c ip-addr      
+ipmitool -I lanplus -H 10.32.113.200 -U Administrator -P pswd -vvv sdr   
+nmap -p 623 -sU -P0 10.32.113.200
+----------------------------------------------------------------------------------
+snpm 161 port
+ip 10050
+ipmi 623
+----------------------------------------------------------
+[root@workpc zabbix_44_60 compare]# snmpget -v 2c -c admin -On 10.0.57.47 SNMPv2-SMI::mib-2.43.10.2.1.4.1.1
+.1.3.6.1.2.1.43.10.2.1.4.1.1 = Counter32: 178959
+snmptranslate -On -IR mib
+----------------------------------------------------------
+[root@workpc zabbix_44_60 compare]# yum install i2c-tools ^C
+[root@workpc zabbix_44_60 compare]# yum install lm_sensors.x86_64 ^C
+----------------------------------------------------------
+yum install net-snmp
+yum install net-snmp-utils
+
+/etc/snmp/snmpd.conf
+#Update [COMMUNITY] here with your preferred string
+rwcommunity [COMMUNITY] default
+
+disk  / 100
+
+master  on
+
+#Update [USER] here with your system username, preferably not root
+agentuser  [USER]
+
+agentAddress udp:161
+
+#Update with location (string) if you want
+syslocation Unknown
+
+#Update with name and email if wanted
+syscontact Root <root@localhost>
+
+#I don't know what these do and I'm too afraid to ask
+view    systemview    included   .1.3.6.1.2.1.1
+view    systemview    included   .1.3.6.1.2.1.25.1.1
+
+#Update [COMMUNITY] here with your preferred string
+access  [COMMUNITY] ""      any       noauth    exact  systemview none none
+
+dontLogTCPWrappersConnects yes
+
+chkconfig snmpd on
+service snmpd start
+systemctl status snmpd.service 
+----------------------------------------------------------
+zabbix_get -s 127.0.0.1 -k vfs.fs.discovery | jq
+----------------------------------------------------------
+читает 1гиг случайных данных и записывает в мой файл. имитируем нагрузку на диск
+while true; do head -c 1G </dev/random > myfile; done 
+----------------------------------------------------------
+mount: /mnt/: mount failed: Operation not permitted.
+root@ossm-267 /home [1]# sudo modprobe loop
+root@ossm-267 /home# mount  sintezm-client-8.1-x86_64-tl_2023.10.05_10.45.iso /mnt/
+mount: /mnt: WARNING: device write-protected, mounted read-only.
+----------------------------------------------------------
+обновить gcc для 7ки
+name=opensource-devtools
+baseurl=http://ip/opensource/centos/7/devtools/
+enabled=1
+mock -r /run/media/zhuzhu/sdb/cfg/77/gobject-introspection_mock.cfg -i devtoolset-8-gcc
+<mock-chroot> sh-4.2# source /opt/rh/devtoolset-8/enable 
+<mock-chroot> sh-4.2# gcc --version
+gcc (GCC) 8.2.1 20180801 (Red Hat 8.2.1-2)
+
+правка в spec секция build
+source /opt/rh/devtoolset-8/enable
+/usr/bin/make  -j4 CFLAGS="${CFLAGS} -std=c23" - где с std мы передаем стандарт языка C
+----------------------------------------------------------
+кто слушает порт
+ss -nltup | grep 9100
+----------------------------------------------------------
+запись iso в cli
+wodim -eject -tao speed=2 dev=/dev/sr0 -v -data myiso.iso
+
+
+
+

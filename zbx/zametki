@@ -1,0 +1,675 @@
+#####################################
+========================================================================
+========================================================================
+Установка и настройка zabbix:
+
+Я ставлю примерно так:
+
+dnf module switch-to php:7.4
+yum install fping
+dnf install zabbix-server-pgsql zabbix-web zabbix-web-pgsql zabbix-apache-conf zabbix-sql-scripts zabbix-selinux-policy zabbix-agent zabbix-java-gateway
+dnf module enable postgresql:13
+yum install postgresql
+yum install postgresql-server
+su postgres
+/usr/bin/initdb -D /var/lib/pgsql/data
+systemctl enable postgresql.service
+vim /var/lib/pgsql/data/pg_hba.conf
+vim /var/lib/pgsql/data/postgresql.conf
+systemctl restart postgresql.service
+createuser -U postgres zabbix -dSw
+createdb -U zabbix zabbix
+zcat /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz | psql -U zabbix zabbix
+vim /etc/php-fpm.d/zabbix.conf
+yum install nginx
+vim /etc/nginx/nginx.conf
+vim /etc/zabbix/web/zabbix.conf.php
+vim /etc/php.ini
+vim /etc/zabbix/zabbix_server.conf
+systemctl restart/enable postgresql/nginx/php-fpm/zabbix-server/zabbix-agent
+
+Конфигурационные файлы настраиваю как в ролях проекта ipo-deployment
+
+========================================================================
+========================================================================
+========================================================================
+
+DB recreate:
+[root@kuf-pkgs-test release11]# history | tail -3
+  271  createdb -U postgres zabbix
+  272  zcat /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz | psql -U zabbix zabbix
+  273  history | tail -3
+
+========================================================================
+========================================================================
+========================================================================
+
+Pkgs rebuild:
+[root@workpc SOURCES]# tar -zcf ./zabbix-6.2.6.tar.gz ./zabbix-6.2.6/
+[root@workpc SOURCES]# rpmbuild -bs ../SPECS/zabbix.spec 
+setting SOURCE_DATE_EPOCH=1670198400
+Wrote: /root/rpmbuild/SRPMS/zabbix-6.2.6-release12.el8.src.rpm
+[root@workpc SOURCES]# mock -r /opt/zabbix/default.cfg --rebuild /root/rpmbuild/SRPMS/zabbix-6.2.6-release11.el8.src.rpm
+
+========================================================================
+========================================================================
+========================================================================
+
+
+
+[root@kuf-60-test ~]# yum deplist zabbix-server-pgsql-6.2.6-release1.el8.x86_64
+
+package: zabbix-server-pgsql-6.2.6-release1.el8.x86_64
+  dependency: /bin/sh
+   provider: bash-4.4.20-3.el8.x86_64
+  dependency: fping
+   provider: fping-3.16-1.el8.x86_64
+  dependency: libOpenIPMI.so.0()(64bit)
+   provider: OpenIPMI-libs-2.0.31-3.el8.x86_64
+   provider: OpenIPMI-perl-2.0.31-3.el8.x86_64
+  dependency: libOpenIPMIposix.so.0()(64bit)
+   provider: OpenIPMI-libs-2.0.31-3.el8.x86_64
+  dependency: libc.so.6(GLIBC_2.17)(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: libcrypto.so.1.1()(64bit)
+   provider: openssl-libs-1:1.1.1k-6.el8_5.x86_64
+  dependency: libcrypto.so.1.1(OPENSSL_1_1_0)(64bit)
+   provider: openssl-libs-1:1.1.1k-6.el8_5.x86_64
+  dependency: libcurl.so.4()(64bit)
+   provider: libcurl-7.61.1-22.el8.x86_64
+   provider: libcurl-minimal-7.61.1-22.el8.x86_64
+  dependency: libdl.so.2()(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: libdl.so.2(GLIBC_2.2.5)(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: libevent-2.1.so.6()(64bit)
+   provider: libevent-2.1.8-5.el8.x86_64
+  dependency: liblber-2.4.so.2()(64bit)
+   provider: openldap-2.4.46-18.el8.x86_64
+  dependency: libldap-2.4.so.2()(64bit)
+   provider: openldap-2.4.46-18.el8.x86_64
+  dependency: libm.so.6()(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: libm.so.6(GLIBC_2.2.5)(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: libnetsnmp.so.35()(64bit)
+   provider: net-snmp-libs-1:5.8-25.el8.x86_64
+  dependency: libodbc.so.2()(64bit)
+   provider: unixODBC-2.3.7-1.el8.x86_64
+  dependency: libpcre2-8.so.0()(64bit)
+   provider: pcre2-10.32-2.el8.x86_64
+  dependency: libpq.so.5()(64bit)
+   provider: libpq-13.5-1.el8.x86_64
+  dependency: libpthread.so.0()(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: libpthread.so.0(GLIBC_2.2.5)(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: libresolv.so.2()(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: libresolv.so.2(GLIBC_2.2.5)(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: libssh.so.4()(64bit)
+   provider: libssh-0.9.6-3.el8.x86_64
+  dependency: libssh.so.4(LIBSSH_4_5_0)(64bit)
+   provider: libssh-0.9.6-3.el8.x86_64
+  dependency: libssl.so.1.1()(64bit)
+   provider: openssl-libs-1:1.1.1k-6.el8_5.x86_64
+  dependency: libssl.so.1.1(OPENSSL_1_1_0)(64bit)
+   provider: openssl-libs-1:1.1.1k-6.el8_5.x86_64
+  dependency: libssl.so.1.1(OPENSSL_1_1_1)(64bit)
+   provider: openssl-libs-1:1.1.1k-6.el8_5.x86_64
+  dependency: libxml2.so.2()(64bit)
+   provider: libxml2-2.9.7-13.el8.x86_64
+  dependency: libxml2.so.2(LIBXML2_2.4.30)(64bit)
+   provider: libxml2-2.9.7-13.el8.x86_64
+  dependency: libxml2.so.2(LIBXML2_2.6.0)(64bit)
+   provider: libxml2-2.9.7-13.el8.x86_64
+  dependency: libxml2.so.2(LIBXML2_2.6.5)(64bit)
+   provider: libxml2-2.9.7-13.el8.x86_64
+  dependency: libz.so.1()(64bit)
+   provider: zlib-1.2.11-18.el8_5.x86_64
+  dependency: libz.so.1(ZLIB_1.2.0)(64bit)
+   provider: zlib-1.2.11-18.el8_5.x86_64
+  dependency: rtld(GNU_HASH)
+   provider: glibc-2.28-189.1.el8.i686
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: systemd
+   provider: systemd-239-58.el8.i686
+   provider: systemd-239-58.el8.x86_64
+[root@kuf-60-test ~]# 
+
+============================================================================
+
+[root@kuf-60-test ~]# yum deplist zabbix-web-pgsql-6.2.6-release1.el8.noarch
+
+package: zabbix-web-pgsql-6.2.6-release1.el8.noarch
+  dependency: php-pgsql
+   provider: php-pgsql-8.0.13-2.module+el8.6.0+790+fc63e43f.x86_64
+  dependency: zabbix-web = 6.2.6-release1.el8
+   provider: zabbix-web-6.2.6-release1.el8.noarch
+  dependency: zabbix-web-deps = 6.2.6-release1.el8
+   provider: zabbix-web-deps-6.2.6-release1.el8.noarch
+[root@kuf-60-test ~]# 
+
+============================================================================
+
+[root@kuf-60-test ~]# rpm -qa | grep zabbix-apache-conf-6.2.6-release1.el8.noarch
+zabbix-apache-conf-6.2.6-release1.el8.noarch
+[root@kuf-60-test ~]# yum deplist zabbix-apache-conf-6.2.6-release1.el8.noarch
+
+package: zabbix-apache-conf-6.2.6-release1.el8.noarch
+  dependency: /bin/sh
+   provider: bash-4.4.20-3.el8.x86_64
+  dependency: httpd
+   provider: httpd-2.4.37-47.module+el8.6.0+823+f143cee1.1.x86_64
+  dependency: zabbix-web-deps = 6.2.6-release1.el8
+   provider: zabbix-web-deps-6.2.6-release1.el8.noarch
+
+============================================================================
+
+[root@kuf-60-test ~]# yum deplist zabbix-sql-scripts-6.2.6-release1.el8.noarch
+Last metadata expiration check: 0:34:34 ago on Wed 28 Dec 2022 04:14:36 PM MSK.
+package: zabbix-sql-scripts-6.2.6-release1.el8.noarch
+
+============================================================================
+
+[root@kuf-60-test ~]# yum deplist zabbix-selinux-policy-6.2.6-release1.el8.x86_64
+
+package: zabbix-selinux-policy-6.2.6-release1.el8.x86_64
+  dependency: /bin/sh
+   provider: bash-4.4.20-3.el8.x86_64
+  dependency: /usr/sbin/semodule
+   provider: policycoreutils-2.9-19.el8.x86_64
+
+============================================================================
+
+[root@kuf-60-test ~]# yum deplist zabbix-agent-6.2.6-release1.el8.x86_64
+Last metadata expiration check: 1:22:45 ago on Wed 28 Dec 2022 04:14:36 PM MSK.
+package: zabbix-agent-6.2.6-release1.el8.x86_64
+  dependency: /bin/sh
+   provider: bash-4.4.20-3.el8.x86_64
+  dependency: /usr/sbin/useradd
+   provider: shadow-utils-2:4.6-16.el8.x86_64
+  dependency: libc.so.6(GLIBC_2.17)(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: libcrypto.so.1.1()(64bit)
+   provider: openssl-libs-1:1.1.1k-6.el8_5.x86_64
+  dependency: libcrypto.so.1.1(OPENSSL_1_1_0)(64bit)
+   provider: openssl-libs-1:1.1.1k-6.el8_5.x86_64
+  dependency: libcurl.so.4()(64bit)
+   provider: libcurl-7.61.1-22.el8.x86_64
+   provider: libcurl-minimal-7.61.1-22.el8.x86_64
+  dependency: libdl.so.2()(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: libdl.so.2(GLIBC_2.2.5)(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: liblber-2.4.so.2()(64bit)
+   provider: openldap-2.4.46-18.el8.x86_64
+  dependency: libldap-2.4.so.2()(64bit)
+   provider: openldap-2.4.46-18.el8.x86_64
+  dependency: libm.so.6()(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: libm.so.6(GLIBC_2.2.5)(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: libpcre2-8.so.0()(64bit)
+   provider: pcre2-10.32-2.el8.x86_64
+  dependency: libpthread.so.0()(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: libpthread.so.0(GLIBC_2.2.5)(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: libresolv.so.2()(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: libresolv.so.2(GLIBC_2.2.5)(64bit)
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: libssl.so.1.1()(64bit)
+   provider: openssl-libs-1:1.1.1k-6.el8_5.x86_64
+  dependency: libssl.so.1.1(OPENSSL_1_1_0)(64bit)
+   provider: openssl-libs-1:1.1.1k-6.el8_5.x86_64
+  dependency: libssl.so.1.1(OPENSSL_1_1_1)(64bit)
+   provider: openssl-libs-1:1.1.1k-6.el8_5.x86_64
+  dependency: libz.so.1()(64bit)
+   provider: zlib-1.2.11-18.el8_5.x86_64
+  dependency: libz.so.1(ZLIB_1.2.0)(64bit)
+   provider: zlib-1.2.11-18.el8_5.x86_64
+  dependency: logrotate
+   provider: logrotate-3.14.0-4.el8.x86_64
+  dependency: rtld(GNU_HASH)
+   provider: glibc-2.28-189.1.el8.i686
+   provider: glibc-2.28-189.1.el8.x86_64
+  dependency: systemd
+   provider: systemd-239-58.el8.i686
+   provider: systemd-239-58.el8.x86_64
+
+============================================================================
+
+[root@kuf-60-test ~]# yum deplist zabbix-java-gateway-6.2.6-release1.el8.x86_64
+Last metadata expiration check: 2:04:19 ago on Thu 29 Dec 2022 09:58:14 AM MSK.
+package: zabbix-java-gateway-6.2.6-release1.el8.x86_64
+  dependency: /bin/sh
+   provider: bash-4.4.20-3.el8.x86_64
+  dependency: java-headless >= 1.6.0
+   provider: java-1.8.0-openjdk-headless-1:1.8.0.332.b09-2.el8_6.x86_64
+  dependency: systemd
+   provider: systemd-239-58.el8.i686
+   provider: systemd-239-58.el8.x86_64
+
+============================================================================
+
+
+zabbix-java-gateway-6.2.6-release1.el8.x86_64
+zabbix-selinux-policy-6.2.6-release1.el8.x86_64
+zabbix-server-pgsql-6.2.6-release1.el8.x86_64
+zabbix-web-6.2.6-release1.el8.noarch
+zabbix-web-mysql-6.2.6-release1.el8.noarch
+zabbix-nginx-conf-6.2.6-release1.el8.noarch
+zabbix-sql-scripts-6.2.6-release1.el8.noarch
+zabbix-agent-6.2.6-release1.el8.x86_64
+zabbix-web-deps-6.2.6-release1.el8.noarch
+zabbix-web-pgsql-6.2.6-release1.el8.noarch
+
+============================================================================
+Модули IPA: 
+[root@workpc zabbix_44_60 compare]# ll /usr/lib/python3.10/site-packages/ansible/modules/identity/ipa/
+
+Модули zabbix:
+[root@workpc zabbix_44_60 compare]# ll /usr/lib/python3.10/site-packages/ansible/modules/monitoring/zabbix/
+total 304
+-rw-r--r--. 1 root root     0 Oct 11  2021 __init__.py
+drwxr-xr-x. 2 root root  4096 Dec 22 16:21 __pycache__
+-rw-r--r--. 1 root root 78188 Oct 11  2021 zabbix_action.py
+lrwxrwxrwx. 1 root root    20 Sep 30 23:40 _zabbix_group_facts.py -> zabbix_group_info.py
+-rw-r--r--. 1 root root  4212 Oct 11  2021 zabbix_group_info.py
+-rw-r--r--. 1 root root  6793 Oct 11  2021 zabbix_group.py
+lrwxrwxrwx. 1 root root    19 Sep 30 23:40 _zabbix_host_facts.py -> zabbix_host_info.py
+-rw-r--r--. 1 root root  8268 Oct 11  2021 zabbix_host_info.py
+-rw-r--r--. 1 root root  8543 Oct 11  2021 zabbix_hostmacro.py
+-rw-r--r--. 1 root root 39097 Oct 11  2021 zabbix_host.py
+-rw-r--r--. 1 root root 13446 Oct 11  2021 zabbix_maintenance.py
+-rw-r--r--. 1 root root 32684 Oct 11  2021 zabbix_map.py
+-rw-r--r--. 1 root root 24783 Oct 11  2021 zabbix_mediatype.py
+-rw-r--r--. 1 root root 13103 Oct 11  2021 zabbix_proxy.py
+-rw-r--r--. 1 root root 18673 Oct 11  2021 zabbix_screen.py
+-rw-r--r--. 1 root root 28492 Oct 11  2021 zabbix_template.py
+
+Начал вырезать лишнее, ниже список необходимых правок:
+============================================================================
+Веб-морда КУФ:
+----------------------------------------------------------------------------
+Общее:
+1) переименовать названия самих пакетов
+грепануть в целом упоминания Zabbix
+
+2) http://10.254.123.117/zabbix/zabbix.php?action=dashboard.view
+исравить на
+http://10.254.123.117/kuf/kuf.php?action=dashboard.view
+
+5) Исправить названия хостов, пользователей, групп пользователей, шаблонов, пароль дефолтный и т п
+Изменил названия Панелей дашборда, группы узлов сети Zabbix servers.  
+
+6) После пересборки (релиз10 - правка data.sql) проблема с переключением языка (Настройки - Вебинтерфейс - Язык по умолчанию) ушла
+----------------------------------------------------------------------------
+
+Далее описаны конкретные страницы.
+
+----------------------------------------------------------------------------
+
+ 1) Главная - мониторинг - Панель:
+
+Настроить необходимые виджеты:
+состав, размещение, названия
+
+Изменить название дефолтных панелей дашборда
+
+Прошелся по data.sql, изменил примерно эти строки + те что инсерт ин виджет, все что нашел.
+Есть идея помеять заменить все упоминания заббиска седом и посмотреть чо будет
+./zabbix-6.2.6/database/postgresql/data.sql:168226:INSERT INTO dashboard (dashboardid,name,userid,private,templateid,display_period,auto_start,uuid) values ('1','Global view','1','0',NULL,'30','1','');
+
+
+./postgresql/data.sql:168227:INSERT INTO dashboard (dashboardid,name,userid,private,templateid,display_period,auto_start,uuid) values ('2','Zabbix server health','1','1',NULL,'30','1','');
+
+[root@workpc postgresql]#  grep -Hrn "INSERT INTO dashboard (dashboardid,name,userid,private,templateid,display_period,auto_start,uuid) values" . | grep Zabbix 
+./data.sql:168227:INSERT INTO dashboard (dashboardid,name,userid,private,templateid,display_period,auto_start,uuid) values ('2','Zabbix server health','1','1',NULL,'30','1','');
+./data.sql:168257:INSERT INTO dashboard (dashboardid,name,userid,private,templateid,display_period,auto_start,uuid) values ('36','Zabbix server health',NULL,'1','10047','30','1','6815a90fb9b745fd8f1b1f47697893d6');
+./data.sql:168258:INSERT INTO dashboard (dashboardid,name,userid,private,templateid,display_period,auto_start,uuid) values ('37','Zabbix proxy health',NULL,'1','10048','30','1','c12bdb602db645a292d0cbba39d58e9f');
+./data.sql:168259:INSERT INTO dashboard (dashboardid,name,userid,private,templateid,display_period,auto_start,uuid) values ('38','Zabbix server health',NULL,'1','10261','30','1','acf492c7fb70451ba2afc6938e745a3a');
+./data.sql:168260:INSERT INTO dashboard (dashboardid,name,userid,private,templateid,display_period,auto_start,uuid) values ('39','Zabbix proxy health',NULL,'1','10262','30','1','73c77a8555bc4a7d814d2cf54164f15f');
+./data.sql:168276:INSERT INTO dashboard (dashboardid,name,userid,private,templateid,display_period,auto_start,uuid) values ('57','Zabbix server','1','1',NULL,'30','1','');
+./data.sql:168278:INSERT INTO dashboard (dashboardid,name,userid,private,templateid,display_period,auto_start,uuid) values ('59','Zabbix server processes',NULL,'1','10047','30','1','32994a87287449eab12bed911880ef13');
+./data.sql:168279:INSERT INTO dashboard (dashboardid,name,userid,private,templateid,display_period,auto_start,uuid) values ('60','Zabbix server processes',NULL,'1','10261','30','1','6b2f06c17f804d97b3ff5a2fb4cae3a0');
+
+
+
+Top hosts by CPU utilization:
+Узел сети - zabbix server
+
+Performance:
+Элемент данных - Zabbix server: Zabbix server: Number of processed values per second
+
+Информация о системе:
+Zabbix сервер запущен
+----------------------------------------------------------------------------
+2) Услуги - SLA - Отчеты по SLA переименовать?
+----------------------------------------------------------------------------
+3) отчеты - информация о системе
+
+параметр - Zabbix сервер запущен
+----------------------------------------------------------------------------
+4) настройка - действия - действия триггеров
+
+наименование репорта - Report problems to Zabbix administrators
+----------------------------------------------------------------------------
+5) настройка - правила обнаружения - проверки - тип проверки
+в целом на странице
+Критерий уникальности устройства - Zabbix агент "system.uname" и т п
+----------------------------------------------------------------------------
+6) администрирование - общие - изображения - Zabbix* (это названия файлов)
+----------------------------------------------------------------------------
+7) администрирование - общие - географические карты (нужны ли? настроить)
+----------------------------------------------------------------------------
+8) администрирование - общие - другие параметры настроек:
+URL веб-интерфейса - фоновый текст в поле, видимо парсит с урла
+Взаимодействие с Zabbix сервером - просто текст
+----------------------------------------------------------------------------
+9) администрирование - аутентификация - настройки http:
+Диалог входа в систему по умолчанию - диалог входа в систему zabbix
+----------------------------------------------------------------------------
+10) администрирование - очередь - обзор очереди:
+Столбец "Элементы данных", строки: Zabbix агент.Zabbix агент (активный).Внутренний Zabbix.
+============================================================================
+
+
+
+0) вырезать кнопки хелп и саппорт на странице авторизации пользователя забббиск
+1) переименовать названия самих пакетов
+грепануть в целом упоминания Zabbix
+Информация о системе
+Zabbix сервер запущен
+----------------------------------------------------------------------------
+2) Услуги - SLA - Отчеты по SLA переименовать?
+----------------------------------------------------------------------------
+3) отчеты - информация о системе
+
+параметр - Zabbix сервер запущен
+----------------------------------------------------------------------------
+configuration - actions - discovery actions - auto discovery (Service type equals Zabbix agent)
+----------------------------------------------------------------------------
+Discovery rules - Checks (тип проверки)
+----------------------------------------------------------------------------
+Администрирование - Общее - Другое - Взаимодействие с Zabbix сервером
+----------------------------------------------------------------------------
+Администрирование - способы оповещений - email (детали)
+----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+8) администрирование - общие - другие параметры настроек:
+URL веб-интерфейса - фоновый текст в поле, видимо парсит с урла
+Взаимодействие с Zabbix сервером - просто текст
+----------------------------------------------------------------------------
+9) администрирование - аутентификация - настройки http:
+Диалог входа в систему по умолчанию - диалог входа в систему zabbix
+----------------------------------------------------------------------------
+
+
+[root@workpc zabbix-6.2.6]# vim ui/include/classes/helpers/CBrandHelper.php
+zabbix.com
+============================================================================
+
+
+
+[root@workpc SOURCES]# grep -Hrn "Zabbix server is running"
+zabbix-6.2.6/ui/locale/ru/LC_MESSAGES/frontend.po:21477:msgid "Zabbix server is running"
+
+
+/zabbix-6.2.6/ui/include/classes/import/validators/C54XmlValidator.php:960:							'agent' =>					['type' => XML_STRING, 'default' => 'Zabbix'],
+./zabbix-6.2.6/ui/include/classes/import/validators/C54XmlValidator.php:1641:							'agent' =>					['type' => XML_STRING, 'default' => 'Zabbix'],
+============================================================================
+Show warning if SintezM-KUF server is down
+
+
+#: app/controllers/CControllerReportStatus.php:42
+#: app/views/report.status.php:30 include/classes/helpers/CMenuHelper.php:132
+#: include/classes/helpers/CRoleHelper.php:372
+#: include/classes/widgets/CWidgetConfig.php:71
+
+CWidgetFormTopHosts
+./zabbix-6.2.6/ui/include/defines.inc.php:1610:define('WIDGET_TOP_HOSTS',			'tophosts');
+============================================================================
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('1','tophosts','Загрузка ЦПУ узлов сети','0','0','8','4','0','1');
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('2','item','','8','0','3','2','1','1');
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('3','systeminfo','','11','0','9','4','0','1');
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('4','clock','Local time','20','0','4','4','1','1');
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('5','svggraph','','8','2','3','2','1','1');
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('6','hostavail','','0','4','7','2','0','1');
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('7','problemsbysv','Problems by severity','7','4','10','2','0','1');
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('8','geomap','','17','4','7','7','0','1');
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('9','problems','Current problems','0','6','17','5','0','1');
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('10','problems','SintezM-KUF server problems','0','0','20','4','0','2');
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('11','clock','Local time','20','0','4','4','1','2');
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('12','svggraph','Values processed per second','0','4','8','5','0','2');
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('13','svggraph','Utilization of data collectors','8','4','8','5','0','2');
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('14','svggraph','Utilization of internal processes','16','4','8','5','0','2');
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('15','svggraph','Cache usage','0','9','8','5','0','2');
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('16','svggraph','Value cache effectiveness','8','9','8','5','0','2');
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('17','svggraph','Queue size','16','9','8','5','0','2');
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('400','map','','0','0','24','4','0','57');
+============================================================================
+
+zabbix-6.2.6/database/sqlite3/data.sql:169036:INSERT INTO widget_field (widget_fieldid,widgetid,type,name,value_int,value_str,value_groupid,value_hostid,value_itemid,value_graphid,value_sysmapid,value_serviceid,value_slaid) values ('8','1','1','columns.name.1','0','Utilization',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+
+
+zabbix-6.2.6/database/postgresql/data.sql:169052:INSERT INTO widget_field (widget_fieldid,widgetid,type,name,value_int,value_str,value_groupid,value_hostid,value_itemid,value_graphid,value_sysmapid,value_serviceid,value_slaid) values ('24','1','1','columns.name.2','0','1m avg',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+
+============================================================================
+Database name zabbix
+￼User zabbix
+
+ZBX_TEXTAREA_SMALL_WIDTH --> заменить вo vsem коде на KUF_TEXTAREA_SMALL_WIDTH
+
+./zabbix-6.2.6/conf/zabbix_server.conf
+./zabbix-6.2.6/conf/zabbix_proxy.conf
+./zabbix-6.2.6/ui/include/classes/setup/CSetupWizard.php
+поправил на предмет наименования бд и пользака, наим логов (zabbix --> kuf), надо тесть , смтореть где что еще поменять
+
+найти и устранить 'zabbix.php' zabbix.conf.php
+zabbix-6.2.6/ui/app/views/administration.miscconfig.edit.php
+----
+въехал в пня со сборкой, забэкапил rpm build, вернусь позже
+4251
+----
+разбираюсь с установкой вебморды через сетап, обломалась сборка из-за сети
+----
+[root@workpc SOURCES]# find . \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i 's/zabbix.php/kuf.php/g'
+[root@workpc SOURCES]# mv ./zabbix-6.2.6/ui/zabbix.php ./zabbix-6.2.6/ui/kuf.php
+
+
++ make EXTERNAL_SCRIPTS_PATH=/usr/lib/zabbix/externalscripts ALERT_SCRIPTS_PATH=/usr/lib/zabbix/alertscripts
+CDPATH="${ZSH_VERSION+.}:" && cd . && /bin/sh '/builddir/build/BUILD/zabbix-6.2.6/missing' aclocal-1.16 -I m4
+/builddir/build/BUILD/zabbix-6.2.6/missing: line 81: aclocal-1.16: command not found
+WARNING: 'aclocal-1.16' is missing on your system.
+         You should only need it if you modified 'acinclude.m4' or
+         'configure.ac' or m4 files included by 'configure.ac'.
+         The 'aclocal' program is part of the GNU Automake package:
+         <https://www.gnu.org/software/automake>
+         It also requires GNU Autoconf, GNU m4 and Perl in order to run:
+         <https://www.gnu.org/software/autoconf>
+         <https://www.gnu.org/software/m4/>
+         <https://www.perl.org/>
+make: *** [Makefile:524: aclocal.m4] Error 127
+error: Bad exit status from /var/tmp/rpm-tmp.rmQdnu (%build)
+    Bad exit status from /var/tmp/rpm-tmp.rmQdnu (%build)
+
+
+RPM build errors:
+Finish: rpmbuild zabbix-6.2.6-release50.el8.src.rpm
+Finish: build phase for zabbix-6.2.6-release50.el8.src.rpm
+ERROR: Exception(/root/rpmbuild/SRPMS/zabbix-6.2.6-release50.el8.src.rpm) Config(zabbix) 1 minutes 7 seconds
+INFO: Results and/or logs in: /var/lib/mock/zabbix/result
+ERROR: Command failed: 
+ # /usr/bin/systemd-nspawn -q -M f80add46504b42af886c64910a1e5ac9 -D /var/lib/mock/zabbix/root -a -u mockbuild --capability=cap_ipc_lock --bind=/tmp/mock-resolv.b4kndz7v:/etc/resolv.conf --bind=/dev/btrfs-control --bind=/dev/mapper/control --bind=/dev/loop-control --bind=/dev/loop0 --bind=/dev/loop1 --bind=/dev/loop2 --bind=/dev/loop3 --bind=/dev/loop4 --bind=/dev/loop5 --bind=/dev/loop6 --bind=/dev/loop7 --bind=/dev/loop8 --bind=/dev/loop9 --bind=/dev/loop10 --bind=/dev/loop11 --console=pipe --setenv=TERM=vt100 --setenv=SHELL=/bin/bash --setenv=HOME=/builddir --setenv=HOSTNAME=mock --setenv=PATH=/usr/bin:/bin:/usr/sbin:/sbin --setenv=PROMPT_COMMAND=printf "\033]0;<mock-chroot>\007" --setenv=PS1=<mock-chroot> \s-\v\$  --setenv=LANG=C.UTF-8 --resolv-conf=off bash --login -c /usr/bin/rpmbuild -bb --noclean --target x86_64 --nodeps /builddir/build/SPECS/zabbix.spec
+
+---------------------
+130223
+
+ vim ./zabbix-6.2.6/ui/jsLoader.php
+ setupLocale(array_key_exists('lang', $_GET) ? (string) $_GET['lang'] : 'ru_RU');
+ язык по умолчанию при установке веб-морды, обосралась сборка
+ отменил,
+ vim zabbix-6.2.6/ui/include/defines.inc.php
+ поменял  тут, пересобралось, 
+ попробовал в обоих поменять, собралось
+
+Мониторинг - Узлы сети - Problems
+---------------------
+	/**
+	 * Get footer content.
+	 *
+	 * @param boolean $with_version
+	 *
+	 * @return array
+	 */
+	public static function getFooterContent($with_version) {
+		$footer = self::getValue(
+			'BRAND_FOOTER',
+			[
+				$with_version ? 'СинтезМ-КУФ '.ZABBIX_VERSION.'. ' : null,
+				'&copy; '.ZABBIX_COPYRIGHT_FROM.'&ndash;'.ZABBIX_COPYRIGHT_TO.', ',
+				(new CLink('АО Финтех', 'https://www.fintech.ru/'))
+					->addClass(ZBX_STYLE_GREY)
+					->addClass(ZBX_STYLE_LINK_ALT)
+					->setTarget('_blank')
+			]
+		);
+
+		if (!is_array($footer)) {
+			$footer = [$footer];
+		}
+
+		return $footer;
+		
+пытался удалить .ZABBIX_COPYRIGHT_FROM.'&ndash; почему-то пропадает 'СинтезМ-КУФ '
+
+хуй пойми, вернул все назад, на лоогин нихуя не отображает, дельше норм, 
+---------------------
+
+Добро пожаловать
+Проверка предварительных условий
+Настройка подключения к БД
+Настройки
+Предварительный обзор инсталляции
+Установка
+Установка
+Детали Не возможно создать конфигурационный файл.
+Не удалось перезаписать существующий файл конфигурации.
+В качестве альтернативы, вы можете установить его вручную:
+
+Загрузить конфигурационный файл
+Сохранить как "/etc/zabbix/web/zabbix.conf.php"
+
+исправить zabbix
+---------------------
+Отчет по работе с Zabbix 6.2.6
+
+Правки вносились в части web-морды КУФ.
+
+Последняя версия развернута на:
+http://10.254.123.118/zabbix/
+Так выглядит КУФ из коробки.
+
+Так же отредактирована страница setup.php, на случай настройки web-интерфейса КУФ не сценариями, а руками:
+http://10.254.123.118/zabbix/setup.php
+
+Все изменения относительно оригинального кода можно отследить в GIT:
+https://gitlab.draszi.fintech.ru/code/base_product_8.6/sintezm-kuf/zabbix
+---------------------
+1) разобраться с картами куф
+2) решить как мы создаем шаблоны для нового оборудования.
+	ipmitool -H <host> -U <user> -P <password> sdr
+	- Получить данные со всех сенсоров
+	ipmitool -H <host> -U <user> -P <password> chassis status
+	- Статус шасси
+Команду в первом пункте оборачиваем в скрипт и парсим вывод выплевывая json. Запускать раз в час вполне достаточно. Команда в п.2 для заполнения инвентаризации и карты сети.
+---------------------
+Географические карты
+
+[root@workpc SOURCES]#  grep -Hrn "OpenStreetMap.Mapnik" .
+./zabbix-6.2.6/database/postgresql/data.sql:8770:INSERT INTO config (configid,work_period,alert_usrgrpid,discovery_groupid,dbversion_status,geomaps_tile_provider,ldap_userdirectoryid) values ('1','1-5,09:00-18:00','7','5','','OpenStreetMap.Mapnik',NULL);
+./zabbix-6.2.6/database/mysql/data.sql:842:INSERT INTO `config` (`configid`,`work_period`,`alert_usrgrpid`,`discovery_groupid`,`dbversion_status`,`geomaps_tile_provider`,`ldap_userdirectoryid`) values ('1','1-5,09:00-18:00','7','5','','OpenStreetMap.Mapnik',NULL);
+./zabbix-6.2.6/src/libs/zbxdbupgrade/dbupgrade_5050.c:918:	if (ZBX_DB_OK > DBexecute("update config set geomaps_tile_provider='OpenStreetMap.Mapnik'"))
+[root@workpc SOURCES]# 
+
+
+[root@workpc SOURCES]#  grep -Hrn "geomaps_tile_provider" .
+./zabbix-6.2.6/database/postgresql/schema.sql:602:	geomaps_tile_provider    varchar(255)    DEFAULT ''                NOT NULL,
+./zabbix-6.2.6/database/postgresql/data.sql:8770:INSERT INTO config (configid,work_period,alert_usrgrpid,discovery_groupid,dbversion_status,geomaps_tile_provider,ldap_userdirectoryid) values ('1','1-5,09:00-18:00','7','5','','OpenStreetMap.Mapnik',NULL);
+./zabbix-6.2.6/ui/include/schema.inc.php:2765:			'geomaps_tile_provider' => [
+./zabbix-6.2.6/ui/include/classes/helpers/CSettingsHelper.php:83:	public const GEOMAPS_TILE_PROVIDER = 'geomaps_tile_provider';
+./zabbix-6.2.6/ui/include/classes/api/services/CSettings.php:49:		'geomaps_tile_provider', 'geomaps_tile_url', 'geomaps_max_zoom', 'geomaps_attribution', 'vault_provider'
+./zabbix-6.2.6/ui/include/classes/api/services/CSettings.php:222:			'geomaps_tile_provider' =>			['type' => API_STRING_UTF8, 'in' => ','.implode(',', array_keys(getTileProviders()))],
+./zabbix-6.2.6/ui/include/classes/api/services/CSettings.php:261:		if (array_key_exists('geomaps_tile_provider', $settings) && $settings['geomaps_tile_provider'] !== '') {
+./zabbix-6.2.6/ui/app/views/js/administration.geomaps.edit.js.php:47:			document.querySelector('[name="geomaps_tile_provider"]')
+./zabbix-6.2.6/ui/app/views/administration.geomaps.edit.php:67:			(new CSelect('geomaps_tile_provider'))
+./zabbix-6.2.6/ui/app/views/administration.geomaps.edit.php:68:				->setValue($data['geomaps_tile_provider'])
+./zabbix-6.2.6/ui/app/views/administration.geomaps.edit.php:83:				->setReadonly($data['geomaps_tile_provider'] !== '')
+./zabbix-6.2.6/ui/app/views/administration.geomaps.edit.php:93:				->setReadonly($data['geomaps_tile_provider'] !== '')
+./zabbix-6.2.6/ui/app/views/administration.geomaps.edit.php:104:				->setReadonly($data['geomaps_tile_provider'] !== '')
+./zabbix-6.2.6/ui/app/controllers/CControllerGeomapsUpdate.php:29:			'geomaps_tile_provider'		=> 'required|db config.geomaps_tile_provider',
+./zabbix-6.2.6/ui/app/controllers/CControllerGeomapsUpdate.php:66:			CSettingsHelper::GEOMAPS_TILE_PROVIDER => $this->getInput('geomaps_tile_provider'),
+./zabbix-6.2.6/ui/app/controllers/CControllerGeomapsEdit.php:33:			'geomaps_tile_provider'	=> 'string',
+./zabbix-6.2.6/ui/app/controllers/CControllerGeomapsEdit.php:54:			'geomaps_tile_provider' => $this->getInput('geomaps_tile_provider', CSettingsHelper::get(
+./zabbix-6.2.6/ui/app/controllers/CControllerGeomapsEdit.php:60:		$data += (array_key_exists($data['geomaps_tile_provider'], $data['tile_providers']))
+./zabbix-6.2.6/ui/app/controllers/CControllerGeomapsEdit.php:61:			? $data['tile_providers'][$data['geomaps_tile_provider']]
+./zabbix-6.2.6/src/libs/zbxdbschema/dbschema.c:676:		{"geomaps_tile_provider",	"",	NULL,	NULL,	255,	ZBX_TYPE_CHAR,	ZBX_NOTNULL,	0},
+./zabbix-6.2.6/src/libs/zbxdbschema/dbschema.c:3066:geomaps_tile_provider varchar(255) DEFAULT '' NOT NULL,\n\
+./zabbix-6.2.6/src/libs/zbxdbupgrade/dbupgrade_5050.c:887:	const ZBX_FIELD	field = {"geomaps_tile_provider", "", NULL, NULL, 255, ZBX_TYPE_CHAR, ZBX_NOTNULL, 0};
+./zabbix-6.2.6/src/libs/zbxdbupgrade/dbupgrade_5050.c:918:	if (ZBX_DB_OK > DBexecute("update config set geomaps_tile_provider='OpenStreetMap.Mapnik'"))
+[root@workpc SOURCES]# 
+----------------------------------------------------------
+Изменения:
+vim ./zabbix-6.2.6/ui/include/func.inc.php:2658
+del maps
+OK
+
+./zabbix-6.2.6/src/libs/zbxdbupgrade/dbupgrade_5050.c:918:	if (ZBX_DB_OK > DBexecute("update config set geomaps_tile_provider='OpenStreetMap.Mapnik'"))
+./zabbix-6.2.6/database/postgresql/data.sql:8770:INSERT INTO config (configid,work_period,alert_usrgrpid,discovery_groupid,dbversion_status,geomaps_tile_provider,ldap_userdirectoryid) values ('1','1-5,09:00-18:00','7','5','','OpenStreetMap.Mapnik',NULL);
+NEOK_не стартует сервер
+
+----------------------------------------------------------
+:168550
+INSERT INTO widget (widgetid,type,name,x,y,width,height,view_mode,dashboard_pageid) values ('8','geomap','','17','4','7','7','0','1');
+NO
+----------------------------------------------------------
+ 750  cd zabbix-6.2.6/ui/locale/ru/LC_MESSAGES/
+  <?php echo $this->translate('Rerun'); ?>  # core translated text in code
+  751  msgfmt ./frontend.po 
+  752  ll
+  753  mv messages.mo frontend.mo
+  754  ll
+----------------------------------------------------------vsratka
+/zabbix-6.2.6/ui/include/classes/html/CHostAvailability.php:46:		$this->addClass(ZBX_STYLE_STATUS_CONTAINER);
+----------------------------------------------------------
+[root@workpc SOURCES]# grep -Hrn "ZBX_STYLE_STATUS_CONTAINER" .
+./zabbix-6.2.6/ui/include/defines.inc.php:2086:define('ZBX_STYLE_STATUS_CONTAINER', 'status-container');
+./zabbix-6.2.6/ui/include/classes/html/CHostAvailability.php:46:		$this->addClass(ZBX_STYLE_STATUS_CONTAINER);
+./zabbix-6.2.6/ui/app/views/administration.user.edit.php:357:				(new CDiv($media_severity))->addClass(ZBX_STYLE_STATUS_CONTAINER),
+./zabbix-6.2.6/ui/app/views/proxy.list.php:136:		$encryption = (new CDiv())->addClass(ZBX_STYLE_STATUS_CONTAINER);
+./zabbix-6.2.6/ui/app/views/configuration.host.list.php:381:			->addClass(ZBX_STYLE_STATUS_CONTAINER);
+./zabbix-6.2.6/ui/app/views/configuration.host.list.php:420:			->addClass(ZBX_STYLE_STATUS_CONTAINER)
+----------------------------------------------------------
+    $cancel_button = (new CRedirectButton(_('Cancel'), (new CUrl('zabbix.php'))
+
+./zabbix-6.2.6/ui/app/views/administration.user.edit.php:773
+----------------------------------------------------------
+
+00:16:3e:98:43:55 mac fizzer-zhiv
+
+
+
+
+
+
+
+
+
+
+
+
