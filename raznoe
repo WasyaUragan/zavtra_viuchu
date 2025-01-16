@@ -333,7 +333,8 @@ ss -nltup | grep 9100
 ----------------------------------------------------------
 запись iso в cli
 wodim -eject -tao speed=2 dev=/dev/sr0 -v -data myiso.iso
-
-
+----------------------------------------------------------
+remote control wpc port :3390
+remote login wpc port :3389
 
 
