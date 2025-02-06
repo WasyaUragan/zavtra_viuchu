@@ -87,9 +87,15 @@ git rebase --skip
 8) git push
 Еще надо будет пересоздать job для получившихся git-проектов в боте
 ========================================================================================================
+Удалить submodule git:
 
-
-
+git submodule deinit -f path/to/submodule
+rm -rf .git/modules/path/to/submodule
+rm -rf path/to/submodule
+Откройте файл .gitmodules и удалите секцию, связанную с подмодулем.
+git add .gitmodules
+git rm --cached path/to/submodule # Удалите подмодуль из индекса Git
+========================================================================================================
 
 
 
