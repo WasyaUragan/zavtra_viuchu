@@ -1,0 +1,2 @@
+# выкачать пакеты для дистра из списка
+dnf download --destdir='rpms_4_miniso' $(cat 'pkgs.txt' | cut -d "#" -f-1)
