@@ -40,34 +40,41 @@ process_package() {
     
     [[ -z "$pkg_part" ]] && return
 
-    local arch="${pkg_part##*.}"
-    local pkg_raw="${pkg_part%.$arch}"
+    # Разбиваем пакет на:
+    # Имя-Версия-Номер-Релиза
+    local pkg_raw="${pkg_part%.*}"
+    # Архитектура
+    local pkg_arch="${pkg_part##*.}"
+    # Релиз
+    local pkg_rel="${pkg_raw##*-}"
+    # Номер релиза
+    local pkg_rel_num="${pkg_rel%%.*}"
+    # Имя
+    # local pkg_name=$(sed -E 's/-[0-9].*//' <<< "$pkg_raw") # Рабочий вариант
+    local pkg_name_ver="${pkg_raw%-*}"
+    local pkg_name="${pkg_name_ver%-*}"
+    # Версия
+    local pkg_ver="${pkg_name_ver##*-}"
     
-    local pkg_name=$(sed -E 's/-[0-9].*//' <<< "$pkg_raw")
-    
-    #DEBUG 
-    log_messages+="DEBUG: pkg_part - $pkg_part\n"
-    log_messages+="DEBUG: arch - $arch\n"
-    log_messages+="DEBUG: pkg_name - $pkg_name\n"
-    log_messages+="DEBUG: pkg_raw - $pkg_raw\n\n\n"
     log_messages+="=======================\n"
     log_messages+="$pkg_name\n"
     log_messages+="-----------------------\n\n"
 
     # Запрос доступных версий
-    local versions=$(repoquery --qf "%{NAME}-%{VERSION}-%{RELEASE}.%{ARCH}\n" "$pkg_name" 2>/dev/null | grep "${arch}$")
+    local repo_versions=$(repoquery --qf "%{NAME}-%{VERSION}-%{RELEASE}.%{ARCH}\n" "$pkg_name" 2>/dev/null | grep "${pkg_arch}$")
     log_messages+="Доступные версии:\n"
-    log_messages+="$versions\n\n"
+    if [[ -n "$repo_versions" ]]; then
+        log_messages+="$repo_versions\n\n"
+    else
+        log_messages+="Доступных версий пакета для арх.$pkg_arch не найдено.\n\n"
+    fi
 
     # Подсчет количества версий и выбор последней
-    local versions_count=$(echo "$versions" | wc -l)
+    local repo_versions_count=$(echo "$repo_versions" | wc -l)
     local latest=""
 
-    if [[ -n "$versions" ]]; then
-        latest=$(echo "$versions" | awk -F'[-.]' '{
-            split($3, rel_parts, /_/);
-            print $0 " " $2 "." rel_parts[1]
-        }' | sort -t ' ' -k2,2V -r | head -n1 | cut -d' ' -f1)
+    if [[ -n "$repo_versions_count" ]]; then
+        latest=$(echo "$repo_versions" | sort -V | tail -n1)
         
         log_messages+="Последняя версия:\n"
         log_messages+="$latest\n\n"
@@ -78,7 +85,7 @@ process_package() {
     fi
 
     # Условие: если версия одна и совпадает с исходной, не логируем
-    if [[ $versions_count -eq 1 && "$latest" == "$pkg_part" ]]; then
+    if [[ $repo_versions_count -eq 1 && "$latest" == "$pkg_part" ]]; then
         log_messages=""  # Очищаем сообщения
     fi
 
@@ -142,5 +149,5 @@ echo
 echo "$(realpath "$log_file")"
 echo =======================
 
-# выводит в лог только пакеты с несколькими доступными версиями
-# криво сравнивает версии
+# некорректно определяем старшую версию
+# нужно добавить ИЛИ в поиск версий пакетов с грепом по архитектуре (добавить возможные варианты: x86_64 и noarch)
