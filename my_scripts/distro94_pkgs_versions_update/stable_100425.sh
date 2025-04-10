@@ -73,11 +73,14 @@ process_package() {
     local repo_versions_count=$(echo "$repo_versions" | wc -l)
     local latest=""
 
+    # IFS=$'\n' read -rd '' -a versions_array <<< "$repo_versions"
+    readarray -t versions_array <<< "$repo_versions"
+
     if [[ -n "$repo_versions_count" ]]; then
-        latest=$(echo "$repo_versions" | sort -V | tail -n1)
+        latest=$(printf "%s\n" "${versions_array[@]}" | sort -V | tail -n1)
         
         log_messages+="Последняя версия:\n"
-        log_messages+="$latest\n\n"
+        log_messages+="$latest"
     #условие отрабатывает криво - esle не выводится вообще
     else
         log_messages+="Не удалось обновить: $pkg_part\n\n"
@@ -111,6 +114,7 @@ fi
 
 while IFS= read -r line || [[ -n "$line" ]]; do
     current_line=$((current_line + 1))
+    echo -e "\n======================="
     echo -ne "Обработка: $current_line из $total_lines ($(( current_line * 100 / total_lines ))%)\r" >&2
 
     cleaned_origin=$(sed -E 's/#.*//; s/^[[:space:]]*//; s/[[:space:]]*$//' <<< "$line")
@@ -149,5 +153,6 @@ echo
 echo "$(realpath "$log_file")"
 echo =======================
 
-# некорректно определяем старшую версию
-# нужно добавить ИЛИ в поиск версий пакетов с грепом по архитектуре (добавить возможные варианты: x86_64 и noarch)
+# корректно определяем старшую версию (продолжить тесты), но не ставит релиз sz в преоритет (см. заметки в array.sh)
+# понять нужна ли вообще в скрипте архитектура. у нас либо noarch, либо x86_64 в pkgs.txt
+# но в удаленной репе каким-то боком может быть и i686 например, продумать этот момент
