@@ -38,6 +38,7 @@ process_package() {
     pkg_part=$(sed -E 's/^[[:space:]]*//; s/[[:space:]]*$//' <<< "$pkg_raw")
     comment_part=$(sed -E 's/^[[:space:]]*//; s/[[:space:]]*$//' <<< "$comment_raw")
     
+    # Пропуск пустых строк
     [[ -z "$pkg_part" ]] && return
 
     # Разбиваем пакет на:
@@ -66,7 +67,7 @@ process_package() {
     if [[ -n "$repo_versions" ]]; then
         log_messages+="$repo_versions\n\n"
     else
-        log_messages+="Доступных версий пакета для арх.$pkg_arch не найдено.\n\n"
+        log_messages+="Доступных версий пакета для $pkg_arch не найдено.\n\n"
     fi
 
     # Подсчет количества версий и выбор последней
@@ -83,7 +84,7 @@ process_package() {
         log_messages+="$latest"
     #условие отрабатывает криво - esle не выводится вообще
     else
-        log_messages+="Не удалось обновить: $pkg_part\n\n"
+        log_messages+="Пакет в репозитории не найден: $pkg_part\n\n"
         latest="$pkg_part"
     fi
 
