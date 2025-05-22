@@ -338,3 +338,13 @@ remote control wpc port :3390
 remote login wpc port :3389
 ----------------------------------------------------------
 reposync --repoid=epel-10-Everything --downloadcomps --download-metadata -n
+----------------------------------------------------------
+Сборка ovirt-engine-nodejs-modules
+
+Требуется выкачать модули с помощью yarn и упаковать в yarn-offline-cache:
+
+1) Перейти в папку с файлами package.json и yarn.lock, содержащими зависимости.
+2) rm -rf yarn-offline-cache node_modules
+3) yarn config set yarn-offline-mirror "$(pwd)/yarn-offline-cache"
+4) yarn install --force
+----------------------------------------------------------
