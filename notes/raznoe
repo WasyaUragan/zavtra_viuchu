@@ -344,7 +344,6 @@ reposync --repoid=epel-10-Everything --downloadcomps --download-metadata -n
 Требуется выкачать модули с помощью yarn и упаковать в yarn-offline-cache:
 
 1) Перейти в папку с файлами package.json и yarn.lock, содержащими зависимости.
-2) rm -rf yarn-offline-cache node_modules
-3) yarn config set yarn-offline-mirror "$(pwd)/yarn-offline-cache"
-4) yarn install --force
+2) yarn config set yarn-offline-mirror "$(pwd)/yarn-offline-cache"
+3) yarn install --force
 ----------------------------------------------------------
