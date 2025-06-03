@@ -346,4 +346,7 @@ reposync --repoid=epel-10-Everything --downloadcomps --download-metadata -n
 1) Перейти в папку с файлами package.json и yarn.lock, содержащими зависимости.
 2) yarn config set yarn-offline-mirror "$(pwd)/yarn-offline-cache"
 3) yarn install --force
+при необходимости:
+# обновить определенные модули
+yarn upgrade webpack@^5 webpack-cli@^4 --dev
 ----------------------------------------------------------
