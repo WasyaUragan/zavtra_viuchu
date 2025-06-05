@@ -350,3 +350,20 @@ reposync --repoid=epel-10-Everything --downloadcomps --download-metadata -n
 # обновить определенные модули
 yarn upgrade webpack@^5 webpack-cli@^4 --dev
 ----------------------------------------------------------
+Выкачать локально зависимости из maven central:
+mvn dependency:get -Dartifact=org.apache.commons:commons-vfs2:2.10.0
+
+Путь к файлам:
+$HOME/.m2/repository/
+
+Общий вид команды:
+mvn dependency:get \
+  -Dartifact=GROUP_ID:ARTIFACT_ID:VERSION \
+  -DremoteRepositories=URL_REPO \
+  -Dtransitive=false
+
+-Dtransitive=false - без зависимостей
+
+Ключ для указания локального репозитория при сборке:
+export MAVEN_OPTS=-Dmaven.repo.local=/usr/share/ovirt-engine-build-dependencies/repository
+----------------------------------------------------------
