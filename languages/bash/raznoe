@@ -126,3 +126,18 @@ printf "%s\n" "${words[@]}" > test_array
 
 5) echo "one"$'\n'"dva"$'\n'"three"$'\n'"chetire" > test_array
 ==============================
+# to generate a random number between 1 and 10 (inclusive):
+
+echo $((1 + $RANDOM % 10))
+
+The actual generator is in variables.c, the function brand().
+------------------------------
+If you're doing something that requires serious random numbers you can use /dev/random or /dev/urandom:
+
+echo $(( $(od -An -N4 -tu4 < /dev/urandom) % 100 + 1 ))
+
+Почему urandom, а не random?
+/dev/random может блокировать выполнение при нехватке энтропии, /dev/urandom безопаснее для скриптов.
+------------------------------
+shuf -i 1-100 -n 1
+==============================
