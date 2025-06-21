@@ -8,21 +8,20 @@ message() {
 }
 
 randomizer() {
-    declare -i chislo=$((1 + $RANDOM % 100))
+    declare -g chislo=$((1 + $RANDOM % 100))
 }
 
 message "Загадываю число от 1 до 100 включительно..."
 
-declare -i chislo=$((1 + $RANDOM % 100))
 declare -i bet=1000
 
-message "Спорим на $bet деревянных, что не отгадаешь?"
+message "Спорим на $bet деревянных, что не отгадаете?"
 
 choice() {
 select yn in "Да" "Нет"; do
     case $yn in
         Да)
-            message " у Вас есть 7 попыток."; break;;
+            message " у Вас есть 3 попытки."; break;;
         Нет)
             bet=$((bet/2))
             message "Игра завершена. Ваш долг: $bet деревянных"; exit;;
@@ -30,29 +29,31 @@ select yn in "Да" "Нет"; do
 done
 }
 
-declare -i counter=7
+declare -i counter=3
 declare -a spisok_otvetov=()
 
 choice
 
 game() {
-    for ((i = 7; i > 0; i--))
+    for ((i = 3; i > 0; i--))
     do
+        # Валидация числа
         while true; do
             read -p "Введите число от 1 до 100 (включительно): " otvet
+            if ! [[ "$otvet" =~ ^[0-9]+$ ]]; then
+                message "Ошибка! Ожидаемый ввод - число в десятичной системе исчисления."
+                continue
+            fi
+            if ((otvet < 1 || otvet > 100)); then
+                message "Число должно быть от 1 до 100!"
+                continue
+            fi
             spisok_otvetov+=("$otvet")
-            [[ "$otvet" =~ ^[0-9]+$ ]] && break
-            message "Ошибка: введите корректное число!"
+            break
         done
-    # do
-        # message "Введите число от 1 до 100 (включительно):"
-        # read otvet
-        # message "Ваш вариант ответа: $otvet"
     
-    spisok_otvetov+=("$otvet")
     ((counter=--counter))  
     
-
     if (( otvet > chislo )); then
         message "Вы не угадали. Загаданное число - меньше."
     elif (( otvet < chislo )); then
@@ -73,14 +74,13 @@ while (( counter == 0 )); do
     bet=$((bet*2))
     message "Моя ставка - $bet деревянных"
     message "Играем?"
-    counter=7
+    counter=3
     choice
     randomizer
     game
 done 
 
-# 1) добить проверку на числа в диапазоне 1 - 100
-# вести список ответов и проверять, был ли этот вариант ранее
+# 1) вести список ответов и проверять, был ли этот вариант ранее
 
 # 2) после победы юзера скрипт хочет отыграться
 # нужно вести счет кто кому сколько должен 
