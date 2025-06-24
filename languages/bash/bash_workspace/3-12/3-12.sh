@@ -14,20 +14,39 @@ randomizer() {
 message "Загадываю число от 1 до 100 включительно..."
 
 declare -i bet=1000
+declare -i round=0
 
-message "Спорим на $bet деревянных, что не отгадаете?"
-
+# использую read при простом выборе (Y/N), при нескольких вариантах использую select
 choice() {
-select yn in "Да" "Нет"; do
-    case $yn in
-        Да)
-            message " у Вас есть 3 попытки."; break;;
-        Нет)
-            bet=$((bet/2))
-            message "Игра завершена. Ваш долг: $bet деревянных"; exit;;
-    esac 
+while true; do    
+    read -p "Спорим на $bet деревянных, что не отгадаете? (y/n): " yn  
+    case "$yn" in
+        y|Y|[Yy][Ee][Ss])
+            message " у Вас есть 3 попытки."
+            break
+            ;;
+        n|N|[Nn][Oo])
+            # ошибка, если отказ при первой итерации :)
+            if (( round > 0 )); then
+                bet=$((bet / 2))
+                message "Игра завершена. Ваш долг: $bet деревянных"
+            fi
+            message "Не очень-то и хотелось!"
+            exit
+            ;;
+        *)
+            echo "Неверный выбор, попробуйте еще раз!"
+    esac
 done
 }
+
+# choice() {
+# select yn in "Да" "Нет"; do
+#     case $yn in
+#         ...    
+#     esac 
+# done
+# }
 
 declare -i counter=3
 declare -a spisok_otvetov=()
@@ -85,16 +104,4 @@ done
 # 2) после победы юзера скрипт хочет отыграться
 # нужно вести счет кто кому сколько должен 
 
-# пример функции choice
-case $Choice in
-    y|Y|[Yy][Ee][Ss])
-        InstallAliyuncli
-        echo  ""
-        echo "***********************************************************"
-        echo  "* New aliyuncli version has been installed successfully ! *"
-        echo "***********************************************************"
-        ;;
-    *)
-        echo  "Skip the installation of this version!"
-        ;;
-    esac
+
