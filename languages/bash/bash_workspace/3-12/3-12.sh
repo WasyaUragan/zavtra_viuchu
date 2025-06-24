@@ -84,3 +84,17 @@ done
 
 # 2) после победы юзера скрипт хочет отыграться
 # нужно вести счет кто кому сколько должен 
+
+# пример функции choice
+case $Choice in
+    y|Y|[Yy][Ee][Ss])
+        InstallAliyuncli
+        echo  ""
+        echo "***********************************************************"
+        echo  "* New aliyuncli version has been installed successfully ! *"
+        echo "***********************************************************"
+        ;;
+    *)
+        echo  "Skip the installation of this version!"
+        ;;
+    esac
