@@ -2,3 +2,5 @@
 languages/rust/main.rs
 
 my_scripts/distro94_pkgs_versions_update/latest.sh
+
+languages/bash/bash_workspace/3-12/test.sh
