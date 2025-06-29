@@ -20,7 +20,7 @@ declare -A spisok_otvetov=()
 
 bet=1000
 round=0
-counter=3
+counter=7
 
 # Для многострочных комментариев предпочтительнее использовать '#', а не heredoc. Тут для демострации возможностей bash.
 << 'COMMENT' 
@@ -41,7 +41,7 @@ while true; do
     read -p "$vopros" yn    
     case "$yn" in
         y|Y|[Yy][Ee][Ss])
-            Message "У Вас есть 3 попытки."
+            Message "У Вас есть 7 попыток."
             break
             ;;
         n|N|[Nn][Oo])
@@ -56,6 +56,7 @@ while true; do
             ;;
         *)
             echo "Некорректный ввод, попробуйте еще раз!"
+            ;;
     esac
 done
 }
@@ -70,9 +71,30 @@ done
 
 Choice
 
+Revansh() {
+    while true; do
+        read -p "Позвольте мне отыграться! (y/n): " ehala
+        case "$ehala" in
+            y|Y|[Yy][Ee][Ss])
+                sleep 2
+                Message "Продолжаем!"
+                Go_next_round
+                break
+                ;;
+            n|N|[Nn][Oo])
+                Message "Спасибо за игру! Ваш долг: $bet деревянных"
+                exit
+                ;;
+            *)
+                echo "Некорректный ввод, попробуйте еще раз!"
+                ;;
+        esac
+    done    
+}
+
 # Основной функционал.
 Game() {
-    for ((i = 3; i > 0; i--))
+    for ((i = 7; i > 0; i--))
     do
         # Валидация числа
         while true; do
@@ -109,9 +131,17 @@ Game() {
         Message "Вы не угадали. Загаданное число - больше."
     elif (( otvet == chislo )); then
         Message "Правильно! Удача на Вашей стороне!"
-        exit 0
+        Revansh
     fi
     done
+}
+
+Go_next_round() {
+    spisok_otvetov=()
+    counter=7
+    ((round++))
+    Randomizer
+    Game
 }
 
 Game
@@ -124,20 +154,18 @@ Game
 while true; do
     Message "Вы исчерпали все попытки, Вы проиграли!"
     sleep 1
-    echo "DEBUG: Загаданное число = $chislo"
     Message "Сыграем еще раз?"
     sleep 1
     bet=$((bet*2))
     Message "Моя ставка - $bet деревянных"
-    spisok_otvetov=()
-    counter=3
     Choice
-    ((round++))
-    Randomizer
-    Game
+    Go_next_round
 done 
 
-# 1) после победы юзера скрипт хочет отыграться
 # нужно вести счет кто кому сколько должен 
 
+# ввести "Осталось n попыток"
 
+# печать сообщений бегущей строкой
+
+# подумать над графикой
