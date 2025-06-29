@@ -30,35 +30,35 @@ COMMENT
 
 # Играем / Не играем
 Choice() {
-while true; do
-    local vopros
-    if (( round == 0 )); then    
-        vopros="Спорим на $bet деревянных, что не отгадаете? (y/n): "
-    else
-        vopros="Спорим, что не отгадаете? (y/n): "
-    fi
+    while true; do
+        local vopros
+        if (( round == 0 )); then    
+            vopros="Спорим на $bet деревянных, что не отгадаете? (y/n): "
+        else
+            vopros="Спорим, что не отгадаете? (y/n): "
+        fi
 
-    read -p "$vopros" yn    
-    case "$yn" in
-        y|Y|[Yy][Ee][Ss])
-            Message "У Вас есть 7 попыток."
-            break
-            ;;
-        n|N|[Nn][Oo])
-            # ошибка, если отказ при первой итерации :)
-            if (( round > 0 )); then
-                bet=$((bet / 2))
-                Message "Игра завершена. Ваш долг: $bet деревянных"
-            else
-                Message "Не очень-то и хотелось!"
-            fi
-            exit
-            ;;
-        *)
-            echo "Некорректный ввод, попробуйте еще раз!"
-            ;;
-    esac
-done
+        read -p "$vopros" yn    
+        case "$yn" in
+            y|Y|[Yy][Ee][Ss])
+                Message "У Вас есть 7 попыток."
+                break
+                ;;
+            n|N|[Nn][Oo])
+                # ошибка, если отказ при первой итерации :)
+                if (( round > 0 )); then
+                    bet=$((bet / 2))
+                    Message "Игра завершена. Ваш долг: $bet деревянных"
+                else
+                    Message "Не очень-то и хотелось!"
+                fi
+                exit
+                ;;
+            *)
+                echo "Некорректный ввод, попробуйте еще раз!"
+                ;;
+        esac
+    done
 }
 
 # Choice() {
