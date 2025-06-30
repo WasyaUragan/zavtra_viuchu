@@ -17,10 +17,11 @@ Message "Загадываю число от 1 до 100 включительно"
 Randomizer
 
 declare -A spisok_otvetov=()
-
-bet=1000
-round=0
-counter=7
+declare -i score=0
+declare -i bet=1000
+declare -i round=0
+declare -i counter=7
+declare -i flag=0 #true
 
 # Для многострочных комментариев предпочтительнее использовать '#', а не heredoc. Тут для демострации возможностей bash.
 << 'COMMENT' 
@@ -47,8 +48,12 @@ Choice() {
             n|N|[Nn][Oo])
                 # ошибка, если отказ при первой итерации :)
                 if (( round > 0 )); then
-                    bet=$((bet / 2))
-                    Message "Игра завершена. Ваш долг: $bet деревянных"
+                    if (( flag == 0 )); then
+                        ((score+=$bet))
+                    else
+                        ((score-=$bet))
+                    fi
+                    Message "Игра завершена. Ваш долг: $score деревянных"
                 else
                     Message "Не очень-то и хотелось!"
                 fi
@@ -78,11 +83,17 @@ Revansh() {
             y|Y|[Yy][Ee][Ss])
                 sleep 2
                 Message "Продолжаем!"
+                if (( flag == 0 )); then
+                    ((score+=$bet))
+                else
+                    ((score-=$bet))
+                fi
+                Message "DEBUG: Игровой баланс после победы пользователя $score"
                 Go_next_round
                 break
                 ;;
             n|N|[Nn][Oo])
-                Message "Спасибо за игру! Ваш долг: $bet деревянных"
+                Message "Спасибо за игру! Игровой баланс: $score деревянных"
                 exit
                 ;;
             *)
@@ -131,15 +142,22 @@ Game() {
         Message "Вы не угадали. Загаданное число - больше."
     elif (( otvet == chislo )); then
         Message "Правильно! Удача на Вашей стороне!"
+        flag=true
         Revansh
     fi
     done
+
+    flag=1
 }
 
 Go_next_round() {
+    ((score -= $bet))
     spisok_otvetov=()
     counter=7
     ((round++))
+    sleep 1
+    bet=$((bet*2))
+    Message "Моя ставка - $bet деревянных"
     Randomizer
     Game
 }
@@ -153,16 +171,16 @@ Game
 # Вечный цикл
 while true; do
     Message "Вы исчерпали все попытки, Вы проиграли!"
+    flag=1
+    Message "DEBUG: Игровой баланс после поражения пользователя $score"
     sleep 1
     Message "Сыграем еще раз?"
-    sleep 1
-    bet=$((bet*2))
-    Message "Моя ставка - $bet деревянных"
     Choice
     Go_next_round
 done 
 
-# нужно вести счет кто кому сколько должен 
+# пользователь выиграл 1ый раунд, дал боту реванш
+# пользователь выиграл 2ый раунд, НЕ дал боту реванш - "Игровой баланс: 1000 деревянных", вместо 3000
 
 # ввести "Осталось n попыток"
 
