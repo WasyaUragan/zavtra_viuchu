@@ -15,13 +15,28 @@ Randomizer() {
 
 Message "Загадываю число от 1 до 100 включительно"
 Randomizer
+# echo "DEBUG: Ответ - $chislo"
 
 declare -A spisok_otvetov=()
 declare -i score=0
 declare -i bet=1000
 declare -i round=0
-declare -i counter=7
-declare -i flag=0 #true
+declare -i counter=6
+
+# Если в игре 6 раундов
+Counter() {
+    case $counter in
+        1)
+            Message "У Вас осталось $counter попытка"
+            ;;
+        2|3|4)
+            Message "У Вас осталось $counter попытки"
+            ;;
+        *)
+            Message "У Вас осталось $counter попыток"
+            ;;
+    esac
+}
 
 # Для многострочных комментариев предпочтительнее использовать '#', а не heredoc. Тут для демострации возможностей bash.
 << 'COMMENT' 
@@ -42,17 +57,11 @@ Choice() {
         read -p "$vopros" yn    
         case "$yn" in
             y|Y|[Yy][Ee][Ss])
-                Message "У Вас есть 7 попыток."
+                Message "У Вас есть $counter попыток."
                 break
                 ;;
             n|N|[Nn][Oo])
-                # ошибка, если отказ при первой итерации :)
                 if (( round > 0 )); then
-                    if (( flag == 0 )); then
-                        ((score+=$bet))
-                    else
-                        ((score-=$bet))
-                    fi
                     Message "Игра завершена. Ваш долг: $score деревянных"
                 else
                     Message "Не очень-то и хотелось!"
@@ -76,6 +85,7 @@ Choice() {
 
 Choice
 
+# Попадаю сюда после выигранного раунда
 Revansh() {
     while true; do
         read -p "Позвольте мне отыграться! (y/n): " ehala
@@ -83,16 +93,13 @@ Revansh() {
             y|Y|[Yy][Ee][Ss])
                 sleep 2
                 Message "Продолжаем!"
-                if (( flag == 0 )); then
-                    ((score+=$bet))
-                else
-                    ((score-=$bet))
-                fi
-                Message "DEBUG: Игровой баланс после победы пользователя $score"
+                ((score+=$bet))
+                # Message "DEBUG: Игровой баланс после победы пользователя $score"
                 Go_next_round
                 break
                 ;;
             n|N|[Nn][Oo])
+                ((score+=$bet))
                 Message "Спасибо за игру! Игровой баланс: $score деревянных"
                 exit
                 ;;
@@ -105,7 +112,7 @@ Revansh() {
 
 # Основной функционал.
 Game() {
-    for ((i = 7; i > 0; i--))
+    for ((i = 6; i > 0; i--))
     do
         # Валидация числа
         while true; do
@@ -138,27 +145,25 @@ Game() {
     # Больше/Меньше
     if (( otvet > chislo )); then
         Message "Вы не угадали. Загаданное число - меньше."
+        Counter
     elif (( otvet < chislo )); then
         Message "Вы не угадали. Загаданное число - больше."
+        Counter
     elif (( otvet == chislo )); then
         Message "Правильно! Удача на Вашей стороне!"
-        flag=true
         Revansh
     fi
     done
-
-    flag=1
 }
 
 Go_next_round() {
-    ((score -= $bet))
     spisok_otvetov=()
-    counter=7
-    ((round++))
+    counter=6
     sleep 1
     bet=$((bet*2))
     Message "Моя ставка - $bet деревянных"
     Randomizer
+    # echo "DEBUG: Ответ - $chislo"
     Game
 }
 
@@ -168,21 +173,17 @@ Game
 # Message "Список ответов: ${spisok_otvetov[*]}"
 # Если порядок ответов критичен, можно ввести индексируемый массив дополнительно.
 
-# Вечный цикл
+# Попадаю сюда после проигрыша в раунде
 while true; do
-    Message "Вы исчерпали все попытки, Вы проиграли!"
-    flag=1
-    Message "DEBUG: Игровой баланс после поражения пользователя $score"
+    Message "Вы проиграли!"
+    ((score -= $bet))
+    # Message "DEBUG: Игровой баланс после поражения пользователя $score"
     sleep 1
     Message "Сыграем еще раз?"
+    ((round++))
     Choice
     Go_next_round
 done 
-
-# пользователь выиграл 1ый раунд, дал боту реванш
-# пользователь выиграл 2ый раунд, НЕ дал боту реванш - "Игровой баланс: 1000 деревянных", вместо 3000
-
-# ввести "Осталось n попыток"
 
 # печать сообщений бегущей строкой
 
