@@ -126,8 +126,9 @@ rpm --test --dbpath /tmp/testdb -Uvh *.rpm
 --------------------------------------------------------------------------------------
 # получить список srс 
 for i in $(cat ./rpms_list); do rpm -qi ${i} | grep 'Source RPM  :' | cut -b14-; done | sort -u > rocky94_min_default_src_list
-
-
+--------------------------------------------------------------------------------------
+# Раскрать %pre %post скрипты пакета
+rpm -qp --scripts package
 
 
 
