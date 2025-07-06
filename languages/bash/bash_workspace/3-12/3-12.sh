@@ -1,9 +1,12 @@
 #!/bin/bash
 
+source color.sh
+source print_slow_ds.sh
+
 # Оформление сообшения
 Message() {
     echo "========================================"
-    echo "$1"
+    Print_slow "$1" 0.03
     echo "========================================"
     sleep 2
 }
@@ -54,7 +57,10 @@ Choice() {
             vopros="Спорим, что не отгадаете? (y/n): "
         fi
 
-        read -p "$vopros" yn    
+        # Выводим приглашение как бегущую строку
+        Print_slow "$vopros" 0.03 true  # true - без перевода строки
+
+        read -r yn    
         case "$yn" in
             y|Y|[Yy][Ee][Ss])
                 Message "У Вас есть $counter попыток."
@@ -69,7 +75,7 @@ Choice() {
                 exit
                 ;;
             *)
-                echo "Некорректный ввод, попробуйте еще раз!"
+                Message "Некорректный ввод, попробуйте еще раз!"
                 ;;
         esac
     done
@@ -88,7 +94,10 @@ Choice
 # Попадаю сюда после выигранного раунда
 Revansh() {
     while true; do
-        read -p "Позвольте мне отыграться! (y/n): " ehala
+        local vopros1="Позвольте мне отыграться! (y/n): "
+        Print_slow "$vopros1" 0.03 true
+
+        read -r ehala
         case "$ehala" in
             y|Y|[Yy][Ee][Ss])
                 sleep 2
@@ -116,8 +125,11 @@ Game() {
     do
         # Валидация числа
         while true; do
+            
+            local vvod="Введите число от 1 до 100: "
+            Print_slow "$vvod" 0.03 true
             # Ответ содержит только цифры
-            read -p "Введите число от 1 до 100: " otvet
+            read -r otvet
             if ! [[ "$otvet" =~ ^[0-9]+$ ]]; then
                 Message "Ошибка! Ожидаемый ввод - число."
                 continue
@@ -185,6 +197,7 @@ while true; do
     Go_next_round
 done 
 
-# печать сообщений бегущей строкой
+# при досрочном вводе ответа происходит перекос вывода сообзений, что усложняет восприятие. проработать этот момент.
+# оформить визуальную часть цветами и эмодзи
 
 # подумать над графикой
