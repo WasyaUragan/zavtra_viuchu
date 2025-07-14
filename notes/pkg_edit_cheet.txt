@@ -1,0 +1,72 @@
+==========================
+python
+==========================
+# Установить python3.11 как основной
+%define python3_sitelibdir %python_sitelib
+%define py3_shebang_fix /usr/bin/pathfix.py -pni "%{__python3} -s" %{buildroot}
+%global python3_version 3.11
+%global python3_pkgversion 3.11
+%global __python3 /usr/bin/python3.11
+%global _python3_pkgversion_with_dot 3.11
+%define _smp_build_ncpus 24
+%define __python /usr/bin/python3
+
+# Отключить сборку debug-пакетов
+%global debug_package %{nil}
+
+# Добавление пакета в spec
+%package -n python3.11-cffi
+Summary: Foreign Function Interface for Python 3 to call C code
+%{?python_provide:%python_provide python3-cffi}
+%description -n python3.11-cffi
+
+# %prep 
+mkdir -p $HOME/bin
+PATH=$HOME/bin:$PATH
+export PATH
+ln -sf /usr/bin/python3.11 $HOME/bin/python3
+ln -sf /usr/bin/python3.11-config $HOME/bin/python-config
+ln -sf /usr/bin/python3.11-config $HOME/bin/python3-config
+ln -sf /usr/bin/pytest-3.11 $HOME/bin/pytest-3
+ln -sf /usr/bin/2to3-3.11 $HOME/bin/2to3
+
+# %build %install %check (необязательно)
+PATH=$HOME/bin:$PATH
+export PATH
+
+# Разное
+BuildRequires:  python%{python3_pkgversion}-setuptools
+
+%s/python3-/python%{python3_pkgversion}-/g
+%s/python3dist/python%{python3_pkgversion}dist/g
+%{python3_version_nodots}
+
+# Исключает автогенерируемые Requires
+%global __requires_exclude pkgconfig\\(python\\)
+==========================
+java
+==========================
+x86_64 aarch64 ppc64le s390x noarch
+
+%mvn_build -f -- -Dworkspace.root.dir=$(pwd)
+--------------------------
+# Локальный jar репозиторий 
+1) ставим пакет ovirt-engine-build-dependencies
+2) добавляем в %build spec-файла:
+export MAVEN_OPTS="-Dmaven.repo.local=/usr/share/ovirt-engine-build-dependencies/repository"
+--------------------------
+# Добавить зависимость в pom.xml на уровне spec-файла  
+
+# секция %prep
+%pom_add_dep_mgmt jakarta.activation:jakarta.activation-api:2.1.1
+%pom_add_dep jakarta.activation:jakarta.activation-api:2.1.1 core
+
+# результат в pom.xml
+<!-- begin of code added by maintainer -->
+<dependency> 
+    <groupId>jakarta.activation</groupId>
+    <artifactId>jakarta.activation-api</artifactId>
+    <version>2.1.1</version>
+</dependency>
+<!-- end of code added by maintainer -->
+==========================
