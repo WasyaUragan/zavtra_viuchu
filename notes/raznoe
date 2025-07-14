@@ -367,3 +367,5 @@ mvn dependency:get \
 Ключ для указания локального репозитория при сборке:
 export MAVEN_OPTS=-Dmaven.repo.local=/usr/share/ovirt-engine-build-dependencies/repository
 ----------------------------------------------------------
+# создать patch-файл
+diff -u openvswitch-custom.te.orig openvswitch-custom.te > fix-container-perms.patch
