@@ -14,10 +14,10 @@ while IFS= read -r pkg; do
         echo --------------------------------------
 
         if [[ -f "$filename" ]]; then
-                echo "Пакет $filename уже существует"
+            echo "Пакет $filename уже существует"
         else
-                echo "Скачиваю пакет $filename"
-                wget ${pkg} --no-check-certificate
+            echo "Скачиваю пакет $filename"
+            wget ${pkg} --no-check-certificate
         fi
 
 done < ../${file}
