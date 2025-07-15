@@ -51,7 +51,7 @@ x86_64 aarch64 ppc64le s390x noarch
 %mvn_build -f -- -Dworkspace.root.dir=$(pwd)
 --------------------------
 # Локальный jar репозиторий 
-1) ставим пакет ovirt-engine-build-dependencies
+1) ставим пакет ovirt-engine-mvn-dependencies
 2) добавляем в %build spec-файла:
 export MAVEN_OPTS="-Dmaven.repo.local=/usr/share/ovirt-engine-build-dependencies/repository"
 --------------------------
