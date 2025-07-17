@@ -46,7 +46,7 @@ BuildRequires:  python%{python3_pkgversion}-setuptools
 ==========================
 java
 ==========================
-x86_64 aarch64 ppc64le s390x noarch
+%global java_arches x86_64 aarch64 ppc64le s390x
 
 %mvn_build -f -- -Dworkspace.root.dir=$(pwd)
 --------------------------
