@@ -69,4 +69,21 @@ export MAVEN_OPTS="-Dmaven.repo.local=/usr/share/ovirt-engine-build-dependencies
     <version>2.1.1</version>
 </dependency>
 <!-- end of code added by maintainer -->
+--------------------------
+# установить используемый в сборке компилятор
+<properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+</properties>
+
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <configuration>
+        <source>17</source>
+        <target>17</target>
+    </configuration>
+</plugin>
+
+-Dmaven.compiler.source=17 -Dmaven.compiler.target=17
 ==========================
