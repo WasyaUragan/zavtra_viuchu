@@ -70,6 +70,9 @@ export MAVEN_OPTS="-Dmaven.repo.local=/usr/share/ovirt-engine-build-dependencies
 </dependency>
 <!-- end of code added by maintainer -->
 --------------------------
+%pom_disable_module plexus-compiler-aspectj plexus-compilers
+%pom_remove_plugin :maven-site-plugin
+--------------------------
 # установить используемый в сборке компилятор
 <properties>
     <maven.compiler.source>17</maven.compiler.source>
@@ -85,5 +88,5 @@ export MAVEN_OPTS="-Dmaven.repo.local=/usr/share/ovirt-engine-build-dependencies
     </configuration>
 </plugin>
 
--Dmaven.compiler.source=17 -Dmaven.compiler.target=17
+%mvn_build -- -Dmaven.compiler.source=17 -Dmaven.compiler.target=17 -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
 ==========================
