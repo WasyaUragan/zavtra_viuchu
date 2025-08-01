@@ -89,4 +89,6 @@ export MAVEN_OPTS="-Dmaven.repo.local=/usr/share/ovirt-engine-build-dependencies
 </plugin>
 
 %mvn_build -- -Dmaven.compiler.source=17 -Dmaven.compiler.target=17 -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+# не использовать системную библиотеку
+-Dmaven.resolver.useSystemLibs=false"
 ==========================

@@ -38,6 +38,16 @@ MAGENTA='\033[35m'		#	${MAGENTA}		# фиолетовый цвет знаков
 CYAN='\033[36m'			#	${CYAN}			# цвет морской волны знаков
 GRAY='\033[37m'			#	${GRAY}			# серый цвет знаков
  
+# Яркие цвета
+BRIGHT_BLACK='\033[1;30m'
+BRIGHT_RED='\033[1;31m'
+BRIGHT_GREEN='\033[1;32m'
+BRIGHT_YELLOW='\033[1;33m'
+BRIGHT_BLUE='\033[1;34m'
+BRIGHT_MAGENTA='\033[1;35m'
+BRIGHT_CYAN='\033[1;36m'
+BRIGHT_WHITE='\033[1;37m'
+
 # Цветом текста (жирным) (bold) :
 DEF='\033[39m'			#	${DEF}
 DGRAY='\033[1;30m'		#	${DGRAY}
@@ -59,5 +69,6 @@ BGMAGENTA='\033[45m'	#	${BGMAGENTA}
 BGCYAN='\033[46m'		#	${BGCYAN}
 BGGRAY='\033[47m'		#	${BGGRAY}
 BGDEF='\033[49m'		#	${BGDEF}
- 
+
+NC='\033[0m'            #   ${NC}           # сброс цвета и стиля
 # tput sgr0				# Возврат цвета в "нормальное" состояние
