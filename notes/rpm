@@ -60,7 +60,9 @@ for i in $(cat ./rpms_list); do rpm -qi ${i} | grep 'Source RPM  :' | cut -b14-;
 ----------------------------
 # Раскрать %pre %post скрипты пакета
 rpm -qp --scripts package
-
+----------------------------
+# Обновить базу rpm
+rpm --rebuilddb
 
 
 
