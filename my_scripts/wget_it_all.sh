@@ -10,7 +10,7 @@ while IFS= read -r pkg; do
         fi
 
         filename="${pkg##*/}" # удаляет самую длинную подстроку до последнего /
-        echo "DEBUG: $filename"
+        # echo "DEBUG: $filename"
         # awk -F'/' '{print $NF}' ${pkg}
         # echo ${pkg} | rev | cut -d'/' -f1 | rev
 

@@ -21,12 +21,17 @@ docker commit ubuntu-ping ubuntu-ping:20.04
 docker images
 --------------------------------------------------------------------------------------
 docker ps  # для проверки списка запущенных контейнеров
+docker inspect <container_id> # развернутая информация о контейнере
+docker logs <container_id>  # журнал, сформированный из stdout контейнера
+docker history  # информация о слоях
 --------------------------------------------------------------------------------------
 docker run <image> <опциональная команды, которая выполнится внутри контейнера>  # запуск контейнера
-docker run -it ubuntu:18.10 /bin/bash  # где -it == выполнять любое количество команд без завершения работы контейнера
+docker run -it ubuntu:18.10 /bin/bash  # где -it == выполнять любое количество команд без завершения работы контейнера (подключает терминал при запуске)
+docker run -i ubuntu:18.10 /bin/bash  # разница с -it в том, что не принимается ручной stdin, только через  pipe 
 docker run --name docker-getting-started --publish 8080:80 docker/getting-started # запуск контейнера gettind-started с отображением (маппингом) порта 8080 хоста на порт 80 внутрь контейнера
 docker run --detach --name mongodb docker.io/library/mongo:4.4.10 # запуск контейнера mongodb с именем mongodb в фоновом режиме. Данные будут удалены при удалении контейнера!
 docker run --detach --name jenkins --publish 80:8080 --volume=jenkins_home:/var/jenkins_home/ jenkins/jenkins:lts-jdk11 # запуск контейнера jenkins с подключением каталога /var/jenkins_home как тома jenkins_home
+docker run -e ROCKET_SIZE=big <container_id>  # установить эту переменную в контейнере при запуске
 docker volume ls # просмотр томов
 docker volume prune # удаление неиспользуемых томов и очистка диска. Для удаления тома все контейнеры, в которых он подключен, должны быть остановлены и удалены
 docker run -v <DIRECTORY>:<CONTAINER_DIRECTORY> ...  # смонтировать папку из основной системы в контейнер. путь к монтируемой папке должен быть прописан полностью: C:\projects\docker-example, или на *nix-системах можно воспользоваться конструкцией $(pwd)
@@ -51,6 +56,10 @@ RUN apt-get update && apt-get install -y wget curl
 RUN apt-get update && apt-get install -y wget curl && \
     && apt-get clean -y \
     && docker-php-ext-install soap mcrypt pdo_mysql zip bcmath
+
+Есть несколько разных возможностей указать команду RUN:
+- как ты ее пишешь в шелле
+- в виде JSON-массива
 --------------------------------------------------------------------------------------
 в Dockerfile опция EXPOSE позволяет нам объявить, к какому из портов мы можем обратиться из основной ОС.
 
