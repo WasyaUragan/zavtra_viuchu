@@ -88,7 +88,14 @@ export MAVEN_OPTS="-Dmaven.repo.local=/usr/share/ovirt-engine-build-dependencies
     </configuration>
 </plugin>
 
-%mvn_build -- -Dmaven.compiler.source=17 -Dmaven.compiler.target=17 -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+%mvn_build -- -Dproject.build.sourceEncoding=UTF-8 -Dmaven.compiler.source=17 -Dmaven.compiler.target=17 -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
 # не использовать системную библиотеку
 -Dmaven.resolver.useSystemLibs=false"
+
+mvn install:install-file \
+  -Dfile=/usr/share/ovirt-engine-build-dependencies/repository/org/apache/maven/maven-plugin-registry/2.2.1/maven-plugin-registry-2.2.1.jar \
+  -DgroupId=org.apache.maven \
+  -DartifactId=maven-plugin-registry \
+  -Dversion=2.2.1 \
+  -Dpackaging=jar
 ==========================
