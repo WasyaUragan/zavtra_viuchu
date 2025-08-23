@@ -24,14 +24,30 @@ Message "обновляю repo cache"
 apt update
 
 Message "устанавливаю необходимые пакеты в chroot"
-apt install vim dpkg-source-gitarchive -y \
+apt install vim dpkg-source-gitarchive fakeroot build-essential devscripts -y \
     && apt build-dep bash gawk sed -y
 
 Message "выкачиваю необходимые исходные тексты"
 cd /opt/build_dir && apt source bash gawk sed
 
-Message "начинаю параллельную сборку пакетов bash gawk sed"
-dpkg-buildpackage -j$(nproc) -rfakeroot -b -uc -us
+Message "начинаю сборку пакетов bash gawk sed"
 
-Message "Путь к .deb пакетам в chroot: /opt/build_dir/"   
-ls -la /opt/build_dir/*.deb | cut -b60-
+# Находим все директории (исключая точки и специальные директории)
+for package_dir in $(find . -maxdepth 1 -type d ! -name "." ! -name ".." -printf '%f\n'); do
+    # Проверяем, содержит ли директория необходимые файлы для сборки
+    if [ -f "${package_dir}/debian/changelog" ] && [ -f "${package_dir}/debian/control" ]; then
+        Message "Собираю пакет: $package_dir"
+        pushd "$package_dir"
+        
+        # Запускаем сборку
+        dpkg-buildpackage -j$(nproc) -rfakeroot -b -uc -us
+        
+        # Возвращаемся обратно в /opt/build_dir
+        popd
+    else
+        Message "Пропускаю $package_dir (не содержит файлов для сборки Debian пакета)"
+    fi
+done
+
+Message "Собранные .deb пакеты:"  
+find /opt/build_dir -maxdepth 1 -name "*.deb" -exec ls -la {} \;

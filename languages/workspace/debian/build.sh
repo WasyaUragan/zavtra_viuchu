@@ -6,6 +6,8 @@ trap 'echo "Ошибка в $0 на строке $LINENO: Команда: $BASH_
 
 source message.sh
 
+CHROOT_DIR="$HOME/chroot"
+
 # логгирование
 exec > >(tee ./build.log) 2>&1
 
@@ -14,40 +16,39 @@ apt update
 
 Message "Устанавливаю debootstrap на $HOSTNAME"
 apt install debootstrap -y
+# добавляю в $PATH путь к debootstrap
+PATH="$PATH:/usr/sbin/"
 
 Message "Создаю chroot"
-rm -rf $HOME/chroot/
-mkdir -p $HOME/chroot/
-debootstrap --include=vim,dpkg-source-gitarchive bullseye $HOME/chroot/ http://deb.debian.org/debian/
+rm -rf "$CHROOT_DIR/"
+mkdir -p "$CHROOT_DIR/"
+debootstrap --include=vim,dpkg-source-gitarchive bullseye "$CHROOT_DIR/" http://deb.debian.org/debian/
 
 Message "Монтирую /dev /proc /sys в chroot"
 for i in dev proc sys; do
-    mkdir -p $HOME/chroot/$i
-    mount --bind /$i $HOME/chroot/$i
+    mkdir -p "$HOME/chroot/$i"
+    mount --bind "/$i" "$CHROOT_DIR/$i"
 done
 
 Message "Копирую конфигурацию dns в chroot"
-cp /etc/resolv.conf $HOME/chroot/etc/
+cp /etc/resolv.conf "$CHROOT_DIR/etc/"
 
 Message "Создаю директорию сборки"
-mkdir -p $HOME/chroot/opt/build_dir
+mkdir -p "$CHROOT_DIR/opt/build_dir"
 
 Message "Копирую необходимые скрипты в chroot"
-cp {build_1.sh,message.sh,color.sh,print_slow_ds.sh} $HOME/chroot/opt/build_dir
-chmod +x $HOME/chroot/opt/build_dir/{build_1.sh,message.sh,color.sh,print_slow_ds.sh}
-sed -i "3s|color.sh|/opt/build_dir/color.sh|"  /root/chroot/opt/build_dir/message.sh
-sed -i "4s|print_slow_ds.sh|/opt/build_dir/print_slow_ds.sh|"  /root/chroot/opt/build_dir/print_slow_ds.sh
+cp {build_1.sh,message.sh,color.sh,print_slow_ds.sh} "$CHROOT_DIR/opt/build_dir"
+chmod +x "$CHROOT_DIR/opt/build_dir"/*.sh
+
+Message "Исправляю пути в message.sh"
+TEMP_MSG=$(mktemp)
+sed 's|source color.sh|source /opt/build_dir/color.sh|' "$CHROOT_DIR/opt/build_dir/message.sh" > "$TEMP_MSG"
+sed 's|source print_slow_ds.sh|source /opt/build_dir/print_slow_ds.sh|' "$TEMP_MSG" > "$CHROOT_DIR/opt/build_dir/message.sh"
+rm -f "$TEMP_MSG"
+# sed -i 's|source color.sh|source /opt/build_dir/color.sh|; s|source print_slow_ds.sh|source /opt/build_dir/print_slow_ds.sh|' "$CHROOT_DIR/opt/build_dir/message.sh"
 
 Message "Исполняю скрипт внудри chroot"
-chroot $HOME/chroot /opt/build_dir/build_1.sh
+chroot "$CHROOT_DIR" /opt/build_dir/build_1.sh
 
-# ERROR:
-# ========================================
-# [2025-08-16 12:48:20] Исполняю скрипт внудри chroot
-# ========================================
-# /opt/build_dir/message.sh: line 3: /root/chroot/opt/build_dir/color.sh: No such file or directory
-# Ошибка в ./build.sh на строке 42: Команда: chroot $HOME/chroot /opt/build_dir/build_1.sh
-# zhuzhu@debian ~/workspace_debian [1]> sudo ls -la /root/chroot/opt/build_dir/message.sh
-# -rwxr-xr-x 1 root root 327 Aug 16 12:48 /root/chroot/opt/build_dir/message.sh
-# zhuzhu@debian ~/workspace_debian> sudo ls -la /root/chroot/opt/build_dir/
-# total 24
+# задавать собираемые пакеты параметрами при вызове скрипта
+# собранные пакеты перемещать в отдельную папку, очищать сборочную директорию после сборки, отмонтировать из чрута /dev и т д
